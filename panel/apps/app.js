@@ -3,8 +3,33 @@ app = angular.module("panel", ["ngRoute", "ngSanitize"]);
 app.config(function ($routeProvider, $locationProvider) {
     $routeProvider
         .when("/panel", {
-            templateUrl: "panel/pages/login/login.html",
+            templateUrl: "panel/pages/auth/login.html",
             controller: "login",
+        })
+        .when("/panel/register", {
+            templateUrl: "panel/pages/auth/register.html",
+            controller: "register",
+        })
+        .when("/panel/forgotpassword", {
+            templateUrl: "panel/pages/auth/forgotpassword.html",
+            controller: "forgotpassword",
+        })
+
+        .when("/panel/home", {
+            templateUrl: "panel/pages/user/home.html",
+            controller: "home",
+        })
+        .when("/panel/submission", {
+            templateUrl: "panel/pages/user/submission.html",
+            controller: "submission",
+        })
+        .when("/panel/profile", {
+            templateUrl: "panel/pages/user/profile.html",
+            controller: "profile",
+        })
+        .when("/panel/questionnaire", {
+            templateUrl: "panel/pages/user/questionnaire.html",
+            controller: "questionnaire",
         })
     // .otherwise({
     //     redirectTo: "/panel",

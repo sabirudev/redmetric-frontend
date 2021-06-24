@@ -16,3 +16,36 @@ app.controller("login", function ($scope, $rootScope, $routeParams, httpRequest,
             });
     };
 });
+
+app.controller("register", function ($scope, $rootScope, $routeParams, httpRequest, notification) {
+
+});
+
+app.controller("forgotpassword", function ($scope, $rootScope, $routeParams, httpRequest, notification) {
+
+});
+
+app.controller("home", function ($scope, $rootScope, $routeParams, httpRequest, notification) {
+    
+});
+
+app.controller("submission", function ($scope, $rootScope, $routeParams, httpRequest, notification) {
+
+});
+
+app.controller("profile", function ($scope, $rootScope, $routeParams, httpRequest, notification) {
+
+});
+
+
+
+app.controller("questionnaire", function ($scope, $rootScope, $routeParams, httpRequest, notification) {
+
+});
+
+
+app.controller("NavbarUser", function ($scope, $location) {
+    $scope.isActive = function (viewLocation) { 
+        return viewLocation === $location.path();
+    };
+});
