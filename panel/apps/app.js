@@ -114,6 +114,10 @@ app.factory("httpRequest", function ($http) {
     };
 });
 
+app.factory("base_url", function () {
+    return "https://apiredmetric.i-kuy.com/api/";
+})
+
 app.factory("notification", function () {
     return {
         info: function (text) {
