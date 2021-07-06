@@ -1,0 +1,24 @@
+#carouselbanner .carousel-inner .carousel-item img {
+      height: 100vh !important;
+      object-fit: cover !important;
+}
+
+.btn-merah {
+      padding-left: 5px !important;
+      padding-right: 5px !important;
+      padding-top: 2px !important;
+      padding-bottom: 2px !important;
+      background: #DB292F !important;
+      color: #fff !important;
+      border-radius: 8px !important;
+}
+
+.btn-outline-merah {
+      padding-left: 5px !important;
+      padding-right: 5px !important;
+      padding-top: 2px !important;
+      padding-bottom: 2px !important;
+      border-color: #DB292F !important;
+      color: #DB292F !important;
+      border-radius: 8px !important;
+}

@@ -1,15 +1,15 @@
 <nav class="navbar navbar-light">
-    <div class="container d-block">
-
-
-        <img class="navbar-brand ms-4" src="/public/assets/images/logo.png">
-
+    <div class="container d-flex">
+        <img class="navbar-brand d-none d-md-block d-lg-block" src="/public/assets/images/logo.png" />
+        <img style="width: 50%" class="navbar-brand d-xl-none d-block m-0" src="/public/assets/images/logo.png" />
+        <a href="">
+            <i class="bi bi-box-arrow-right" style="font-size: 30px"></i>
+        </a>
     </div>
 </nav>
 
-
 <div class="container">
-    <div class="card mt-5">
+    <div class="card mt-3">
         <div class="card-header">
             <div ng-include="'/panel/pages/user/navbar.html'"></div>
         </div>

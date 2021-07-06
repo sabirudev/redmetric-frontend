@@ -41,6 +41,8 @@ app.controller("profile", function ($scope, $rootScope, $routeParams, httpReques
 
 app.controller("questionnaire", function ($scope, $rootScope, $routeParams, httpRequest, notification, base_url) {
     $scope.questionData = {};
+
+    $scope.currentTab = 0; // Current tab is set to be the first tab (0)
     $scope.getQuisioner = function (index) {
         httpRequest
             .get(base_url + "user/submissions", {
@@ -53,9 +55,7 @@ app.controller("questionnaire", function ($scope, $rootScope, $routeParams, http
                 }
             })
     };
-    $scope.getQuisioner(1);
-
-    $scope.currentTab = 0; // Current tab is set to be the first tab (0)
+    $scope.getQuisioner($scope.currentTab + 1);
 
 
     $scope.fixStepIndicator = function (n) {
@@ -96,17 +96,19 @@ app.controller("questionnaire", function ($scope, $rootScope, $routeParams, http
         // Exit the function if any field in the current tab is invalid:
         if (n == 1 && !validateForm()) return false;
         // Hide the current tab:
-        x[currentTab].style.display = "none";
+        x[$scope.currentTab].style.display = "none";
         // Increase or decrease the current tab by 1:
-        currentTab = currentTab + n;
+        $scope.currentTab = $scope.currentTab + n;
         // if you have reached the end of the form...
-        if (currentTab >= x.length) {
+        if ($scope.currentTab >= x.length) {
             // ... the form gets submitted:
             document.getElementById("regForm").submit();
             return false;
         }
         // Otherwise, display the correct tab:
-        showTab(currentTab);
+        $scope.showTab($scope.currentTab);
+
+        $scope.getQuisioner($scope.currentTab + 1);
     };
 
     function validateForm() {
@@ -116,7 +118,7 @@ app.controller("questionnaire", function ($scope, $rootScope, $routeParams, http
             i,
             valid = true;
         x = document.getElementsByClassName("tab");
-        y = x[currentTab].getElementsByTagName("input");
+        y = x[$scope.currentTab].getElementsByTagName("input");
         // A loop that checks every input field in the current tab:
         for (i = 0; i < y.length; i++) {
             // If a field is empty...
@@ -129,7 +131,7 @@ app.controller("questionnaire", function ($scope, $rootScope, $routeParams, http
         }
         // If the valid status is true, mark the step as finished and valid:
         if (valid) {
-            document.getElementsByClassName("step")[currentTab].className +=
+            document.getElementsByClassName("step")[$scope.currentTab].className +=
                 " step-success";
         }
         return valid; // return the valid status
@@ -142,3 +144,5 @@ app.controller("NavbarUser", function ($scope, $location) {
         return viewLocation === $location.path();
     };
 });
+
+app.controller("list-kuisioner", function () {});
