@@ -24,6 +24,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.js"></script>
     <script src="/apps/app.js"></script>
     <script src="/apps/controller.js"></script>
+    <script src="/apps/variable.js"></script>
     <link rel="stylesheet" href="/public/assets/css/style.css?v=1" />
     <!-- Bootstrap -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-eOJMYsd53ii+scO/bJGFsiCZc+5NDVN2yr8+0RDqr0Ql0h+rP48ckxlpbzKgwra6" crossorigin="anonymous" />
@@ -50,32 +51,32 @@
     <ng-view></ng-view>
 </body>
 <script>
-    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
-    var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
-        return new bootstrap.Tooltip(tooltipTriggerEl)
-    })
+    // var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    // var tooltipList = tooltipTriggerList.map(function(tooltipTriggerEl) {
+    //     return new bootstrap.Tooltip(tooltipTriggerEl)
+    // })
 
-    // api url
-    const api_url =
-        "https://apiredmetric.i-kuy.com/api/v1/version";
+    // // api url
+    // const api_url =
+    //     "https://apiredmetric.i-kuy.com/api/v1/version";
 
-    // Defining async function
-    async function getapi(url) {
+    // // Defining async function
+    // async function getapi(url) {
 
-        // Storing response
-        const response = await fetch(url);
+    //     // Storing response
+    //     const response = await fetch(url);
 
-        // Storing data in form of JSON
-        var data = await response.json();
-        console.log(data);
-        if (response) {
-            hideloader();
-        }
-        show(data);
-        console.log(data);
-    }
-    // Calling that async function
-    getapi(api_url);
+    //     // Storing data in form of JSON
+    //     var data = await response.json();
+    //     console.log(data);
+    //     if (response) {
+    //         hideloader();
+    //     }
+    //     show(data);
+    //     console.log(data);
+    // }
+    // // Calling that async function
+    // getapi(api_url);
 </script>
 
 </html>
