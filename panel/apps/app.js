@@ -13,27 +13,48 @@ app.config(function ($routeProvider, $locationProvider) {
             templateUrl: "panel/pages/auth/forgotpassword.html",
             controller: "forgotpassword",
         })
-
-        .when("/panel/home", {
+        //user
+        .when("/panel/user/home", {
             templateUrl: "panel/pages/user/home.html",
             controller: "home",
         })
-        .when("/panel/submission", {
+        .when("/panel/user/submission", {
             templateUrl: "panel/pages/user/submission.html",
             controller: "submission",
         })
-        .when("/panel/profile", {
+        .when("/panel/user/profile", {
             templateUrl: "panel/pages/user/profile.html",
             controller: "profile",
         })
-        .when("/panel/questionnaire", {
+        .when("/panel/user/questionnaire", {
             templateUrl: "panel/pages/user/questionnaire.html",
             controller: "questionnaire",
         })
-        .when("/panel/list-questionnaire", {
+
+        //juri
+        .when("/panel/juri/list-questionnaire", {
             templateUrl: "panel/pages/juri/list-kuisioner.html",
             controller: "list-kuisioner",
         })
+
+        //superadmin
+        .when("/panel/superadmin/", {
+            templateUrl: "panel/pages/superadmin/home.html",
+            controller: "superadmin/home",
+        })
+        .when("/panel/superadmin/vilagers", {
+            templateUrl: "panel/pages/superadmin/home.html",
+            controller: "superadmin/vilagers",
+        })
+        .when("/panel/superadmin/juri", {
+            templateUrl: "panel/pages/superadmin/home.html",
+            controller: "superadmin/juri",
+        })
+        .when("/panel/superadmin/submission", {
+            templateUrl: "panel/pages/superadmin/home.html",
+            controller: "superadmin/submission",
+        })
+
     // .otherwise({
     //     redirectTo: "/panel",
     // });
@@ -59,10 +80,10 @@ app.controller('sidebar', function ($scope, $location) {
 
 app.factory("httpRequest", function ($http) {
     return {
-        get: function (url, params) {
+        get: function (url, params, token) {
             return $http({
                 headers: {
-                    Authorization: "Bearer xiaomi",
+                    Authorization: (token != undefined) ? "Bearer " + token : "",
                     Accept: "application/json",
                 },
                 method: "GET",
@@ -71,12 +92,15 @@ app.factory("httpRequest", function ($http) {
                 params: params,
             }).then(function (response) {
                 return response;
+            }, function (error) {
+                // else
+                return error;
             });
         },
-        post: function (url, data) {
+        post: function (url, data, token) {
             return $http({
                 headers: {
-                    Authorization: "Bearer xiaomi",
+                    Authorization: (token != undefined) ? "Bearer " + token : "",
                     Accept: "application/json",
                 },
                 method: "POST",
@@ -85,12 +109,15 @@ app.factory("httpRequest", function ($http) {
                 data: data,
             }).then(function (response) {
                 return response;
+            }, function (error) {
+                // else
+                return error;
             });
         },
-        put: function (url, data) {
+        put: function (url, data, token) {
             return $http({
                 headers: {
-                    Authorization: "Bearer xiaomi",
+                    Authorization: (token != undefined) ? "Bearer " + token : "",
                     Accept: "application/json",
                 },
                 method: "PUT",
@@ -99,12 +126,15 @@ app.factory("httpRequest", function ($http) {
                 data: data,
             }).then(function (response) {
                 return response;
+            }, function (error) {
+                // else
+                return error;
             });
         },
-        delete: function (url, data) {
+        delete: function (url, data, token) {
             return $http({
                 headers: {
-                    Authorization: "Bearer xiaomi",
+                    Authorization: (token != undefined) ? "Bearer " + token : "",
                     Accept: "application/json",
                 },
                 method: "DELETE",
@@ -112,14 +142,13 @@ app.factory("httpRequest", function ($http) {
                 url: url,
             }).then(function (response) {
                 return response;
+            }, function (error) {
+                // else
+                return error;
             });
         },
     };
 });
-
-app.factory("base_url", function () {
-    return "https://apiredmetric.i-kuy.com/api/";
-})
 
 app.factory("notification", function () {
     return {
