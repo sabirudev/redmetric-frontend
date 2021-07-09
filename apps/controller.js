@@ -1,4 +1,8 @@
-app.controller("landingpage", function ($scope, $http, httpRequest, notification) {
+app.controller("landingpage", function ($scope, $http, httpRequest, notification, default_url, $window) {
+    $scope.login = function () {
+        $window.location = "/panel";
+        console.log("jalan");
+    };
     $scope.submitData = function () {
         console.log($scope.form);
         httpRequest.post('https://apimustika.xiaomigamesgift.com/api/v1/register', $scope.form)

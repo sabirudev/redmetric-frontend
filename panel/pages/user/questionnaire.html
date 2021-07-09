@@ -42,13 +42,15 @@
                 </ul>
                 <div class="mt-5">
                     <div class="tab">
-                        <div class="form-group mb-3">
-                            <label for="people1">1. Jumlah Kegiatan Bakti Sosial Desa dalam 1 tahun terakhir
-                                (Kegiatan)</label>
-                            <input type="number" class="form-control" id="people1" placeholder=""
-                                oninput="this.className = ''" />
+                        <div class="form-group mb-3" ng-repeat="x in questionData.indicators">
+                            <label>Code {{x.code}}</label>
+                            <div ng-repeat="c in x.inputs">
+                                <label for="people1">{{$index+1}}. {{c.label}}</label>
+                                <input type="number" class="form-control" id="people" placeholder=""
+                                    oninput="this.className = ''" />
+                            </div>
                         </div>
-                        <div class="form-group mb-3">
+                        <!-- <div class="form-group mb-3">
                             <label for="people2">2. Jumlah Partisipan yang diundang (Orang)</label>
                             <input type="number" class="form-control" id="people2" placeholder=""
                                 oninput="this.className = ''" />
@@ -87,83 +89,99 @@
                             </label>
                             <input type="number" class="form-control" id="people8" placeholder=""
                                 oninput="this.className = ''" />
-                        </div>
+                        </div> -->
                     </div>
                     <div class="tab">
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-3" ng-repeat="x in questionData.indicators">
+                            <label>Code {{x.code}}</label>
+                            <div ng-repeat="c in x.inputs">
+                                <label for="people1">{{$index+1}}. {{c.label}}</label>
+                                <input type="number" class="form-control" id="people" placeholder=""
+                                    oninput="this.className = ''" />
+                            </div>
+                        </div>
+                        <!-- <div class="form-group mb-3">
                             <label for="environment1">1. Luas Wilayah Desa (M2)</label>
                             <input type="number" class="form-control" id="environment1" placeholder=""
                                 oninput="this.className = ''" />
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="environment2">2. Luas ketersediaan ruang terbuka hijau public (RTHPu)</label>
-                            <input type="number" class="form-control" id="environment2" placeholder=""
-                                oninput="this.className = ''" />
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="environment3">3. Ketersediaan ruang terbuka hijau private (RTHPr)</label>
-                            <input type="number" class="form-control" id="environment3" placeholder=""
-                                oninput="this.className = ''" />
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="environment4">4. Ketersediaan pembangkit listrik selain PLN
-                            </label>
-                            <input type="number" class="form-control" id="environment4" placeholder=""
-                                oninput="this.className = ''" />
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="environment5">5. Jumlah Ketersediaan ruang terbuka public yang dapat
-                                digunakan untuk arena bermain atau rekreasi masyarakat
-                                desa</label>
-                            <input type="number" class="form-control" id="environment5" placeholder=""
-                                oninput="this.className = ''" />
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="environmen6">6. Jumlah rumah warga </label>
-                            <input type="number" class="form-control" id="environment6" placeholder=""
-                                oninput="this.className = ''" />
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="environment7">7. Jumlah rumah warga yang memanfaatkan air tadah hujan
-                            </label>
-                            <input type="number" class="form-control" id="environment7" placeholder=""
-                                oninput="this.className = ''" />
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="environment8">8. Jumlah hasil produksi pangan local dari pertanian dan
-                                perkebunan dalam satu tahun terakhir
-                            </label>
-                            <input type="number" class="form-control" id="environment8" placeholder=""
-                                oninput="this.className = ''" />
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="environment9">9. Jumlah hasil produksi pangan local dari peternakan dalam
-                                satu tahun terakhir
-                            </label>
-                            <input type="number" class="form-control" id="environment9" placeholder=""
-                                oninput="this.className = ''" />
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="environment10">10. Index kualitas udara </label>
-                            <input type="number" class="form-control" id="environment10" placeholder=""
-                                oninput="this.className = ''" />
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="environment11">11. Ketersediaan bank sampah atau pengelolaan limbah
-                            </label>
-                            <input type="number" class="form-control" id="environment11" placeholder=""
-                                oninput="this.className = ''" />
-                        </div>
-                        <div class="form-group mb-3">
-                            <label for="environment12">12. Jumlah kegiatan bakti lingkungan yang dilakukan pemerintah
-                                desa dalam satu tahun terakhir
-                            </label>
-                            <input type="number" class="form-control" id="environment12" placeholder=""
-                                oninput="this.className = ''" />
-                        </div>
+                        </div> -->
+                        <!-- <div class="form-group mb-3">
+                                <label for="environment2">2. Luas ketersediaan ruang terbuka hijau public (RTHPu)</label>
+                                <input type="number" class="form-control" id="environment2" placeholder=""
+                                    oninput="this.className = ''" />
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="environment3">3. Ketersediaan ruang terbuka hijau private (RTHPr)</label>
+                                <input type="number" class="form-control" id="environment3" placeholder=""
+                                    oninput="this.className = ''" />
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="environment4">4. Ketersediaan pembangkit listrik selain PLN
+                                </label>
+                                <input type="number" class="form-control" id="environment4" placeholder=""
+                                    oninput="this.className = ''" />
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="environment5">5. Jumlah Ketersediaan ruang terbuka public yang dapat
+                                    digunakan untuk arena bermain atau rekreasi masyarakat
+                                    desa</label>
+                                <input type="number" class="form-control" id="environment5" placeholder=""
+                                    oninput="this.className = ''" />
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="environmen6">6. Jumlah rumah warga </label>
+                                <input type="number" class="form-control" id="environment6" placeholder=""
+                                    oninput="this.className = ''" />
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="environment7">7. Jumlah rumah warga yang memanfaatkan air tadah hujan
+                                </label>
+                                <input type="number" class="form-control" id="environment7" placeholder=""
+                                    oninput="this.className = ''" />
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="environment8">8. Jumlah hasil produksi pangan local dari pertanian dan
+                                    perkebunan dalam satu tahun terakhir
+                                </label>
+                                <input type="number" class="form-control" id="environment8" placeholder=""
+                                    oninput="this.className = ''" />
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="environment9">9. Jumlah hasil produksi pangan local dari peternakan dalam
+                                    satu tahun terakhir
+                                </label>
+                                <input type="number" class="form-control" id="environment9" placeholder=""
+                                    oninput="this.className = ''" />
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="environment10">10. Index kualitas udara </label>
+                                <input type="number" class="form-control" id="environment10" placeholder=""
+                                    oninput="this.className = ''" />
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="environment11">11. Ketersediaan bank sampah atau pengelolaan limbah
+                                </label>
+                                <input type="number" class="form-control" id="environment11" placeholder=""
+                                    oninput="this.className = ''" />
+                            </div>
+                            <div class="form-group mb-3">
+                                <label for="environment12">12. Jumlah kegiatan bakti lingkungan yang dilakukan pemerintah
+                                    desa dalam satu tahun terakhir
+                                </label>
+                                <input type="number" class="form-control" id="environment12" placeholder=""
+                                    oninput="this.className = ''" />
+                            </div> -->
                     </div>
                     <div class="tab">
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-3" ng-repeat="x in questionData.indicators">
+                            <label>Code {{x.code}}</label>
+                            <div ng-repeat="c in x.inputs">
+                                <label for="people1">{{$index+1}}. {{c.label}}</label>
+                                <input type="number" class="form-control" id="people" placeholder=""
+                                    oninput="this.className = ''" />
+                            </div>
+                        </div>
+                        <!-- <div class="form-group mb-3">
                             <label for="economy1">1. Jumlah usia produktif (15 – 60 tahun) yang belum mendapatkan
                                 pekerjaan</label>
                             <input type="number" class="form-control" id="economy1" placeholder=""
@@ -224,10 +242,18 @@
                             </label>
                             <input type="number" class="form-control" id="economy10" placeholder=""
                                 oninput="this.className = ''" />
-                        </div>
+                        </div> -->
                     </div>
                     <div class="tab">
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-3" ng-repeat="x in questionData.indicators">
+                            <label>Code {{x.code}}</label>
+                            <div ng-repeat="c in x.inputs">
+                                <label for="people1">{{$index+1}}. {{c.label}}</label>
+                                <input type="number" class="form-control" id="people" placeholder=""
+                                    oninput="this.className = ''" />
+                            </div>
+                        </div>
+                        <!-- <div class="form-group mb-3">
                             <label for="governance1">1. Ketersediaan dan transparansi data maupun informasi oleh
                                 pemerintahan desa</label>
                             <input type="number" class="form-control" id="governance1" placeholder=""
@@ -264,10 +290,18 @@
                             </label>
                             <input type="number" class="form-control" id="governance6" placeholder=""
                                 oninput="this.className = ''" />
-                        </div>
+                        </div> -->
                     </div>
                     <div class="tab">
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-3" ng-repeat="x in questionData.indicators">
+                            <label>Code {{x.code}}</label>
+                            <div ng-repeat="c in x.inputs">
+                                <label for="people1">{{$index+1}}. {{c.label}}</label>
+                                <input type="number" class="form-control" id="people" placeholder=""
+                                    oninput="this.className = ''" />
+                            </div>
+                        </div>
+                        <!-- <div class="form-group mb-3">
                             <label for="infrastructure1">1. Jumlah Kepala Keluarga (KK)</label>
                             <input type="number" class="form-control" id="infrastructure1" placeholder=""
                                 oninput="this.className = ''" />
@@ -296,10 +330,18 @@
                             </label>
                             <input type="number" class="form-control" id="infrastructure5" placeholder=""
                                 oninput="this.className = ''" />
-                        </div>
+                        </div> -->
                     </div>
                     <div class="tab">
-                        <div class="form-group mb-3">
+                        <div class="form-group mb-3" ng-repeat="x in questionData.indicators">
+                            <label>Code {{x.code}}</label>
+                            <div ng-repeat="c in x.inputs">
+                                <label for="people1">{{$index+1}}. {{c.label}}</label>
+                                <input type="number" class="form-control" id="people" placeholder=""
+                                    oninput="this.className = ''" />
+                            </div>
+                        </div>
+                        <!-- <div class="form-group mb-3">
                             <label for="living1">1. Kepadatan penduduk desa</label>
                             <input type="number" class="form-control" id="living1" placeholder=""
                                 oninput="this.className = ''" />
@@ -328,7 +370,7 @@
                             </label>
                             <input type="number" class="form-control" id="living15" placeholder=""
                                 oninput="this.className = ''" />
-                        </div>
+                        </div> -->
                     </div>
                     <div class="thanks-message text-center" id="text-message">
                         <img src="https://i.imgur.com/O18mJ1K.png" width="100" class="mb-4" />
@@ -338,10 +380,10 @@
                     </div>
                     <div style="overflow: auto" id="nextprevious">
                         <div style="float: right">
-                            <button type="button" id="prevBtn" class="btn btn-light" onclick="nextPrev(-1)">
+                            <button type="button" id="prevBtn" class="btn btn-light" ng-click="nextPrev(-1)">
                                 Previous
                             </button>
-                            <button type="button" id="nextBtn" class="btn btn-primary" onclick="nextPrev(1)">
+                            <button type="button" id="nextBtn" class="btn btn-primary" ng-click="nextPrev(1)">
                                 Next
                             </button>
                         </div>
@@ -353,81 +395,5 @@
 </div>
 
 <script>
-var currentTab = 0; // Current tab is set to be the first tab (0)
-showTab(currentTab); // Display the current tab
 
-function showTab(n) {
-    // This function will display the specified tab of the form...
-    var x = document.getElementsByClassName("tab");
-    x[n].style.display = "block";
-    //... and fix the Previous/Next buttons:
-    if (n == 0) {
-        document.getElementById("prevBtn").style.display = "none";
-    } else {
-        document.getElementById("prevBtn").style.display = "inline";
-    }
-    if (n == x.length - 1) {
-        document.getElementById("nextBtn").innerHTML = "Submit";
-    } else {
-        document.getElementById("nextBtn").innerHTML = "Next";
-    }
-    //... and run a function that will display the correct step indicator:
-    fixStepIndicator(n);
-}
-
-function nextPrev(n) {
-    // This function will figure out which tab to display
-    var x = document.getElementsByClassName("tab");
-    // Exit the function if any field in the current tab is invalid:
-    if (n == 1 && !validateForm()) return false;
-    // Hide the current tab:
-    x[currentTab].style.display = "none";
-    // Increase or decrease the current tab by 1:
-    currentTab = currentTab + n;
-    // if you have reached the end of the form...
-    if (currentTab >= x.length) {
-        // ... the form gets submitted:
-        document.getElementById("regForm").submit();
-        return false;
-    }
-    // Otherwise, display the correct tab:
-    showTab(currentTab);
-}
-
-function validateForm() {
-    // This function deals with validation of the form fields
-    var x,
-        y,
-        i,
-        valid = true;
-    x = document.getElementsByClassName("tab");
-    y = x[currentTab].getElementsByTagName("input");
-    // A loop that checks every input field in the current tab:
-    for (i = 0; i < y.length; i++) {
-        // If a field is empty...
-        if (y[i].value == "") {
-            // add an "invalid" class to the field:
-            y[i].className += " is-invalid";
-            // and set the current valid status to false
-            valid = false;
-        }
-    }
-    // If the valid status is true, mark the step as finished and valid:
-    if (valid) {
-        document.getElementsByClassName("step")[currentTab].className +=
-            " step-success";
-    }
-    return valid; // return the valid status
-}
-
-function fixStepIndicator(n) {
-    // This function removes the "active" class of all steps...
-    var i,
-        x = document.getElementsByClassName("step");
-    for (i = 0; i < x.length; i++) {
-        x[i].className = x[i].className.replace(" step-active", "");
-    }
-    //... and adds the "active" class on the current step:
-    x[n].className += " step-active";
-}
 </script>

@@ -1,5 +1,4 @@
 app = angular.module("panel", ["ngRoute", "ngSanitize"]);
-
 app.config(function ($routeProvider, $locationProvider) {
     $routeProvider
         .when("/panel", {
@@ -14,23 +13,48 @@ app.config(function ($routeProvider, $locationProvider) {
             templateUrl: "panel/pages/auth/forgotpassword.html",
             controller: "forgotpassword",
         })
-
-        .when("/panel/home", {
+        //user
+        .when("/panel/user", {
             templateUrl: "panel/pages/user/home.html",
             controller: "home",
         })
-        .when("/panel/submission", {
+        .when("/panel/user/submission", {
             templateUrl: "panel/pages/user/submission.html",
             controller: "submission",
         })
-        .when("/panel/profile", {
+        .when("/panel/user/profile", {
             templateUrl: "panel/pages/user/profile.html",
             controller: "profile",
         })
-        .when("/panel/questionnaire", {
+        .when("/panel/user/questionnaire", {
             templateUrl: "panel/pages/user/questionnaire.html",
             controller: "questionnaire",
         })
+
+        //juri
+        .when("/panel/juri/list-questionnaire", {
+            templateUrl: "panel/pages/juri/list-kuisioner.html",
+            controller: "list-kuisioner",
+        })
+
+        //superadmin
+        .when("/panel/superadmin/", {
+            templateUrl: "panel/pages/superadmin/home.html",
+            controller: "superadmin/home",
+        })
+        .when("/panel/superadmin/vilagers", {
+            templateUrl: "panel/pages/superadmin/home.html",
+            controller: "superadmin/vilagers",
+        })
+        .when("/panel/superadmin/juri", {
+            templateUrl: "panel/pages/superadmin/home.html",
+            controller: "superadmin/juri",
+        })
+        .when("/panel/superadmin/submission", {
+            templateUrl: "panel/pages/superadmin/home.html",
+            controller: "superadmin/submission",
+        })
+
     // .otherwise({
     //     redirectTo: "/panel",
     // });
@@ -56,10 +80,10 @@ app.controller('sidebar', function ($scope, $location) {
 
 app.factory("httpRequest", function ($http) {
     return {
-        get: function (url, params) {
+        get: function (url, params, token) {
             return $http({
                 headers: {
-                    Authorization: "Bearer xiaomi",
+                    Authorization: (token != undefined) ? "Bearer " + token : "",
                     Accept: "application/json",
                 },
                 method: "GET",
@@ -68,12 +92,15 @@ app.factory("httpRequest", function ($http) {
                 params: params,
             }).then(function (response) {
                 return response;
+            }, function (error) {
+                // else
+                return error;
             });
         },
-        post: function (url, data) {
+        post: function (url, data, token) {
             return $http({
                 headers: {
-                    Authorization: "Bearer xiaomi",
+                    Authorization: (token != undefined) ? "Bearer " + token : "",
                     Accept: "application/json",
                 },
                 method: "POST",
@@ -82,12 +109,15 @@ app.factory("httpRequest", function ($http) {
                 data: data,
             }).then(function (response) {
                 return response;
+            }, function (error) {
+                // else
+                return error;
             });
         },
-        put: function (url, data) {
+        put: function (url, data, token) {
             return $http({
                 headers: {
-                    Authorization: "Bearer xiaomi",
+                    Authorization: (token != undefined) ? "Bearer " + token : "",
                     Accept: "application/json",
                 },
                 method: "PUT",
@@ -96,12 +126,15 @@ app.factory("httpRequest", function ($http) {
                 data: data,
             }).then(function (response) {
                 return response;
+            }, function (error) {
+                // else
+                return error;
             });
         },
-        delete: function (url, data) {
+        delete: function (url, data, token) {
             return $http({
                 headers: {
-                    Authorization: "Bearer xiaomi",
+                    Authorization: (token != undefined) ? "Bearer " + token : "",
                     Accept: "application/json",
                 },
                 method: "DELETE",
@@ -109,6 +142,9 @@ app.factory("httpRequest", function ($http) {
                 url: url,
             }).then(function (response) {
                 return response;
+            }, function (error) {
+                // else
+                return error;
             });
         },
     };
@@ -154,9 +190,13 @@ app.factory("notification", function () {
         },
     };
 });
+
+
 app.run(function ($rootScope, httpRequest) {
+    // console.log(version);
+    // $rootScope.version = version;
     // httpRequest
-    //     .get("https://apimustika.xiaomigamesgift.com/api/v1/get_panel_version")
+    //     .get(base_url + "v1/version")
     //     .then(function (response) {
     //         cookie = document.cookie;
     //         var output = {};
@@ -166,27 +206,34 @@ app.run(function ($rootScope, httpRequest) {
     //         });
     //         var json = JSON.stringify(output, null, 4);
     //         json = JSON.parse(json);
-    //         console.log(json);
+    //         $rootScope.version = response.data.version;
+    //         console.log($rootScope.version);
     //         if (json.version) {
-    //             if (json.version != response.data.data.version) {
+    //             if (json.version != response.data.version) {
     //                 console.log(json.version);
-    //                 console.log(response.data.data.version);
+    //                 console.log(response.data.version);
     //                 date = new Date();
     //                 date = new Date(date.setMonth(date.getMonth() + 1));
     //                 document.cookie =
-    //                     "version=" + response.data.data.version + "; expires=" + date;
-    //                 location.reload(true);
+    //                     "version=" + response.data.version + "; expires=" + date;
+    //                 $state.go($state.current, {}, {
+    //                     reload: true
+    //                 });
+
     //             } else {
     //                 console.log(json.version);
-    //                 console.log(response.data.data.version);
+    //                 console.log(response.data.version);
     //             }
     //         } else {
     //             console.log(json.version);
     //             date = new Date();
     //             date = new Date(date.setMonth(date.getMonth() + 1));
     //             document.cookie =
-    //                 "version=" + response.data.data.version + "; expires=" + date;
-    //             location.reload(true);
+    //                 "version=" + response.data.version + "; expires=" + date;
+    //             $state.go($state.current, {}, {
+    //                 reload: true
+    //             });
+
     //         }
     //     });
 });

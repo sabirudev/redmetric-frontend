@@ -6,25 +6,15 @@
 
         <form ng-submit="login()">
           <div class="form-group position-relative has-icon-left mb-4">
-            <input
-              required
-              type="text"
-              class="form-control form-control-xl"
-              placeholder="Username"
-              ng-model="form.username"
-            />
+            <input required type="text" class="form-control form-control-xl" placeholder="Email"
+              ng-model="form.email" />
             <div class="form-control-icon">
               <i class="bi bi-person"></i>
             </div>
           </div>
           <div class="form-group position-relative has-icon-left mb-4">
-            <input
-              required
-              type="password"
-              class="form-control form-control-xl"
-              placeholder="Password"
-              ng-model="form.password"
-            />
+            <input required type="password" class="form-control form-control-xl" placeholder="Password"
+              ng-model="form.password" />
             <div class="form-control-icon">
               <i class="bi bi-shield-lock"></i>
             </div>
