@@ -14,7 +14,7 @@ app.config(function ($routeProvider, $locationProvider) {
             controller: "forgotpassword",
         })
         //user
-        .when("/panel/user/home", {
+        .when("/panel/user", {
             templateUrl: "panel/pages/user/home.html",
             controller: "home",
         })

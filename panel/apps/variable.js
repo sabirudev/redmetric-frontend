@@ -21,3 +21,33 @@ app.factory("roles", function (base_url) {
         }
     }
 })
+
+app.factory("session_set", function () {
+    return {
+        utoken: function (token) {
+            sessionStorage.setItem("token", token);
+        },
+        uroles: function (roles) {
+            sessionStorage.setItem("roles", roles);
+
+        },
+        udata: function (data) {
+            sessionStorage.setItem("userdata", data);
+        }
+    }
+})
+
+app.factory("session_get", function () {
+    return {
+        utoken: function () {
+            sessionStorage.getItem("token");
+        },
+        uroles: function () {
+            sessionStorage.getItem("roles");
+
+        },
+        udata: function () {
+            sessionStorage.getItem("userdata");
+        }
+    }
+})
