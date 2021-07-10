@@ -8,7 +8,6 @@ app.controller("user/navbar", function ($scope, $rootScope, $routeParams, httpRe
     }
 
     $scope.showSidebar = function (name) {
-        console.log(name);
         if (name == "/panel/user") {
             $scope.sidebarContentUrl = "panel/pages/user/dashboard.html";
         } else if (name == "/panel/user/submission") {
@@ -32,6 +31,16 @@ app.controller("user/profile", function ($scope, $rootScope, $routeParams, httpR
 
 });
 
+app.controller("user/questionnaire/thank-you", function ($scope, $rootScope, $routeParams, httpRequest, notification) {
+    // TODO
+    const today = new Date()
+    const nextDay = new Date()
+    const dueDate = new Date(nextDay.setDate(today.getDate() + 15))
+    const opened = `${today.getFullYear()}/${today.getMonth()}/${today.getDate()}`
+    const closed = `${dueDate.getFullYear()}/${dueDate.getMonth()}/${dueDate.getDate()}`
+    $scope.period = { ...{ opened, closed } }
+});
+
 
 
 app.controller("user/questionnaire", function ($scope, $rootScope, $routeParams, httpRequest, notification, api_url, session_get) {
@@ -50,31 +59,13 @@ app.controller("user/questionnaire", function ($scope, $rootScope, $routeParams,
             }, session_get.utoken())
             .then(function (response) {
                 if (response.data.status == 'success') {
-                    $scope.questionData = response.data.data[0];
-                    $scope.submitData.submissions = [];
-                    $scope.questionIndicator = [];
-
-                    $scope.questionData.indicators.forEach(element => {
-                        element.inputs.forEach(element2 => {
-                            valueQuestion = {};
-                            valueQuestion = element2.label;
-                            $scope.questionIndicator.push(valueQuestion);
-
-                            valueData = {};
-                            valueData.indicator_id = element.id;
-                            valueData.indicator_input_id = element2.id;
-                            valueData.value = null;
-                            $scope.submitData.submissions.push(valueData);
-                        });
-                    });
-                    // $scope.questionData.indicators.map(function (data) {
-                    //     valueData = {};
-                    //     valueData.indicator_id = data.id;
-
-                    //     $scope.submitData.submission.push(valueData);
-                    // })
-                    console.log($scope.questionData);
-                    console.log($scope.submitData.submissions);
+                    const items = Object.values(response.data.data[0]?.indicators).flatMap(item => item?.inputs)
+                    $scope.questionData = items;
+                    $scope.submitData.submissions = items.map(item => ({
+                        indicator_id: item.indicator_id,
+                        indicator_input_id: item.id,
+                        value: null
+                    }));
                 }
             })
     };
@@ -119,52 +110,34 @@ app.controller("user/questionnaire", function ($scope, $rootScope, $routeParams,
         var x = document.getElementsByClassName("tab");
         // Exit the function if any field in the current tab is invalid:
         if (n == 1 && !validateForm()) return false;
-        // Hide the current tab:
-        x[$scope.currentTab].style.display = "none";
         // Increase or decrease the current tab by 1:
         $scope.currentTab = $scope.currentTab + n;
-        // if you have reached the end of the form...
-        if ($scope.currentTab >= x.length) {
-            // ... the form gets submitted:
-            document.getElementById("regForm").submit();
-            return false;
-        }
-        // Otherwise, display the correct tab:
-        $scope.showTab($scope.currentTab);
-
-        $scope.getQuisioner($scope.currentTab + 1);
+        const nextPage = $scope.currentTab === 1 ? $scope.currentTab + 1 : $scope.currentTab
+        $scope.currentTab = nextPage
+        $scope.getQuisioner(nextPage);
     };
 
     function validateForm() {
-        // This function deals with validation of the form fields
-        var x,
-            y,
-            i,
-            valid = true;
-        x = document.getElementsByClassName("tab");
-        y = x[$scope.currentTab].getElementsByTagName("input");
-        // A loop that checks every input field in the current tab:
-        //Untuk check validasi kosong
-        // for (i = 0; i < y.length; i++) {
-        //     // If a field is empty...
-        //     if (y[i].value == "") {
-        //         // add an "invalid" class to the field:
-        //         y[i].className += " is-invalid";
-        //         // and set the current valid status to false
-        //         valid = false;
-        //     }
-        // }
+        const valid = true
+        if ($scope.currentTab <= 5) {
 
-        // If the valid status is true, mark the step as finished and valid:
-        if (valid) {
-            document.getElementsByClassName("step")[$scope.currentTab].className +=
-                " step-success";
+            if ($scope.currentTab === 0) {
+                document.getElementsByClassName("step")[$scope.currentTab].className +=
+                    " step-success";
+                document.getElementsByClassName("step")[1].className +=
+                    " step-active";
+            } else {
+                document.getElementsByClassName("step")[$scope.currentTab - 1].className +=
+                    " step-success";
+                document.getElementsByClassName("step")[$scope.currentTab].className +=
+                    " step-active";
+            }
         }
         $scope.submitData.period_id = 1;
-        console.log($scope.submitData);
         $scope.submitSubmission();
         return valid; // return the valid status
     }
+
     $scope.submitSubmission = function () {
         $scope.submitData.period_id = 1;
         httpRequest
@@ -172,8 +145,12 @@ app.controller("user/questionnaire", function ($scope, $rootScope, $routeParams,
             .then(function (response) {
                 console.log(response);
                 if (response.status == 200) {
-                    console.log(response);
                     $scope.data = response.data.data;
+                    // if you have reached the end of the form...
+                    if ($scope.currentTab > 6) {
+                        // ... the form gets submitted:
+                        window.location.href = '/panel/user/questionnaire/thank-you'
+                    }
                 } else {
                     notification.error(response.data.message);
                 }
