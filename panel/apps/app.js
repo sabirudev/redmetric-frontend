@@ -13,22 +13,23 @@ app.config(function ($routeProvider, $locationProvider) {
             templateUrl: "panel/pages/auth/forgotpassword.html",
             controller: "forgotpassword",
         })
+
         //user
         .when("/panel/user", {
-            templateUrl: "panel/pages/user/home.html",
-            controller: "home",
+            templateUrl: "panel/pages/user/navbar.html",
+            controller: "user/home",
         })
         .when("/panel/user/submission", {
-            templateUrl: "panel/pages/user/submission.html",
-            controller: "submission",
+            templateUrl: "panel/pages/user/navbar.html",
+            controller: "user/submission",
         })
         .when("/panel/user/profile", {
-            templateUrl: "panel/pages/user/profile.html",
-            controller: "profile",
+            templateUrl: "panel/pages/user/navbar.html",
+            controller: "user/profile",
         })
         .when("/panel/user/questionnaire", {
             templateUrl: "panel/pages/user/questionnaire.html",
-            controller: "questionnaire",
+            controller: "user/questionnaire",
         })
 
         //juri

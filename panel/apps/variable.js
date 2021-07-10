@@ -40,14 +40,14 @@ app.factory("session_set", function () {
 app.factory("session_get", function () {
     return {
         utoken: function () {
-            sessionStorage.getItem("token");
+            return sessionStorage.getItem("token");
         },
         uroles: function () {
-            sessionStorage.getItem("roles");
+            return sessionStorage.getItem("roles");
 
         },
         udata: function () {
-            sessionStorage.getItem("userdata");
+            return sessionStorage.getItem("userdata");
         }
     }
 })

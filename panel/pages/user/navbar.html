@@ -1,26 +1,46 @@
-<div ng-controller="NavbarUser">
-    <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
-        <li class="nav-item align-self-baseline" role="presentation">
-            <a ng-class="{ active: isActive('/panel/home')}" class="nav-link d-none d-md-block d-lg-block" id="home-tab"
-                href="/panel/home" aria-controls="home" aria-selected="true"><i class="bi bi-house-fill"></i> Home</a>
-            <a ng-class="{ active: isActive('/panel/home')}" class="nav-link d-xl-none d-block" id="home-tab"
-                href="/panel/home" aria-controls="home" aria-selected="true"><i class="bi bi-house-fill"></i></a>
-        </li>
-        <li class="nav-item align-self-baseline" role="presentation">
-            <a ng-class="{ active: isActive('/panel/submission')}" class="nav-link d-none d-md-block d-lg-block"
-                id="profile-tab" href="/panel/submission" aria-controls="profile" aria-selected="false">
-                <i class="bi bi-file-earmark-check-fill"></i> Submission</a>
-            <a ng-class="{ active: isActive('/panel/submission')}" class="nav-link d-xl-none d-block" id="profile-tab"
-                href="/panel/submission" aria-controls="profile" aria-selected="false"><i
-                    class="bi bi-file-earmark-check-fill"></i></a>
-        </li>
-        <li class="nav-item align-self-baseline" role="presentation">
-            <a ng-class="{ active: isActive('/panel/profile')}" class="nav-link d-none d-md-block d-lg-block"
-                id="contact-tab" href="/panel/profile" aria-controls="contact" aria-selected="false"><i
-                    class="bi bi-person-fill"></i> Profile</a>
-            <a ng-class="{ active: isActive('/panel/profile')}" class="nav-link d-xl-none d-block" id="contact-tab"
-                href="/panel/profile" aria-controls="contact" aria-selected="false"><i
-                    class="bi bi-person-fill"></i></a>
-        </li>
-    </ul>
+<nav class="navbar navbar-light">
+    <div class="container d-flex">
+        <img class="navbar-brand d-none d-md-block d-lg-block" src="/public/assets/images/logo.png" />
+        <img style="width: 50%" class="navbar-brand d-xl-none d-block m-0" src="/public/assets/images/logo.png" />
+
+        <a href="">
+            <i class="bi bi-box-arrow-right" style="font-size: 30px"></i>
+        </a>
+    </div>
+</nav>
+<div class="container" ng-controller="user/navbar">
+    <div class="card mt-3">
+        <div class="card-header">
+            <div>
+                <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
+                    <li class="nav-item align-self-baseline" role="presentation">
+                        <a ng-class="{ active: isActive('/panel/user')}" class="nav-link d-none d-md-block d-lg-block"
+                            id="home-tab" href="/panel/user" aria-controls="home" aria-selected="true"><i
+                                class="bi bi-house-fill"></i> Home</a>
+                        <a ng-class="{ active: isActive('/panel/home')}" class="nav-link d-xl-none d-block"
+                            id="home-tab" href="/panel/user" aria-controls="home" aria-selected="true"><i
+                                class="bi bi-house-fill"></i></a>
+                    </li>
+                    <li class="nav-item align-self-baseline" role="presentation">
+                        <a ng-class="{ active: isActive('/panel/user/submission')}"
+                            class="nav-link d-none d-md-block d-lg-block" id="profile-tab" href="/panel/user/submission"
+                            aria-controls="profile" aria-selected="false">
+                            <i class="bi bi-file-earmark-check-fill"></i> Submission</a>
+                        <a ng-class="{ active: isActive('/panel/user/submission')}" class="nav-link d-xl-none d-block"
+                            id="profile-tab" href="/panel/user/submission" aria-controls="profile"
+                            aria-selected="false"><i class="bi bi-file-earmark-check-fill"></i></a>
+                    </li>
+                    <li class="nav-item align-self-baseline" role="presentation">
+                        <a ng-class="{ active: isActive('/panel/user/profile')}"
+                            class="nav-link d-none d-md-block d-lg-block" id="contact-tab" href="/panel/user/profile"
+                            aria-controls="contact" aria-selected="false"><i class="bi bi-person-fill"></i> Profile</a>
+                        <a ng-class="{ active: isActive('/panel/user/profile')}" class="nav-link d-xl-none d-block"
+                            id="contact-tab" href="/panel/user/profile" aria-controls="contact" aria-selected="false"><i
+                                class="bi bi-person-fill"></i></a>
+                    </li>
+                </ul>
+            </div>
+            <div ng-include="sidebarContentUrl"></div>
+        </div>
+    </div>
 </div>
