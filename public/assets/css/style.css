@@ -22,3 +22,24 @@
       color: #DB292F !important;
       border-radius: 8px !important;
 }
+
+.bg-footer {
+      background: #2A323D;
+}
+
+.line-red {
+      border-top: solid 3px #FB0B0C;
+      width: 30px;
+      border-radius: 3px;
+}
+
+.profile img {
+      height: 200px;
+      border: solid 3px #FB0B0C;
+      border-radius: 50%;
+      padding: 4px;
+}
+
+.profile .card {
+      border-radius: 20px;
+}

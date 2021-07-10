@@ -6,6 +6,10 @@ app.config(function ($routeProvider, $locationProvider) {
             templateUrl: "pages/landingpage.html",
             controller: "landingpage",
         })
+        .when("/peringkat", {
+            templateUrl: "pages/peringkat.html",
+            controller: "peringkat",
+        })
 
         .otherwise({
             redirectTo: "/"
