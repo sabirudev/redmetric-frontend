@@ -16,13 +16,13 @@ app.controller("login", function ($scope, $rootScope, $routeParams, httpRequest,
                     session_set.uroles($scope.data.user.role_id);
 
                     if ($scope.data.user.role_id == 1) {
-                        $window.location.href('/panel/superadmin');
+                        $window.location.href = '/panel/superadmin';
                     } else if ($scope.data.user.role_id == 2) {
-                        $window.location.href('/panel/user');
+                        $window.location.href = '/panel/user';
                     } else if ($scope.data.user.role_id == 3) {
-                        $window.location.href('/panel/juri');
+                        $window.location.href = '/panel/juri';
                     } else {
-                        $window.location.href('/panel');
+                        $window.location.href = '/panel';
                     }
                 } else {
                     notification.error("Email atau password salah");
