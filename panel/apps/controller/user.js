@@ -9,17 +9,36 @@ app.controller("user/navbar", function ($scope, $rootScope, $routeParams, httpRe
 
     $scope.showSidebar = function (name) {
         if (name == "/panel/user") {
-            $scope.sidebarContentUrl = "panel/pages/user/dashboard.html";
+            $scope.sidebarContentUrl = "panel/pages/user/dashboard.html?v=1";
         } else if (name == "/panel/user/submission") {
             $scope.sidebarContentUrl = "panel/pages/user/submission.html";
         } else if (name == "/panel/user/profile") {
-            $scope.sidebarContentUrl = "panel/pages/user/profile.html";
+            $scope.sidebarContentUrl = "panel/pages/user/profile.html?v=5";
         }
     };
     $scope.showSidebar($location.path());
 });
 
-app.controller("user/home", function ($scope, $rootScope, $routeParams, httpRequest, notification) {
+app.controller("user/home", function ($scope, $rootScope, $routeParams, httpRequest, notification, $window, api_url, session_get) {
+    $scope.checkData = function () {
+        httpRequest
+            .get(api_url + "user/villages", {}, session_get.utoken())
+            .then(function (response) {
+                // console.log(response.data.data);
+                if (response.status == 200) {
+                    $scope.villageData = response.data.data;
+                    if($scope.villageData.village == null)
+                    $('#modalProfile').modal('show');
+                    else
+                    $window.location.href = '/panel/user/questionnaire';
+
+                }
+            });
+    };
+
+    $scope.url = function(urlData){
+        $window.location.href = urlData;
+    }
 
 });
 
@@ -27,8 +46,79 @@ app.controller("user/submission", function ($scope, $rootScope, $routeParams, ht
 
 });
 
-app.controller("user/profile", function ($scope, $rootScope, $routeParams, httpRequest, notification) {
+app.controller("user/profile", function ($scope, $rootScope, $routeParams, httpRequest, notification, api_url, session_get, $filter) {
+    $scope.profileMember = function () {
+        httpRequest
+            .get(api_url + "membership", {}, session_get.utoken())
+            .then(function (response) {
+                if (response.status == 200) {
+                    $scope.dataMember = response.data.data;
+                    // console.log($scope.dataMember);
+                }
+            });
+    };
+    $scope.profileMember();
+    $scope.dataDesa = {};
+    $scope.village = {};
+    $scope.dataDesaGet = function () {
+        httpRequest
+            .get(api_url + "user/villages", {}, session_get.utoken())
+            .then(function (response) {
+                if (response.status == 200) {
+                    $scope.dataDesa = response.data.data;
+                    if ($scope.dataDesa.village != null) {
+                        $scope.village = $scope.dataDesa.village;
+                    }
+                    // console.log($scope.dataDesa);
+                }
+            });
+    }
+    $scope.dataDesaGet();
 
+    $scope.updateDesa = function () {
+        // console.log($scope.dataDesa);
+        $scope.village.since = $filter('date')($scope.village.since, "yyyy-MM-dd")
+        if ($scope.dataDesa.village != null) {
+            httpRequest.put(api_url + "user/villages/" + $scope.village.id, $scope.village, session_get.utoken()).then(function (response) {
+                // console.log(response);
+                // console.log($scope.village);
+                if (response.status == 200) {
+                    $scope.dataDesaGet();
+                    notification.success("sukses updating data");
+                } else {
+
+                    notification.error("Ada masalah dalam jaringan coba lagi nanti");
+                }
+            });
+        } else {
+            httpRequest.post(api_url + "user/villages", $scope.village, session_get.utoken()).then(function (response) {
+                // console.log(response);
+                // console.log($scope.village);
+                if (response.status == 200) {
+                    $scope.dataDesaGet();
+                    notification.success("sukses updating data");
+                } else {
+
+                    notification.error("Ada masalah dalam jaringan coba lagi nanti");
+                }
+            });
+
+        }
+    }
+
+    $scope.updateProfile = function(){
+        httpRequest.post(api_url + "membership/update", $scope.dataMember.membership, session_get.utoken()).then(function (response) {
+            // console.log(response);
+            // console.log($scope.village);
+            if (response.status == 200) {
+                $scope.dataDesaGet();
+                notification.success("sukses updating data");
+            } else {
+
+                notification.error("Ada masalah dalam jaringan coba lagi nanti");
+            }
+        });
+    }
 });
 
 app.controller("user/questionnaire/thank-you", function ($scope, $rootScope, $routeParams, httpRequest, notification) {
@@ -38,7 +128,12 @@ app.controller("user/questionnaire/thank-you", function ($scope, $rootScope, $ro
     const dueDate = new Date(nextDay.setDate(today.getDate() + 15))
     const opened = `${today.getFullYear()}/${today.getMonth()}/${today.getDate()}`
     const closed = `${dueDate.getFullYear()}/${dueDate.getMonth()}/${dueDate.getDate()}`
-    $scope.period = { ...{ opened, closed } }
+    $scope.period = {
+        ...{
+            opened,
+            closed
+        }
+    }
 });
 
 
@@ -143,7 +238,7 @@ app.controller("user/questionnaire", function ($scope, $rootScope, $routeParams,
         httpRequest
             .post(api_url + "user/submissions", $scope.submitData, session_get.utoken())
             .then(function (response) {
-                console.log(response);
+                // console.log(response);
                 if (response.status == 200) {
                     $scope.data = response.data.data;
                     // if you have reached the end of the form...

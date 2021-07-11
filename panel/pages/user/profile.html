@@ -1,171 +1,375 @@
-<div class="row">
+<div class="card">
+    <div class="card-content">
+        <div class="card-body">
+            <h4 class="card-title">Data Desa</h4>
+            <form ng-submit="updateDesa()">
+                <div class="row">
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="namadesa">Nama Desa / Kelurahan</label>
+                            <input type="text" id="namadesa" class="form-control" placeholder="Nama Desa / Kelurahan" ng-model="village.name">
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="tanggalberdiri">Tanggal Berdiri</label>
+                            <input type="date" id="kepaladesa" class="form-control" placeholder="" ng-model="village.since" date-field>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label>Alamat</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="provinsi">Provinsi</label>
+                            <input type="text" id="namadesa" class="form-control" placeholder="Provinsi" ng-model="village.province">
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="provinsi">Alamat Desa</label>
+                            <textarea type="text" id="namadesa" class="form-control" placeholder="Provinsi" ng-model="village.address"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="longitude">Longitude</label>
+                            <input type="text" id="longitude" class="form-control" placeholder="longitude" ng-model="village.address_longitude">
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="latitude">Latitude</label>
+                            <input type="text" id="latitude" class="form-control" placeholder="Latitude" ng-model="village.address_latitude">
+                        </div>
+                    </div>
+                    <div class=" col-12">
+                        <div class="form-group">
+                            <label for="webdesa">Alamat Website Desa</label>
+                            <input type="text" id="webdesa" class="form-control" placeholder="Web Desa" ng-model="village.website">
+                        </div>
+                    </div>
 
-    <div class="col-md-6 col-12">
-        <div class="form-group">
-            <label for="email">Email Address</label>
-            <input type="email" id="email" class="form-control" placeholder="Email Address">
-        </div>
-    </div>
-    <div class="col-md-6 col-12">
-        <div class="form-group">
-            <label for="username">Username</label>
-            <input type="text" id="username" class="form-control" placeholder="Username">
-        </div>
-    </div>
-    <div class="col-md-6 col-12">
-        <div class="form-group">
-            <label for="password">Password</label>
-            <input type="password" id="password" class="form-control" placeholder="Password">
-        </div>
-    </div>
-    <div class="col-md-6 col-12">
-        <div class="form-group">
-            <label for="konfirmasipassword">Konfirmasi Password</label>
-            <input type="password" id="konfirmasipassword" class="form-control" placeholder="Konfirmasi Password">
-        </div>
-    </div>
+                    <div class=" col-12">
+                        <div class="form-group">
+                            <label for="kepaladesa">Nama Kepala Desa / Lurah</label>
+                            <input type="text" id="kepaladesa" class="form-control"
+                                placeholder="Nama Kepala Desa / Lurah" ng-model="village.head">
+                        </div>
+                    </div>
+                    <div class=" col-12">
+                        <div class="form-group">
+                            <label for="sekretarisdesa">Nama Sekretaris Desa / Lurah</label>
+                            <input type="text" id="sekretarisdesa" class="form-control"
+                                placeholder="Nama Sekretaris Desa / Lurah" ng-model="village.secretary">
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label>Jumlah Penduduk</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-12">
+                        <div class="form-group">
+                            <label for="pria" class="d-none d-md-block d-lg-block"><small><b>Pria</b></small> </label>
+                            <label for="pria" class=" d-xl-none d-block"> Pria</label>
+                            <input type="number" id="pria" class="form-control" placeholder="Jumlah Penduduk Pria" ng-model="village.amount_male">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-12">
+                        <div class="form-group">
+                            <label for="wanita" class="d-none d-md-block d-lg-block">
+                                <small><b>Wanita</b></small></label>
+                            <label for="wanita" class=" d-xl-none d-block">Wanita</label>
 
-    <div class="col-md-6 col-12">
-        <div class="form-group">
-            <label for="provinsi">Provinsi</label>
-            <select class="form-select" id="provinsi">
-                <option selected disabled>Pilih Provinsi</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-            </select>
-        </div>
-    </div>
+                            <input type="number" id="wanita" class="form-control" placeholder="Jumlah Penduduk Wanita" ng-model="village.amount_female">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-12">
+                        <div class="form-group">
+                            <label for="wanita" class="d-none d-md-block d-lg-block"><small> <b> Usia Produktif (15 - 60
+                                        th)</b></small></label>
+                            <label for="wanita" class=" d-xl-none d-block"> Usia Produktif (15 - 60 th)</label>
+                            <input type="number" id="wanita" class="form-control" placeholder="Jumlah Penduduk Wanita" ng-model="village.amount_productive_age">
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="luasdesa">Luas Wilayah Desa</label>
+                            <input type="number" id="luasdesa" class="form-control" placeholder="Luas Wilayah Desa" ng-model="village.area">
+                        </div>
+                    </div>
 
-    <div class="col-md-6 col-12">
-        <div class="form-group">
-            <label for="kanputen">Kabupaten / Kota</label>
-            <select class="form-select" id="kabupaten">
-                <option selected disabled>Pilih Kabupaten / Kota</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-            </select>
+                    <button class="btn btn-primary" type="submit">Perbarui</button>
+                </div>
+            </form>
         </div>
     </div>
-
-    <div class="col-md-6 col-12">
-        <div class="form-group">
-            <label for="kecamatan">Kecamatan</label>
-            <select class="form-select" id="kecamatan">
-                <option selected disabled>Pilih Kecamatan</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-            </select>
-        </div>
-    </div>
-
-    <div class="col-md-6 col-12">
-        <div class="form-group">
-            <label for="kelurahan">Kelurahan</label>
-            <select class="form-select" id="kelurahan">
-                <option selected disabled>Pilih Kelurahan</option>
-                <option value="1">One</option>
-                <option value="2">Two</option>
-                <option value="3">Three</option>
-            </select>
-        </div>
-    </div>
-    <div class="col-md-6 col-12">
-        <div class="form-group">
-            <label for="namadesa">Nama Desa / Kelurahan</label>
-            <input type="text" id="namadesa" class="form-control" placeholder="Nama Desa / Kelurahan">
-        </div>
-    </div>
-    <div class="col-md-6 col-12">
-        <div class="form-group">
-            <label for="tanggalberdiri">Tanggal Berdiri</label>
-            <input type="date" id="kepaladesa" class="form-control" placeholder="">
-        </div>
-    </div>
-    <div class="col-12">
-        <div class="form-group">
-            <label>Alamat</label>
-        </div>
-    </div>
-    <div class="col-md-6 col-12">
-        <div class="form-group">
-            <label for="longitude">Longitude</label>
-            <input type="text" id="longitude" class="form-control" placeholder="longitude">
-        </div>
-    </div>
-    <div class="col-md-6 col-12">
-        <div class="form-group">
-            <label for="latitude">Latitude</label>
-            <input type="text" id="latitude" class="form-control" placeholder="Latitude">
-        </div>
-    </div>
-    <div class=" col-12">
-        <div class="form-group">
-            <label for="webdesa">Alamat Website Desa</label>
-            <input type="text" id="webdesa" class="form-control" placeholder="Web Desa">
-        </div>
-    </div>
-
-    <div class=" col-12">
-        <div class="form-group">
-            <label for="kepaladesa">Nama Kepala Desa / Lurah</label>
-            <input type="text" id="kepaladesa" class="form-control" placeholder="Nama Kepala Desa / Lurah">
-        </div>
-    </div>
-    <div class=" col-12">
-        <div class="form-group">
-            <label for="sekretarisdesa">Nama Sekretaris Desa / Lurah</label>
-            <input type="text" id="sekretarisdesa" class="form-control" placeholder="Nama Sekretaris Desa / Lurah">
-        </div>
-    </div>
-    <div class="col-12">
-        <div class="form-group">
-            <label>Jumlah Penduduk</label>
-        </div>
-    </div>
-    <div class="col-md-4 col-12">
-        <div class="form-group">
-            <label for="pria" class="d-none d-md-block d-lg-block"><small><b>Pria</b></small> </label>
-            <label for="pria" class=" d-xl-none d-block"> Pria</label>
-            <input type="number" id="pria" class="form-control" placeholder="Jumlah Penduduk Pria">
-        </div>
-    </div>
-    <div class="col-md-4 col-12">
-        <div class="form-group">
-            <label for="wanita" class="d-none d-md-block d-lg-block"> <small><b>Wanita</b></small></label>
-            <label for="wanita" class=" d-xl-none d-block">Wanita</label>
-
-            <input type="number" id="wanita" class="form-control" placeholder="Jumlah Penduduk Wanita">
-        </div>
-    </div>
-    <div class="col-md-4 col-12">
-        <div class="form-group">
-            <label for="wanita" class="d-none d-md-block d-lg-block"><small> <b> Usia Produktif (15 - 60
-                        th)</b></small></label>
-            <label for="wanita" class=" d-xl-none d-block"> Usia Produktif (15 - 60 th)</label>
-            <input type="number" id="wanita" class="form-control" placeholder="Jumlah Penduduk Wanita">
-        </div>
-    </div>
-    <div class="col-12">
-        <div class="form-group">
-            <label for="luasdesa">Luas Wilayah Desa</label>
-            <input type="number" id="luasdesa" class="form-control" placeholder="Luas Wilayah Desa">
-        </div>
-    </div>
-    <div class="col-12">
-        <div class="form-group">
-            <label for="ktp">Unggah Identitas Penduduk (KTP)</label>
-            <input class="form-control" type="file" id="ktp">
-        </div>
-    </div>
-    <div class="col-12">
-        <div class="form-group">
-            <label for="suratdesa">Unggah Surat Tugas Desa</label>
-            <input class="form-control" type="file" id="suratdesa">
-        </div>
-    </div>
-
-
 </div>
+
+<div class="card">
+    <div class="card-content">
+        <div class="card-body">
+            <h4 class="card-title">Profil member</h4>
+            <form ng-submit="updateProfile()">
+                <div class="row">
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input disabled type="email" id="email" class="form-control" placeholder="Email Address" ng-model="dataMember.email">
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input disabled type="text" id="username" class="form-control" placeholder="Username" ng-model="dataMember.name">
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="username">Nama Depan</label>
+                            <input type="text" id="username" class="form-control" placeholder="Nama Depan" ng-model="dataMember.membership.first_name">
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="username">Nama Belakang</label>
+                            <input type="text" id="username" class="form-control" placeholder="Nama Belakang" ng-model="dataMember.membership.last_name">
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="username">No Telpon</label>
+                            <input type="text" id="username" class="form-control" placeholder="No Telpon" ng-model="dataMember.membership.phone">
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="username">Alamat</label>
+                            <textarea type="text" id="username" class="form-control" placeholder="Alamat" ng-model="dataMember.membership.address"></textarea>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="username">Negara</label>
+                            <input type="text" id="username" class="form-control" placeholder="Negara" ng-model="dataMember.membership.state">
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="username">Provinsi</label>
+                            <input type="text" id="username" class="form-control" placeholder="Provinsi" ng-model="dataMember.membership.province">
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="username">Kota</label>
+                            <input type="text" id="username" class="form-control" placeholder="Kota" ng-model="dataMember.membership.city">
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="username">Kecamatan</label>
+                            <input type="text" id="username" class="form-control" placeholder="Kecamatan" ng-model="dataMember.membership.subdistrict">
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="username">Tentang saya</label>
+                            <textarea type="text" id="username" class="form-control" placeholder="Tentang Saya" ng-model="dataMember.membership.about"></textarea>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" type="submit">Perbarui</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- <div class="card">
+    <div class="card-content">
+        <div class="card-body">
+            <h4 class="card-title">Profil member</h4>
+            <form action="">
+                <div class="row">
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="email">Email Address</label>
+                            <input type="email" id="email" class="form-control" placeholder="Email Address">
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="username">Username</label>
+                            <input type="text" id="username" class="form-control" placeholder="Username">
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="password">Password</label>
+                            <input type="password" id="password" class="form-control" placeholder="Password">
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="konfirmasipassword">Konfirmasi Password</label>
+                            <input type="password" id="konfirmasipassword" class="form-control"
+                                placeholder="Konfirmasi Password">
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="provinsi">Provinsi</label>
+                            <select class="form-select" id="provinsi">
+                                <option selected disabled>Pilih Provinsi</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="kanputen">Kabupaten / Kota</label>
+                            <select class="form-select" id="kabupaten">
+                                <option selected disabled>Pilih Kabupaten / Kota</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="kecamatan">Kecamatan</label>
+                            <select class="form-select" id="kecamatan">
+                                <option selected disabled>Pilih Kecamatan</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="kelurahan">Kelurahan</label>
+                            <select class="form-select" id="kelurahan">
+                                <option selected disabled>Pilih Kelurahan</option>
+                                <option value="1">One</option>
+                                <option value="2">Two</option>
+                                <option value="3">Three</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="namadesa">Nama Desa / Kelurahan</label>
+                            <input type="text" id="namadesa" class="form-control" placeholder="Nama Desa / Kelurahan">
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="tanggalberdiri">Tanggal Berdiri</label>
+                            <input type="date" id="kepaladesa" class="form-control" placeholder="">
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label>Alamat</label>
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="longitude">Longitude</label>
+                            <input type="text" id="longitude" class="form-control" placeholder="longitude">
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="latitude">Latitude</label>
+                            <input type="text" id="latitude" class="form-control" placeholder="Latitude">
+                        </div>
+                    </div>
+                    <div class=" col-12">
+                        <div class="form-group">
+                            <label for="webdesa">Alamat Website Desa</label>
+                            <input type="text" id="webdesa" class="form-control" placeholder="Web Desa">
+                        </div>
+                    </div>
+
+                    <div class=" col-12">
+                        <div class="form-group">
+                            <label for="kepaladesa">Nama Kepala Desa / Lurah</label>
+                            <input type="text" id="kepaladesa" class="form-control"
+                                placeholder="Nama Kepala Desa / Lurah">
+                        </div>
+                    </div>
+                    <div class=" col-12">
+                        <div class="form-group">
+                            <label for="sekretarisdesa">Nama Sekretaris Desa / Lurah</label>
+                            <input type="text" id="sekretarisdesa" class="form-control"
+                                placeholder="Nama Sekretaris Desa / Lurah">
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label>Jumlah Penduduk</label>
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-12">
+                        <div class="form-group">
+                            <label for="pria" class="d-none d-md-block d-lg-block"><small><b>Pria</b></small> </label>
+                            <label for="pria" class=" d-xl-none d-block"> Pria</label>
+                            <input type="number" id="pria" class="form-control" placeholder="Jumlah Penduduk Pria">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-12">
+                        <div class="form-group">
+                            <label for="wanita" class="d-none d-md-block d-lg-block">
+                                <small><b>Wanita</b></small></label>
+                            <label for="wanita" class=" d-xl-none d-block">Wanita</label>
+
+                            <input type="number" id="wanita" class="form-control" placeholder="Jumlah Penduduk Wanita">
+                        </div>
+                    </div>
+                    <div class="col-md-4 col-12">
+                        <div class="form-group">
+                            <label for="wanita" class="d-none d-md-block d-lg-block"><small> <b> Usia Produktif (15 - 60
+                                        th)</b></small></label>
+                            <label for="wanita" class=" d-xl-none d-block"> Usia Produktif (15 - 60 th)</label>
+                            <input type="number" id="wanita" class="form-control" placeholder="Jumlah Penduduk Wanita">
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="luasdesa">Luas Wilayah Desa</label>
+                            <input type="number" id="luasdesa" class="form-control" placeholder="Luas Wilayah Desa">
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="ktp">Unggah Identitas Penduduk (KTP)</label>
+                            <input class="form-control" type="file" id="ktp">
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="form-group">
+                            <label for="suratdesa">Unggah Surat Tugas Desa</label>
+                            <input class="form-control" type="file" id="suratdesa">
+                        </div>
+                    </div>
+
+
+
+                    <button class="btn btn-primary" type="submit">Perbarui</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div> -->
