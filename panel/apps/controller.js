@@ -80,7 +80,6 @@ app.controller("questionnaire", function ($scope, $rootScope, $routeParams, http
         }
         // Otherwise, display the correct tab:
         $scope.showTab($scope.currentTab);
-
         $scope.getQuisioner($scope.currentTab + 1);
     };
 
@@ -118,4 +117,4 @@ app.controller("NavbarUser", function ($scope, $location) {
     };
 });
 
-app.controller("list-kuisioner", function () {});
+app.controller("list-kuisioner", function () { });

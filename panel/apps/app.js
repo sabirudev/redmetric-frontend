@@ -31,6 +31,10 @@ app.config(function ($routeProvider, $locationProvider) {
             templateUrl: "panel/pages/user/questionnaire.html",
             controller: "user/questionnaire",
         })
+        .when("/panel/user/questionnaire/thank-you", {
+            templateUrl: "panel/pages/user/thank-you.html",
+            controller: "user/questionnaire/thank-you",
+        })
 
         //juri
         .when("/panel/juri/list-questionnaire", {
