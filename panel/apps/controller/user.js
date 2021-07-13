@@ -11,7 +11,7 @@ app.controller("user/navbar", function ($scope, $rootScope, $routeParams, httpRe
         if (name == "/panel/user") {
             $scope.sidebarContentUrl = "panel/pages/user/dashboard.html?v=1";
         } else if (name == "/panel/user/submission") {
-            $scope.sidebarContentUrl = "panel/pages/user/submission.html";
+            $scope.sidebarContentUrl = "panel/pages/user/submission.html?v=6";
         } else if (name == "/panel/user/profile") {
             $scope.sidebarContentUrl = "panel/pages/user/profile.html?v=5";
         }

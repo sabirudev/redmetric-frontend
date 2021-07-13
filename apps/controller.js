@@ -18,5 +18,6 @@ app.controller("landingpage", function ($scope, $http, httpRequest, notification
             });
     };
 });
+app.controller("profile", function () {});
 
-app.controller("peringkat",function(){});
+app.controller("peringkat", function () {});
