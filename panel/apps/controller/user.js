@@ -1,8 +1,18 @@
-app.controller("user/navbar", function ($scope, $rootScope, $routeParams, httpRequest, notification, roles, $location) {
-    $scope.logoutSession = function () {
-        sessionStorage.removeItem('login');
-        location.replace('/panel');
+app.controller("user/navbar", function ($scope, $rootScope, $routeParams, httpRequest, notification, roles, $location, session_check, $window, session_get, session_break) {
+    $scope.checkLSession = function () {
+        if ($window.location.href != session_check) {
+            console.log($window.location.href);
+            console.log(session_get.uroles());
+
+            $window.location.href = session_check;
+        }
     }
+    // $scope.checkLSession();
+
+    $scope.logoutSession = function () {
+        session_break.reset();
+    }
+
     $scope.getClass = function (path) {
         return ($location.path() == path) ? 'active' : ''
     }
@@ -13,13 +23,17 @@ app.controller("user/navbar", function ($scope, $rootScope, $routeParams, httpRe
         } else if (name == "/panel/user/submission") {
             $scope.sidebarContentUrl = "panel/pages/user/submission.html?v=6";
         } else if (name == "/panel/user/profile") {
-            $scope.sidebarContentUrl = "panel/pages/user/profile.html?v=5";
+            $scope.sidebarContentUrl = "panel/pages/user/profile.html?v=3";
         }
     };
     $scope.showSidebar($location.path());
 });
 
-app.controller("user/home", function ($scope, $rootScope, $routeParams, httpRequest, notification, $window, api_url, session_get) {
+app.controller("user/home", function ($scope, $rootScope, $routeParams, httpRequest, notification, $window, api_url, session_get, session_break) {
+    $scope.logoutSession = function () {
+        session_break.reset();
+    }
+
     $scope.checkData = function () {
         httpRequest
             .get(api_url + "user/villages", {}, session_get.utoken())
@@ -27,26 +41,32 @@ app.controller("user/home", function ($scope, $rootScope, $routeParams, httpRequ
                 // console.log(response.data.data);
                 if (response.status == 200) {
                     $scope.villageData = response.data.data;
-                    if($scope.villageData.village == null)
-                    $('#modalProfile').modal('show');
+                    if ($scope.villageData.village == null)
+                        $('#modalProfile').modal('show');
                     else
-                    $window.location.href = '/panel/user/questionnaire';
+                        $window.location.href = '/panel/user/questionnaire';
 
                 }
             });
     };
 
-    $scope.url = function(urlData){
+    $scope.url = function (urlData) {
         $window.location.href = urlData;
     }
 
 });
 
-app.controller("user/submission", function ($scope, $rootScope, $routeParams, httpRequest, notification) {
+app.controller("user/submission", function ($scope, $rootScope, $routeParams, httpRequest, notification, session_break) {
+    $scope.logoutSession = function () {
+        session_break.reset();
+    }
 
 });
 
-app.controller("user/profile", function ($scope, $rootScope, $routeParams, httpRequest, notification, api_url, session_get, $filter) {
+app.controller("user/profile", function ($scope, $rootScope, $routeParams, httpRequest, notification, api_url, session_get, $filter, session_break) {
+    $scope.logoutSession = function () {
+        location.replace(session_break.reset());
+    }
     $scope.profileMember = function () {
         httpRequest
             .get(api_url + "membership", {}, session_get.utoken())
@@ -74,6 +94,68 @@ app.controller("user/profile", function ($scope, $rootScope, $routeParams, httpR
             });
     }
     $scope.dataDesaGet();
+
+    $scope.uploadKTP = function () {
+        console.log('jalan');
+        $("#uploadKTP").on("submit", function () {
+            console.log('jalan');
+            form = new FormData(this);
+            form.append("identity[0][type]", "ktp");
+            form.append('identity[0][document]', $('input[type=file]')[0].files[0]);
+            jqXHR = $.ajax({
+                url: api_url + "membership/update",
+                method: "POST",
+                headers: {
+                    Authorization: "Bearer " + session_get.utoken(),
+                },
+                data: form,
+                async: false,
+                processData: false,
+                contentType: false,
+                dataType: "application/json",
+            });
+            data = JSON.parse(jqXHR.responseText);
+            console.log(jqXHR.status);
+
+            if (jqXHR.status == 200) {
+                //   $scope.getInvoice();
+                notification.success("Berhasil upload KTP");
+            } else {
+                notification.error("Silahkan coba kembali upload");
+            }
+        });
+    }
+
+    $scope.uploadST = function () {
+            $("#uploadST").on("submit", function () {
+                form = new FormData(this);
+                form.append("identity[0][type]", "surat_tugas");
+                form.append('identity[0][document]', $('input[type=file]')[0].files[0]);
+                jqXHR = $.ajax({
+                    url: api_url + "membership/update",
+                    method: "POST",
+                    headers: {
+                        Authorization: "Bearer " + session_get.utoken(),
+                    },
+                    data: form,
+                    async: false,
+                    processData: false,
+                    contentType: false,
+                    dataType: "application/json",
+                });
+                data = JSON.parse(jqXHR.responseText);
+                console.log(jqXHR.status);
+
+                if (jqXHR.status == 200) {
+                    //   $scope.getInvoice();
+                    notification.success("Berhasil upload surat tugas");
+                } else {
+                    notification.error("Silahkan coba kembali upload");
+                }
+            });
+    }
+
+
 
     $scope.updateDesa = function () {
         // console.log($scope.dataDesa);
@@ -106,10 +188,10 @@ app.controller("user/profile", function ($scope, $rootScope, $routeParams, httpR
         }
     }
 
-    $scope.updateProfile = function(){
+    $scope.updateProfile = function () {
         httpRequest.post(api_url + "membership/update", $scope.dataMember.membership, session_get.utoken()).then(function (response) {
-            // console.log(response);
-            // console.log($scope.village);
+            console.log(response);
+            console.log($scope.village);
             if (response.status == 200) {
                 $scope.dataDesaGet();
                 notification.success("sukses updating data");

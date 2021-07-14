@@ -51,3 +51,35 @@ app.factory("session_get", function () {
         }
     }
 })
+
+app.factory("session_break", function (httpRequest, session_get, api_url) {
+    return{
+        reset: function(){
+            httpRequest.get(api_url+'membership/logout', {}, session_get.utoken()).then(function(response){
+                if(response.status == 200){
+                    sessionStorage.removeItem("token");
+                    sessionStorage.removeItem("roles");
+                    sessionStorage.removeItem("userdata");
+                    return location.replace("/panel");
+                }
+            })
+        }
+    }
+})
+
+app.factory("session_check", function () {
+    if (sessionStorage.getItem("roles") != null) {
+        if (sessionStorage.getItem("roles") == 1) {
+            return "https://redmetric.i-kuy.com/panel/superadmin";
+
+        } else if (sessionStorage.getItem("roles") == 2) {
+            return "https://redmetric.i-kuy.com/panel/user";
+
+        } else if (sessionStorage.getItem("roles") == 3) {
+            return "https://redmetric.i-kuy.com/panel/juri";
+
+        }
+    } else {
+        return "https://redmetric.i-kuy.com/panel";
+    }
+})

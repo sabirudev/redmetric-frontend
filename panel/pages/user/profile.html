@@ -7,13 +7,15 @@
                     <div class="col-md-6 col-12">
                         <div class="form-group">
                             <label for="namadesa">Nama Desa / Kelurahan</label>
-                            <input type="text" id="namadesa" class="form-control" placeholder="Nama Desa / Kelurahan" ng-model="village.name">
+                            <input type="text" id="namadesa" class="form-control" placeholder="Nama Desa / Kelurahan"
+                                ng-model="village.name">
                         </div>
                     </div>
                     <div class="col-md-6 col-12">
                         <div class="form-group">
                             <label for="tanggalberdiri">Tanggal Berdiri</label>
-                            <input type="date" id="kepaladesa" class="form-control" placeholder="" ng-model="village.since" date-field>
+                            <input type="date" id="kepaladesa" class="form-control" placeholder=""
+                                ng-model="village.since" date-field>
                         </div>
                     </div>
                     <div class="col-12">
@@ -24,31 +26,36 @@
                     <div class="col-md-6 col-12">
                         <div class="form-group">
                             <label for="provinsi">Provinsi</label>
-                            <input type="text" id="namadesa" class="form-control" placeholder="Provinsi" ng-model="village.province">
+                            <input type="text" id="namadesa" class="form-control" placeholder="Provinsi"
+                                ng-model="village.province">
                         </div>
                     </div>
                     <div class="col-md-6 col-12">
                         <div class="form-group">
                             <label for="provinsi">Alamat Desa</label>
-                            <textarea type="text" id="namadesa" class="form-control" placeholder="Provinsi" ng-model="village.address"></textarea>
+                            <textarea type="text" id="namadesa" class="form-control" placeholder="Provinsi"
+                                ng-model="village.address"></textarea>
                         </div>
                     </div>
                     <div class="col-md-6 col-12">
                         <div class="form-group">
                             <label for="longitude">Longitude</label>
-                            <input type="text" id="longitude" class="form-control" placeholder="longitude" ng-model="village.address_longitude">
+                            <input type="text" id="longitude" class="form-control" placeholder="longitude"
+                                ng-model="village.address_longitude">
                         </div>
                     </div>
                     <div class="col-md-6 col-12">
                         <div class="form-group">
                             <label for="latitude">Latitude</label>
-                            <input type="text" id="latitude" class="form-control" placeholder="Latitude" ng-model="village.address_latitude">
+                            <input type="text" id="latitude" class="form-control" placeholder="Latitude"
+                                ng-model="village.address_latitude">
                         </div>
                     </div>
                     <div class=" col-12">
                         <div class="form-group">
                             <label for="webdesa">Alamat Website Desa</label>
-                            <input type="text" id="webdesa" class="form-control" placeholder="Web Desa" ng-model="village.website">
+                            <input type="text" id="webdesa" class="form-control" placeholder="Web Desa"
+                                ng-model="village.website">
                         </div>
                     </div>
 
@@ -75,7 +82,8 @@
                         <div class="form-group">
                             <label for="pria" class="d-none d-md-block d-lg-block"><small><b>Pria</b></small> </label>
                             <label for="pria" class=" d-xl-none d-block"> Pria</label>
-                            <input type="number" id="pria" class="form-control" placeholder="Jumlah Penduduk Pria" ng-model="village.amount_male">
+                            <input type="number" id="pria" class="form-control" placeholder="Jumlah Penduduk Pria"
+                                ng-model="village.amount_male">
                         </div>
                     </div>
                     <div class="col-md-4 col-12">
@@ -84,7 +92,8 @@
                                 <small><b>Wanita</b></small></label>
                             <label for="wanita" class=" d-xl-none d-block">Wanita</label>
 
-                            <input type="number" id="wanita" class="form-control" placeholder="Jumlah Penduduk Wanita" ng-model="village.amount_female">
+                            <input type="number" id="wanita" class="form-control" placeholder="Jumlah Penduduk Wanita"
+                                ng-model="village.amount_female">
                         </div>
                     </div>
                     <div class="col-md-4 col-12">
@@ -92,13 +101,15 @@
                             <label for="wanita" class="d-none d-md-block d-lg-block"><small> <b> Usia Produktif (15 - 60
                                         th)</b></small></label>
                             <label for="wanita" class=" d-xl-none d-block"> Usia Produktif (15 - 60 th)</label>
-                            <input type="number" id="wanita" class="form-control" placeholder="Jumlah Penduduk Wanita" ng-model="village.amount_productive_age">
+                            <input type="number" id="wanita" class="form-control" placeholder="Jumlah Penduduk Wanita"
+                                ng-model="village.amount_productive_age">
                         </div>
                     </div>
                     <div class="col-12">
                         <div class="form-group">
                             <label for="luasdesa">Luas Wilayah Desa</label>
-                            <input type="number" id="luasdesa" class="form-control" placeholder="Luas Wilayah Desa" ng-model="village.area">
+                            <input type="number" id="luasdesa" class="form-control" placeholder="Luas Wilayah Desa"
+                                ng-model="village.area">
                         </div>
                     </div>
 
@@ -112,73 +123,123 @@
 <div class="card">
     <div class="card-content">
         <div class="card-body">
+            <h4 class="card-title">Update Document</h4>
+            <div class="row">
+                <div class="col-12">
+                    <form ng-submit="uploadKTP()" id="uploadKTP">
+                        <div class="form-group">
+                            <label for="ktp">Unggah Identitas Penduduk (KTP)</label>
+                            <input required accept=".jpg, .png, .jpeg, .pdf" class="form-control" type="file" id="ktp">
+                        </div>
+                        <button class="btn btn-primary" type="submit">Unggah</button>
+                    </form>
+                </div>
+                <div class="col-12">
+                    <form ng-submit="uploadST()" id="uploadST">
+                        <div class="form-group">
+                            <label for="suratdesa">Unggah Surat Tugas Desa</label>
+                            <input required accept=".jpg, .png, .jpeg, .pdf" class="form-control" type="file" id="st">
+                        </div>
+                        <button class="btn btn-primary" type="submit">Unggah</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-content">
+        <div class="card-body">
             <h4 class="card-title">Profil member</h4>
             <form ng-submit="updateProfile()">
                 <div class="row">
                     <div class="col-md-6 col-12">
                         <div class="form-group">
                             <label for="email">Email Address</label>
-                            <input disabled type="email" id="email" class="form-control" placeholder="Email Address" ng-model="dataMember.email">
+                            <input disabled type="email" id="email" class="form-control" placeholder="Email Address"
+                                ng-model="dataMember.email">
                         </div>
                     </div>
                     <div class="col-md-6 col-12">
                         <div class="form-group">
                             <label for="username">Username</label>
-                            <input disabled type="text" id="username" class="form-control" placeholder="Username" ng-model="dataMember.name">
+                            <input disabled type="text" id="username" class="form-control" placeholder="Username"
+                                ng-model="dataMember.name">
                         </div>
                     </div>
                     <div class="col-md-6 col-12">
                         <div class="form-group">
                             <label for="username">Nama Depan</label>
-                            <input type="text" id="username" class="form-control" placeholder="Nama Depan" ng-model="dataMember.membership.first_name">
+                            <input type="text" id="username" class="form-control" placeholder="Nama Depan"
+                                ng-model="dataMember.membership.first_name">
                         </div>
                     </div>
                     <div class="col-md-6 col-12">
                         <div class="form-group">
                             <label for="username">Nama Belakang</label>
-                            <input type="text" id="username" class="form-control" placeholder="Nama Belakang" ng-model="dataMember.membership.last_name">
+                            <input type="text" id="username" class="form-control" placeholder="Nama Belakang"
+                                ng-model="dataMember.membership.last_name">
                         </div>
                     </div>
                     <div class="col-md-6 col-12">
                         <div class="form-group">
                             <label for="username">No Telpon</label>
-                            <input type="text" id="username" class="form-control" placeholder="No Telpon" ng-model="dataMember.membership.phone">
+                            <input type="text" id="username" class="form-control" placeholder="No Telpon"
+                                ng-model="dataMember.membership.phone">
+                        </div>
+                    </div>
+                    <div class="col-md-6 col-12">
+                        <div class="form-group">
+                            <label for="username">Jenis Kelamin</label>
+                            <!-- <input type="text" id="username" class="form-control" placeholder="Jenis Kelamin" ng-model="dataMember.membership.gender"> -->
+                            <select class="form-select" id="kabupaten" ng-model="dataMember.membership.gender">
+                                <option disabled value="">Pilih Jenis Kelamin</option>
+                                <option value="male">Laki-laki</option>
+                                <option value="female">Wanita</option>
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-6 col-12">
                         <div class="form-group">
                             <label for="username">Alamat</label>
-                            <textarea type="text" id="username" class="form-control" placeholder="Alamat" ng-model="dataMember.membership.address"></textarea>
+                            <textarea type="text" id="username" class="form-control" placeholder="Alamat"
+                                ng-model="dataMember.membership.address"></textarea>
                         </div>
                     </div>
                     <div class="col-md-6 col-12">
                         <div class="form-group">
                             <label for="username">Negara</label>
-                            <input type="text" id="username" class="form-control" placeholder="Negara" ng-model="dataMember.membership.state">
+                            <input type="text" id="username" class="form-control" placeholder="Negara"
+                                ng-model="dataMember.membership.state">
                         </div>
                     </div>
                     <div class="col-md-6 col-12">
                         <div class="form-group">
                             <label for="username">Provinsi</label>
-                            <input type="text" id="username" class="form-control" placeholder="Provinsi" ng-model="dataMember.membership.province">
+                            <input type="text" id="username" class="form-control" placeholder="Provinsi"
+                                ng-model="dataMember.membership.province">
                         </div>
                     </div>
                     <div class="col-md-6 col-12">
                         <div class="form-group">
                             <label for="username">Kota</label>
-                            <input type="text" id="username" class="form-control" placeholder="Kota" ng-model="dataMember.membership.city">
+                            <input type="text" id="username" class="form-control" placeholder="Kota"
+                                ng-model="dataMember.membership.city">
                         </div>
                     </div>
                     <div class="col-md-6 col-12">
                         <div class="form-group">
                             <label for="username">Kecamatan</label>
-                            <input type="text" id="username" class="form-control" placeholder="Kecamatan" ng-model="dataMember.membership.subdistrict">
+                            <input type="text" id="username" class="form-control" placeholder="Kecamatan"
+                                ng-model="dataMember.membership.subdistrict">
                         </div>
                     </div>
                     <div class="col-md-6 col-12">
                         <div class="form-group">
                             <label for="username">Tentang saya</label>
-                            <textarea type="text" id="username" class="form-control" placeholder="Tentang Saya" ng-model="dataMember.membership.about"></textarea>
+                            <textarea type="text" id="username" class="form-control" placeholder="Tentang Saya"
+                                ng-model="dataMember.membership.about"></textarea>
                         </div>
                     </div>
                     <button class="btn btn-primary" type="submit">Perbarui</button>
@@ -187,6 +248,8 @@
         </div>
     </div>
 </div>
+
+
 
 <!-- <div class="card">
     <div class="card-content">
