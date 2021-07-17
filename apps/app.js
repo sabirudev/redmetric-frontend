@@ -1,5 +1,17 @@
-app = angular.module("home", ["ngRoute", "ngSanitize"]);
+// Default environment variables
+let __env = {};
 
+// Import variables if present
+if (window) {
+    Object.assign(__env, window.__env);
+}
+
+app = angular.module("home", ["ngRoute", "ngSanitize"]);
+app.constant('ENVIRONMENT', 'DEV')
+    .service('urls', function (ENVIRONMENT) {
+        this.apiUrl = (ENVIRONMENT == 'DEV') ? __env.dev_apiUrl : __env.apiUrl;
+        this.baseUrl = (ENVIRONMENT == 'DEV') ? __env.dev_baseUrl : __env.dev.baseUrl;
+    });
 app.config(function ($routeProvider, $locationProvider) {
     $routeProvider
         .when("/", {

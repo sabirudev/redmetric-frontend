@@ -4,7 +4,8 @@
   "description": "redmetric project ITTP",
   "main": "index.js",
   "dependencies": {
-    "angular-chart.js": "^1.1.1"
+    "angular-chart.js": "^1.1.1",
+    "dotenv": "^10.0.0"
   },
   "devDependencies": {},
   "scripts": {
