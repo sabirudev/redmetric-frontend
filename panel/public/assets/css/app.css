@@ -12,7 +12,7 @@
 }
 
 .alert .alert-heading,
-.alert .alert-heading + p {
+.alert .alert-heading+p {
   margin-left: 0.4rem;
 }
 
@@ -287,7 +287,7 @@
   border: 1px solid #dfe3e7;
 }
 
-.btn-group > .btn {
+.btn-group>.btn {
   border-radius: 0.267rem;
 }
 
@@ -360,7 +360,7 @@
   font-weight: 700;
 }
 
-.card .card-header ~ .card-body {
+.card .card-header~.card-body {
   padding-top: 0;
 }
 
@@ -557,8 +557,8 @@
   padding-top: 2rem;
 }
 
-.form-group.with-title .form-control:focus ~ label,
-.form-group.with-title dataTable-input:focus ~ label {
+.form-group.with-title .form-control:focus~label,
+.form-group.with-title dataTable-input:focus~label {
   border-left: 1px solid #435ebe;
   border-top: 1px solid #435ebe;
   border-right: 1px solid #435ebe;
@@ -580,8 +580,8 @@
   right: 0;
 }
 
-.form-group[class*="has-icon-"] .form-control:focus ~ .form-control-icon i,
-.form-group[class*="has-icon-"] .form-control:focus ~ .form-control-icon svg {
+.form-group[class*="has-icon-"] .form-control:focus~.form-control-icon i,
+.form-group[class*="has-icon-"] .form-control:focus~.form-control-icon svg {
   color: #5a8dee;
 }
 
@@ -589,17 +589,11 @@
   padding-left: 3rem;
 }
 
-.form-group[class*="has-icon-"]
-  .form-control.form-control-xl
-  ~ .form-control-icon
-  i {
+.form-group[class*="has-icon-"] .form-control.form-control-xl~.form-control-icon i {
   font-size: 1.6rem;
 }
 
-.form-group[class*="has-icon-"]
-  .form-control.form-control-xl
-  ~ .form-control-icon
-  i:before {
+.form-group[class*="has-icon-"] .form-control.form-control-xl~.form-control-icon i:before {
   color: #a6a8aa;
 }
 
@@ -667,8 +661,7 @@
   box-shadow: 0 0 5px #868e96;
 }
 
-.form-check
-  .form-check-input.form-check-secondary.form-check-glow:not(:checked) {
+.form-check .form-check-input.form-check-secondary.form-check-glow:not(:checked) {
   box-shadow: none;
 }
 
@@ -926,7 +919,7 @@
   left: -300px;
 }
 
-#sidebar:not(.active) ~ #main {
+#sidebar:not(.active)~#main {
   margin-left: 0;
 }
 
@@ -1015,7 +1008,7 @@
 }
 
 .sidebar-wrapper .menu .sidebar-item.active .sidebar-link {
-  background-color: #435ebe;
+  background-color: #DB292F;
 }
 
 .sidebar-wrapper .menu .sidebar-item.active .sidebar-link span {
@@ -1048,7 +1041,7 @@
   position: relative;
 }
 
-.sidebar-wrapper .menu .submenu .submenu-item.active > a {
+.sidebar-wrapper .menu .submenu .submenu-item.active>a {
   color: #435ebe;
   font-weight: 700;
 }
@@ -1072,6 +1065,7 @@
     position: absolute;
     left: -300px;
   }
+
   .sidebar-wrapper .sidebar-toggler.x {
     display: block;
   }
@@ -1146,17 +1140,17 @@
   background-color: #e9ecef;
 }
 
-.navbar.navbar-header .dropdown > a {
+.navbar.navbar-header .dropdown>a {
   color: #6c757d;
   font-weight: 600;
 }
 
-.navbar.navbar-header .dropdown > a svg {
+.navbar.navbar-header .dropdown>a svg {
   height: 24px;
   width: 24px;
 }
 
-.navbar.navbar-header .dropdown > a:after {
+.navbar.navbar-header .dropdown>a:after {
   display: none;
 }
 

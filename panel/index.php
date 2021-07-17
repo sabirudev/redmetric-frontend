@@ -58,7 +58,7 @@
     <script src="/panel/apps/variable.js" id="versioncontroller"></script>
     <script src="/panel/apps/controller/auth.js" id="versioncontroller"></script>
     <script src="/panel/apps/controller/juri.js" id="versioncontroller"></script>
-    <script src="/panel/apps/controller/user.js" id="versioncontroller"></script>
+    <script src="/panel/apps/controller/user.js?v=0" id="versioncontroller"></script>
     <script src="/panel/apps/controller/superadmin.js" id="versioncontroller"></script>
     <!-- <link rel="stylesheet" href="/public/assets/css/custom.css?v=123" /> -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.css" rel="stylesheet">

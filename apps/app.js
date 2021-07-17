@@ -3,12 +3,16 @@ app = angular.module("home", ["ngRoute", "ngSanitize"]);
 app.config(function ($routeProvider, $locationProvider) {
     $routeProvider
         .when("/", {
-            templateUrl: "pages/landingpage.html",
+            templateUrl: "pages/landingpage.html?v5",
             controller: "landingpage",
         })
         .when("/peringkat", {
             templateUrl: "pages/peringkat.html",
             controller: "peringkat",
+        })
+        .when("/profile", {
+            templateUrl: "pages/profile.html",
+            controller: "profile",
         })
 
         .otherwise({

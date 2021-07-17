@@ -1,7 +1,12 @@
-app.controller("login", function ($scope, $rootScope, $routeParams, httpRequest, notification, session_set, api_url, $window) {
-    if (sessionStorage.getItem("login") != null) {
-        location.replace('/dashboard');
+app.controller("login", function ($scope, $rootScope, $routeParams, httpRequest, notification, session_set, api_url, $window, session_check, session_get) {
+    $scope.checkLSession = function () {
+        if ($window.location.href != session_check){
+            console.log($window.location.href);
+            console.log(session_check);
+            $window.location.href = session_check;
+        }
     }
+    $scope.checkLSession();
 
     $scope.login = function () {
         httpRequest
@@ -14,6 +19,10 @@ app.controller("login", function ($scope, $rootScope, $routeParams, httpRequest,
                     session_set.utoken($scope.data.token);
                     session_set.udata($scope.data.user);
                     session_set.uroles($scope.data.user.role_id);
+
+                    console.log(session_get.utoken())
+                    console.log(session_get.udata())
+                    console.log(session_get.uroles())
 
                     if ($scope.data.user.role_id == 1) {
                         $window.location.href = '/panel/superadmin';
@@ -55,6 +64,7 @@ app.controller("register", function ($scope, $rootScope, $routeParams, httpReque
         $window.location.href = url;
         session_set.utoken($scope.data.token);
         session_set.udata($scope.data.user);
+        session_set.uroles($scope.data.user.role_id);
     };
 
 });
