@@ -1,0 +1,27 @@
+{
+  "name": "redmetric-frontend",
+  "version": "1.0.0",
+  "description": "redmetric project ITTP",
+  "main": "index.js",
+  "dependencies": {
+    "angular-chart.js": "^1.1.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sabirudev/redmetric-frontend.git"
+  },
+  "keywords": [
+    "redmetric",
+    "ranking"
+  ],
+  "author": "Iwan Firmawan",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/sabirudev/redmetric-frontend/issues"
+  },
+  "homepage": "https://github.com/sabirudev/redmetric-frontend#readme"
+}
