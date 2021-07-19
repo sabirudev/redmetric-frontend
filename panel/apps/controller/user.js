@@ -127,32 +127,32 @@ app.controller("user/profile", function ($scope, $rootScope, $routeParams, httpR
     }
 
     $scope.uploadST = function () {
-            $("#uploadST").on("submit", function () {
-                form = new FormData(this);
-                form.append("identity[0][type]", "surat_tugas");
-                form.append('identity[0][document]', $('input[type=file]')[0].files[0]);
-                jqXHR = $.ajax({
-                    url: api_url + "membership/update",
-                    method: "POST",
-                    headers: {
-                        Authorization: "Bearer " + session_get.utoken(),
-                    },
-                    data: form,
-                    async: false,
-                    processData: false,
-                    contentType: false,
-                    dataType: "application/json",
-                });
-                data = JSON.parse(jqXHR.responseText);
-                console.log(jqXHR.status);
-
-                if (jqXHR.status == 200) {
-                    //   $scope.getInvoice();
-                    notification.success("Berhasil upload surat tugas");
-                } else {
-                    notification.error("Silahkan coba kembali upload");
-                }
+        $("#uploadST").on("submit", function () {
+            form = new FormData(this);
+            form.append("identity[0][type]", "surat_tugas");
+            form.append('identity[0][document]', $('input[type=file]')[0].files[0]);
+            jqXHR = $.ajax({
+                url: api_url + "membership/update",
+                method: "POST",
+                headers: {
+                    Authorization: "Bearer " + session_get.utoken(),
+                },
+                data: form,
+                async: false,
+                processData: false,
+                contentType: false,
+                dataType: "application/json",
             });
+            data = JSON.parse(jqXHR.responseText);
+            console.log(jqXHR.status);
+
+            if (jqXHR.status == 200) {
+                //   $scope.getInvoice();
+                notification.success("Berhasil upload surat tugas");
+            } else {
+                notification.error("Silahkan coba kembali upload");
+            }
+        });
     }
 
 
@@ -236,12 +236,12 @@ app.controller("user/questionnaire", function ($scope, $rootScope, $routeParams,
             }, session_get.utoken())
             .then(function (response) {
                 if (response.data.status == 'success') {
-                    const items = Object.values(response.data.data[0]?.indicators).flatMap(item => item?.inputs)
+                    const { data: items } = response.data
                     $scope.questionData = items;
                     $scope.submitData.submissions = items.map(item => ({
                         indicator_id: item.indicator_id,
                         indicator_input_id: item.id,
-                        value: null
+                        value: parseInt(item.value)
                     }));
                 }
             })
