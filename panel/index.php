@@ -49,7 +49,7 @@
     <base href="/panel ">
 
 
-    <script src="../env.js"></script>
+
     <!-- <script src="/public/assets/js/select2.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
 

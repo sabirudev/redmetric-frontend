@@ -50,9 +50,13 @@ app.config(function ($routeProvider, $locationProvider) {
         })
 
         //juri
-        .when("/panel/juri/list-questionnaire", {
+        .when("/panel/juri/", {
+            templateUrl: "panel/pages/juri/home.html",
+            controller: "juri/home",
+        })
+        .when("/panel/juri/list-juri", {
             templateUrl: "panel/pages/juri/list-kuisioner.html",
-            controller: "list-kuisioner",
+            controller: "juri/list-kuisioner",
         })
 
         //superadmin
