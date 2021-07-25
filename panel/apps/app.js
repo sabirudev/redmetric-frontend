@@ -1,17 +1,4 @@
-// Default environment variables
-let __env = {};
-
-// Import variables if present
-if (window) {
-    Object.assign(__env, window.__env);
-}
-
 app = angular.module("panel", ["ngRoute", "ngSanitize"]);
-app.constant('ENVIRONMENT', 'DEV')
-    .service('urls', function (ENVIRONMENT) {
-        this.apiUrl = (ENVIRONMENT == 'DEV') ? __env.dev_apiUrl : __env.apiUrl;
-        this.baseUrl = (ENVIRONMENT == 'DEV') ? __env.dev_baseUrl : __env.dev.baseUrl;
-    });
 app.config(function ($routeProvider, $locationProvider) {
     $routeProvider
         .when("/panel", {
@@ -50,9 +37,13 @@ app.config(function ($routeProvider, $locationProvider) {
         })
 
         //juri
-        .when("/panel/juri/list-questionnaire", {
+        .when("/panel/juri/", {
+            templateUrl: "panel/pages/juri/home.html",
+            controller: "juri/home",
+        })
+        .when("/panel/juri/list-juri", {
             templateUrl: "panel/pages/juri/list-kuisioner.html",
-            controller: "list-kuisioner",
+            controller: "juri/list-kuisioner",
         })
 
         //superadmin
