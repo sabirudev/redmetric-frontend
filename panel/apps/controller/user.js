@@ -23,7 +23,7 @@ app.controller("user/navbar", function ($scope, $rootScope, $routeParams, httpRe
         } else if (name == "/panel/user/submission") {
             $scope.sidebarContentUrl = "panel/pages/user/submission.html?v=6";
         } else if (name == "/panel/user/profile") {
-            $scope.sidebarContentUrl = "panel/pages/user/profile.html?v=3";
+            $scope.sidebarContentUrl = "panel/pages/user/profile.html?v=6";
         }
     };
     $scope.showSidebar($location.path());
@@ -89,11 +89,29 @@ app.controller("user/profile", function ($scope, $rootScope, $routeParams, httpR
                     if ($scope.dataDesa.village != null) {
                         $scope.village = $scope.dataDesa.village;
                     }
-                    // console.log($scope.dataDesa);
+                    console.log($scope.dataDesa);
                 }
             });
     }
     $scope.dataDesaGet();
+    $scope.profileData ={};
+    $scope.getProfileUser = function () {
+        httpRequest
+            .get(api_url + "membership", {}, session_get.utoken())
+            .then(function (response) {
+                if (response.status == 200) {
+                    $scope.profileData = response.data.data.membership.identities[0];
+                    console.log($scope.profileData);
+                }
+            });
+    }
+    $scope.getProfileUser();
+    $scope.documentKTP = function () {
+        httpRequest
+            .get(api_url + "membership/preview-identity/"+$scope.profileData.id, {}, session_get.utoken())
+            .then(function (response) {
+            });
+    }
 
     $scope.uploadKTP = function () {
         console.log('jalan');
@@ -259,27 +277,28 @@ app.controller("user/questionnaire", function ($scope, $rootScope, $routeParams,
         //... and adds the "active" class on the current step:
         x[n].className += " step-active";
     }
+    $scope.fixStepIndicator(0);
 
     $scope.showTab = function (n) {
         // This function will display the specified tab of the form...
-        var x = document.getElementsByClassName("tab");
-        x[n].style.display = "block";
+        if(n==0){
+            var x = document.getElementsByClassName("tab");
+            x[n].style.display = "block";
+        }
         //... and fix the Previous/Next buttons:
-        if (n == 0) {
+        if (n == 0 || n == 1) {
             document.getElementById("prevBtn").style.display = "none";
         } else {
             document.getElementById("prevBtn").style.display = "inline";
         }
-        if (n == x.length - 1) {
-            document.getElementById("nextBtn").innerHTML = "Submit";
-
+        if (n <= 5) {
+            document.getElementById("nextBtn").innerHTML = "Lanjut";
+            document.getElementById("prevBtn").innerHTML = "Kembali";
         } else {
-            document.getElementById("nextBtn").innerHTML = "Next";
+            document.getElementById("nextBtn").innerHTML = "Selesai";
         }
         //... and run a function that will display the correct step indicator:
-        $scope.fixStepIndicator(n);
     }
-
     $scope.showTab($scope.currentTab); // Display the current tab
 
     $scope.nextPrev = function (n) {
@@ -290,8 +309,10 @@ app.controller("user/questionnaire", function ($scope, $rootScope, $routeParams,
         // Increase or decrease the current tab by 1:
         $scope.currentTab = $scope.currentTab + n;
         const nextPage = $scope.currentTab === 1 ? $scope.currentTab + 1 : $scope.currentTab
-        $scope.currentTab = nextPage
+        // $scope.currentTab = nextPage
         $scope.getQuisioner(nextPage);
+        console.log($scope.currentTab);
+        $scope.showTab(nextPage);
     };
 
     function validateForm() {
@@ -301,7 +322,7 @@ app.controller("user/questionnaire", function ($scope, $rootScope, $routeParams,
             if ($scope.currentTab === 0) {
                 document.getElementsByClassName("step")[$scope.currentTab].className +=
                     " step-success";
-                document.getElementsByClassName("step")[1].className +=
+                document.getElementsByClassName("step")[$scope.currentTab+1].className +=
                     " step-active";
             } else {
                 document.getElementsByClassName("step")[$scope.currentTab - 1].className +=
@@ -326,13 +347,28 @@ app.controller("user/questionnaire", function ($scope, $rootScope, $routeParams,
                     // if you have reached the end of the form...
                     if ($scope.currentTab > 6) {
                         // ... the form gets submitted:
-                        window.location.href = '/panel/user/questionnaire/thank-you'
+                        $scope.updateToPublish($scope.data.id);
                     }
                 } else {
                     notification.error(response.data.message);
                 }
             });
     };
+
+    $scope.updateToPublish = function(id){
+        httpRequest
+        .put(api_url + "user/submissions/"+id,{}, session_get.utoken())
+        .then(function (response) {
+            // console.log(response);
+            if (response.status == 200) {
+                $scope.data = response.data.data;
+                    // ... the form gets submitted:
+                    window.location.href = '/panel/user/questionnaire/thank-you'
+            } else {
+                notification.error(response.data.message);
+            }
+        });
+    }
 
     $scope.finish = function () {
         $('#modalFinish').modal('show');
