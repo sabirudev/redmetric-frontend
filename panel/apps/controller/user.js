@@ -19,11 +19,11 @@ app.controller("user/navbar", function ($scope, $rootScope, $routeParams, httpRe
 
     $scope.showSidebar = function (name) {
         if (name == "/panel/user") {
-            $scope.sidebarContentUrl = "panel/pages/user/dashboard.html?v=1";
+            $scope.sidebarContentUrl = "panel/pages/user/dashboard.html?v=2";
         } else if (name == "/panel/user/submission") {
             $scope.sidebarContentUrl = "panel/pages/user/submission.html?v=6";
         } else if (name == "/panel/user/profile") {
-            $scope.sidebarContentUrl = "panel/pages/user/profile.html?v=6";
+            $scope.sidebarContentUrl = "panel/pages/user/profile.html?v=10";
         }
     };
     $scope.showSidebar($location.path());
@@ -43,8 +43,19 @@ app.controller("user/home", function ($scope, $rootScope, $routeParams, httpRequ
                     $scope.villageData = response.data.data;
                     if ($scope.villageData.village == null)
                         $('#modalProfile').modal('show');
-                    else
-                        $window.location.href = '/panel/user/questionnaire';
+                    else{
+                            httpRequest.get(api_url + "user/submissions", {}, session_get.utoken()).then(function (response) {
+                                if (response.status == 200) {
+                                    if(response.data.status == 'success'){
+                                        $window.location.href = '/panel/user/questionnaire'
+                                    }else{
+                                        $('#modalPeriod').modal('show');
+                                    }
+                                } else {
+                                }
+                            });
+
+                    }
 
                 }
             });
@@ -56,14 +67,14 @@ app.controller("user/home", function ($scope, $rootScope, $routeParams, httpRequ
 
 });
 
-app.controller("user/submission", function ($scope, $rootScope, $routeParams, httpRequest, notification, session_break) {
+app.controller("user/submission", function ($scope, $rootScope, $routeParams, httpRequest, notification, session_break, $window) {
     $scope.logoutSession = function () {
         session_break.reset();
     }
 
 });
 
-app.controller("user/profile", function ($scope, $rootScope, $routeParams, httpRequest, notification, api_url, session_get, $filter, session_break) {
+app.controller("user/profile", function ($scope, $rootScope, $routeParams, httpRequest, notification, api_url, session_get, $filter, session_break, $http) {
     $scope.logoutSession = function () {
         location.replace(session_break.reset());
     }
@@ -94,24 +105,73 @@ app.controller("user/profile", function ($scope, $rootScope, $routeParams, httpR
             });
     }
     $scope.dataDesaGet();
-    $scope.profileData ={};
+    $scope.getKTP ={};
     $scope.getProfileUser = function () {
         httpRequest
             .get(api_url + "membership", {}, session_get.utoken())
             .then(function (response) {
                 if (response.status == 200) {
-                    $scope.profileData = response.data.data.membership.identities[0];
-                    console.log($scope.profileData);
+                    $scope.getKTP = response.data.data.membership.identities[0];
+                    console.log($scope.getKTP);
                 }
             });
     }
     $scope.getProfileUser();
     $scope.documentKTP = function () {
-        httpRequest
-            .get(api_url + "membership/preview-identity/"+$scope.profileData.id, {}, session_get.utoken())
-            .then(function (response) {
-            });
+        $http({
+            headers: {
+                Authorization: "Bearer " + session_get.utoken(),
+                Accept: "application/json",
+            },
+            method: 'GET',
+            url: api_url + "membership/preview-identity/"+$scope.getKTP.id,
+            responseType: 'arraybuffer'
+          }).then(function(response) {
+            console.log(response);
+            var str = _arrayBufferToBase64(response.data);
+            console.log(str);
+            var image = new Image();
+            image.src = "data:image/jpg;base64," + str;
+            var w = window.open("");
+            w.document.write(image.outerHTML);
+            // str is base64 encoded.
+          }, function(response) {
+            console.error('error in getting static img.');
+          });
     }
+
+    $scope.documentST = function () {
+        $http({
+            headers: {
+                Authorization: "Bearer " + session_get.utoken(),
+                Accept: "application/json",
+            },
+            method: 'GET',
+            url: api_url + "membership/preview-identity/"+$scope.profileData.id,
+            responseType: 'arraybuffer'
+          }).then(function(response) {
+            console.log(response);
+            var str = _arrayBufferToBase64(response.data);
+            console.log(str);
+            var image = new Image();
+            image.src = "data:image/jpg;base64," + str;
+            var w = window.open("");
+            w.document.write(image.outerHTML);
+            // str is base64 encoded.
+          }, function(response) {
+            console.error('error in getting static img.');
+          });
+    }
+
+    function _arrayBufferToBase64(buffer) {
+        var binary = '';
+        var bytes = new Uint8Array(buffer);
+        var len = bytes.byteLength;
+        for (var i = 0; i < len; i++) {
+          binary += String.fromCharCode(bytes[i]);
+        }
+        return window.btoa(binary);
+      }
 
     $scope.uploadKTP = function () {
         console.log('jalan');
@@ -388,3 +448,13 @@ app.directive('stringToNumber', function () {
         }
     };
 });
+app.directive("formatDate", function(){
+  return {
+   require: 'ngModel',
+    link: function(scope, elem, attr, modelCtrl) {
+      modelCtrl.$formatters.push(function(modelValue){
+        return new Date(modelValue);
+      })
+    }
+  }
+})
