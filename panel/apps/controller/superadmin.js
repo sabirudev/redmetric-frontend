@@ -1,7 +1,6 @@
-app.controller("superadmin/sidebar", function ($scope, $rootScope, $routeParams, httpRequest, notification, roles, $location) {
+app.controller("superadmin/sidebar", function ($scope, $rootScope, $routeParams, httpRequest, notification, roles, $location, session_break) {
     $scope.logoutSession = function () {
-        sessionStorage.removeItem('login');
-        location.replace('/panel');
+        session_break.reset();
     }
     $scope.getClass = function (path) {
         return ($location.path() == path) ? 'active' : ''
@@ -16,7 +15,7 @@ app.controller("superadmin/sidebar", function ($scope, $rootScope, $routeParams,
         if (name == "/panel/superadmin/") {
             $scope.sidebarContentUrl = "panel/pages/superadmin/dashboard.html";
         } else if (name == "/panel/superadmin/juri") {
-            $scope.sidebarContentUrl = "panel/pages/superadmin/juri.html";
+            $scope.sidebarContentUrl = "panel/pages/superadmin/juri.html?v=1";
         } else if (name == "/panel/superadmin/vilagers") {
             $scope.sidebarContentUrl = "panel/pages/superadmin/user.html";
         }
@@ -28,128 +27,158 @@ app.controller("superadmin/home", function ($scope, $rootScope, $routeParams, ht
 
 });
 
-app.controller("superadmin/vilagers", function ($scope, $rootScope, $routeParams, httpRequest, notification) {
+app.controller("superadmin/vilagers", function ($scope, $rootScope, $routeParams, httpRequest, notification, api_url, session_get) {
+    $scope.index = 1;
+    $scope.data = {};
+    $scope.form={};
+    $scope.getVillagers = function (index) {
+        httpRequest
+            .get(api_url + "admin/users", {
+                "r": 2,
+                "page": index
+            }, session_get.utoken())
+            .then(function (response) {
+                if (response.status == 200) {
+                    console.log(response);
+                    $scope.data = response.data.data;
+                    console.log($scope.data);
+                } else {
+                    notification.error("Email atau password salah");
+                }
+            });
+    };
+    $scope.getVillagers($scope.index);
+    $scope.getActive = function (index) {
+        if (index == $scope.index - 1)
+            return 'active';
+        else
+            return ''
+    };
+    $scope.nextPage = function () {
+        if ($scope.index < $scope.data.last_page)
+            $scope.index += 1;
+        $scope.getVillagers($scope.index);
+    }
+    $scope.prevPage = function () {
+        if ($scope.index > 1)
+            $scope.index -= 1;
+        $scope.getVillagers($scope.index);
+    }
+    $scope.indexPage = function (index) {
+        $scope.index = index;
+        $scope.getVillagers($scope.index);
+    }
 
+
+    $scope.getData = function (index) {
+        httpRequest
+            .get(api_url + "admin/users/" + index, {}, session_get.utoken())
+            .then(function (response) {
+                if (response.status == 200) {
+                    console.log(response);
+                    $scope.dataUser = response.data.data;
+                    console.log($scope.data);
+                    $('#formEdit').modal('show');
+                } else {
+                    notification.error("Email atau password salah");
+                }
+            });
+    }
+    $scope.tambahData = function () {
+        $scope.form.role_id = "3";
+        httpRequest
+            .post(api_url + "admin/users", $scope.form, session_get.utoken())
+            .then(function (response) {
+                console.log(response);
+                if (response.status == 200) {
+                    $scope.getVillagers($scope.index);
+                    $('#formAdd').modal('hide');
+                } else {
+                    notification.error("Email atau password salah");
+                }
+            });
+    }
+    $scope.openAdd = function(){
+        $('#formAdd').modal('show');
+    }
 });
 
-app.controller("superadmin/juri", function ($scope, $rootScope, $routeParams, httpRequest, notification) {
+app.controller("superadmin/juri", function ($scope, $rootScope, $routeParams, httpRequest, notification, api_url, session_get) {
+    $scope.index = 1;
+    $scope.data = {};
+    $scope.form={};
+    $scope.getJuri = function (index) {
+        httpRequest
+            .get(api_url + "admin/users", {
+                "r": 3,
+                "page": index
+            }, session_get.utoken())
+            .then(function (response) {
+                if (response.status == 200) {
+                    console.log(response);
+                    $scope.data = response.data.data;
+                    console.log($scope.data);
+                } else {
+                    notification.error("Email atau password salah");
+                }
+            });
+    };
+    $scope.getJuri($scope.index);
+    $scope.getActive = function (index) {
+        if (index == $scope.index - 1)
+            return 'active';
+        else
+            return ''
+    };
+    $scope.nextPage = function () {
+        if ($scope.index < $scope.data.last_page)
+            $scope.index += 1;
+        $scope.getJuri($scope.index);
+    }
+    $scope.prevPage = function () {
+        if ($scope.index > 1)
+            $scope.index -= 1;
+        $scope.getJuri($scope.index);
+    }
+    $scope.indexPage = function (index) {
+        $scope.index = index;
+        $scope.getJuri($scope.index);
+    }
 
+
+    $scope.getData = function (index) {
+        httpRequest
+            .get(api_url + "admin/users/" + index, {}, session_get.utoken())
+            .then(function (response) {
+                if (response.status == 200) {
+                    console.log(response);
+                    $scope.dataUser = response.data.data;
+                    console.log($scope.data);
+                    $('#formEdit').modal('show');
+                } else {
+                    notification.error("Email atau password salah");
+                }
+            });
+    }
+    $scope.tambahData = function () {
+        $scope.form.role_id = "2";
+        httpRequest
+            .post(api_url + "admin/users", $scope.form, session_get.utoken())
+            .then(function (response) {
+                console.log(response);
+                if (response.status == 200) {
+                    $scope.getJuri($scope.index);
+                    $('#formAdd').modal('hide');
+                } else {
+                    notification.error("Email atau password salah");
+                }
+            });
+    }
+    $scope.openAdd = function(){
+        $('#formAdd').modal('show');
+    }
 });
 
 app.controller("superadmin/submission", function ($scope, $rootScope, $routeParams, httpRequest, notification) {
 
 });
-
-app.controller("profile", function ($scope, $rootScope, $routeParams, httpRequest, notification) {
-
-});
-
-
-
-app.controller("questionnaire", function ($scope, $rootScope, $routeParams, httpRequest, notification, base_url) {
-    $scope.questionData = {};
-
-    $scope.currentTab = 0; // Current tab is set to be the first tab (0)
-    $scope.getQuisioner = function (index) {
-        httpRequest
-            .get(base_url + "user/submissions", {
-                page: index
-            })
-            .then(function (response) {
-                if (response.data.status == 'success') {
-                    $scope.questionData = response.data.data[0];
-                    console.log($scope.questionData);
-                }
-            })
-    };
-    $scope.getQuisioner($scope.currentTab + 1);
-
-
-    $scope.fixStepIndicator = function (n) {
-        // This function removes the "active" class of all steps...
-        var i,
-            x = document.getElementsByClassName("step");
-        for (i = 0; i < x.length; i++) {
-            x[i].className = x[i].className.replace(" step-active", "");
-        }
-        //... and adds the "active" class on the current step:
-        x[n].className += " step-active";
-    }
-
-    $scope.showTab = function (n) {
-        // This function will display the specified tab of the form...
-        var x = document.getElementsByClassName("tab");
-        x[n].style.display = "block";
-        //... and fix the Previous/Next buttons:
-        if (n == 0) {
-            document.getElementById("prevBtn").style.display = "none";
-        } else {
-            document.getElementById("prevBtn").style.display = "inline";
-        }
-        if (n == x.length - 1) {
-            document.getElementById("nextBtn").innerHTML = "Submit";
-        } else {
-            document.getElementById("nextBtn").innerHTML = "Next";
-        }
-        //... and run a function that will display the correct step indicator:
-        $scope.fixStepIndicator(n);
-    }
-
-    $scope.showTab($scope.currentTab); // Display the current tab
-
-    $scope.nextPrev = function (n) {
-        // This function will figure out which tab to display
-        var x = document.getElementsByClassName("tab");
-        // Exit the function if any field in the current tab is invalid:
-        if (n == 1 && !validateForm()) return false;
-        // Hide the current tab:
-        x[$scope.currentTab].style.display = "none";
-        // Increase or decrease the current tab by 1:
-        $scope.currentTab = $scope.currentTab + n;
-        // if you have reached the end of the form...
-        if ($scope.currentTab >= x.length) {
-            // ... the form gets submitted:
-            document.getElementById("regForm").submit();
-            return false;
-        }
-        // Otherwise, display the correct tab:
-        $scope.showTab($scope.currentTab);
-
-        $scope.getQuisioner($scope.currentTab + 1);
-    };
-
-    function validateForm() {
-        // This function deals with validation of the form fields
-        var x,
-            y,
-            i,
-            valid = true;
-        x = document.getElementsByClassName("tab");
-        y = x[$scope.currentTab].getElementsByTagName("input");
-        // A loop that checks every input field in the current tab:
-        for (i = 0; i < y.length; i++) {
-            // If a field is empty...
-            if (y[i].value == "") {
-                // add an "invalid" class to the field:
-                y[i].className += " is-invalid";
-                // and set the current valid status to false
-                valid = false;
-            }
-        }
-        // If the valid status is true, mark the step as finished and valid:
-        if (valid) {
-            document.getElementsByClassName("step")[$scope.currentTab].className +=
-                " step-success";
-        }
-        return valid; // return the valid status
-    }
-});
-
-
-app.controller("NavbarUser", function ($scope, $location) {
-    $scope.isActive = function (viewLocation) {
-        return viewLocation === $location.path();
-    };
-});
-
-app.controller("list-kuisioner", function () {});
