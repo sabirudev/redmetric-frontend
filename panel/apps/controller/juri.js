@@ -1,8 +1,5 @@
-app.controller("juri/sidebar", function ($scope, $rootScope, $routeParams, httpRequest, notification, roles, $location) {
-    $scope.logoutSession = function () {
-        sessionStorage.removeItem('login');
-        location.replace('/panel');
-    }
+app.controller("juri/sidebar", function ($scope, $rootScope, $routeParams, httpRequest, notification, roles, $location, ) {
+
     $scope.getClass = function (path) {
         return ($location.path() == path) ? 'active' : ''
     }
@@ -14,22 +11,28 @@ app.controller("juri/sidebar", function ($scope, $rootScope, $routeParams, httpR
     $scope.showSidebar = function (name) {
         console.log(name);
         if (name == "/panel/juri/") {
-            $scope.sidebarContentUrl = "/panel/pages/juri/dashboard.html";
+            $scope.sidebarContentUrl = "panel/pages/juri/dashboard.html";
         } else if (name == "/panel/juri/list-juri") {
-            $scope.sidebarContentUrl = "/panel/pages/juri/list-juri.html";
+            $scope.sidebarContentUrl = "panel/pages/juri/list-juri.html";
         }
     };
     $scope.showSidebar($location.path());
 });
 
-app.controller("juri/home", function ($scope, $rootScope, $routeParams, httpRequest, notification) {
-
+app.controller("juri/home", function ($scope, $rootScope, $routeParams, httpRequest, notification, session_break) {
+    $scope.logoutSession = function () {
+        session_break.reset();
+    }
 });
 
 
-app.controller("juri/list-juri", function ($scope, $rootScope, $routeParams, httpRequest, notification) {
-
+app.controller("juri/list-juri", function ($scope, $rootScope, $routeParams, httpRequest, notification, session_break) {
+    $scope.logoutSession = function () {
+        session_break.reset();
+    }
 });
+
+
 
 // app.controller("questionnaire", function ($scope, $rootScope, $routeParams, httpRequest, notification, base_url) {
 //     $scope.questionData = {};
