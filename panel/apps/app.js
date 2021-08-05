@@ -74,6 +74,10 @@ app.config(function ($routeProvider, $locationProvider) {
             templateUrl: "panel/pages/superadmin/home.html",
             controller: "superadmin/juri",
         })
+        .when("/panel/superadmin/admin", {
+            templateUrl: "panel/pages/superadmin/home.html",
+            controller: "superadmin/admin",
+        })
         .when("/panel/superadmin/submission", {
             templateUrl: "panel/pages/superadmin/home.html",
             controller: "superadmin/submission",

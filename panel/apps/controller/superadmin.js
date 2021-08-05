@@ -15,9 +15,11 @@ app.controller("superadmin/sidebar", function ($scope, $rootScope, $routeParams,
         if (name == "/panel/superadmin/") {
             $scope.sidebarContentUrl = "panel/pages/superadmin/dashboard.html";
         } else if (name == "/panel/superadmin/juri") {
-            $scope.sidebarContentUrl = "panel/pages/superadmin/juri.html?v=1";
+            $scope.sidebarContentUrl = "panel/pages/superadmin/juri.html?v=2";
         } else if (name == "/panel/superadmin/vilagers") {
-            $scope.sidebarContentUrl = "panel/pages/superadmin/user.html";
+            $scope.sidebarContentUrl = "panel/pages/superadmin/user.html?v=2";
+        }else if (name == "/panel/superadmin/admin") {
+            $scope.sidebarContentUrl = "panel/pages/superadmin/admin.html?v=1";
         }
     };
     $scope.showSidebar($location.path());
@@ -101,6 +103,22 @@ app.controller("superadmin/vilagers", function ($scope, $rootScope, $routeParams
     $scope.openAdd = function(){
         $('#formAdd').modal('show');
     }
+    $scope.editData = function () {
+        $scope.edit = {};
+        $scope.edit.name = $scope.dataUser.name;
+        $scope.edit.email = $scope.dataUser.email;
+        httpRequest
+            .put(api_url + "admin/users/" + $scope.dataUser.id, $scope.edit, session_get.utoken())
+            .then(function (response) {
+                if (response.status == 200) {
+                    notification.success("Sukses Edit data");
+                    $scope.getVillagers($scope.index);
+                    $('#formEdit').modal('hide');
+                } else {
+                    notification.error("Email atau password salah");
+                }
+            });
+    }
 });
 
 app.controller("superadmin/juri", function ($scope, $rootScope, $routeParams, httpRequest, notification, api_url, session_get) {
@@ -160,6 +178,22 @@ app.controller("superadmin/juri", function ($scope, $rootScope, $routeParams, ht
                 }
             });
     }
+    $scope.editData = function () {
+        $scope.edit = {};
+        $scope.edit.name = $scope.dataUser.name;
+        $scope.edit.email = $scope.dataUser.email;
+        httpRequest
+            .put(api_url + "admin/users/" + $scope.dataUser.id, $scope.edit, session_get.utoken())
+            .then(function (response) {
+                if (response.status == 200) {
+                    notification.success("Sukses Edit data");
+                    $scope.getJuri($scope.index);
+                    $('#formEdit').modal('hide');
+                } else {
+                    notification.error("Email atau password salah");
+                }
+            });
+    }
     $scope.tambahData = function () {
         $scope.form.role_id = "2";
         httpRequest
@@ -176,6 +210,99 @@ app.controller("superadmin/juri", function ($scope, $rootScope, $routeParams, ht
     }
     $scope.openAdd = function(){
         $('#formAdd').modal('show');
+    }
+});
+
+app.controller("superadmin/admin", function ($scope, $rootScope, $routeParams, httpRequest, notification, api_url, session_get) {
+    $scope.index = 1;
+    $scope.data = {};
+    $scope.form={};
+    $scope.getAdmin = function (index) {
+        httpRequest
+            .get(api_url + "admin/users", {
+                "r": 1,
+                "page": index
+            }, session_get.utoken())
+            .then(function (response) {
+                if (response.status == 200) {
+                    console.log(response);
+                    $scope.data = response.data.data;
+                    console.log($scope.data);
+                } else {
+                    notification.error("Email atau password salah");
+                }
+            });
+    };
+    $scope.getAdmin($scope.index);
+    $scope.getActive = function (index) {
+        if (index == $scope.index - 1)
+            return 'active';
+        else
+            return ''
+    };
+    $scope.nextPage = function () {
+        if ($scope.index < $scope.data.last_page)
+            $scope.index += 1;
+        $scope.getAdmin($scope.index);
+    }
+    $scope.prevPage = function () {
+        if ($scope.index > 1)
+            $scope.index -= 1;
+        $scope.getAdmin($scope.index);
+    }
+    $scope.indexPage = function (index) {
+        $scope.index = index;
+        $scope.getAdmin($scope.index);
+    }
+
+
+    $scope.getData = function (index) {
+        httpRequest
+            .get(api_url + "admin/users/" + index, {}, session_get.utoken())
+            .then(function (response) {
+                if (response.status == 200) {
+                    console.log(response);
+                    $scope.dataUser = response.data.data;
+                    console.log($scope.data);
+                    $('#formEdit').modal('show');
+                } else {
+                    notification.error("Email atau password salah");
+                }
+            });
+    }
+    $scope.tambahData = function () {
+        $scope.form.role_id = "1";
+        httpRequest
+            .post(api_url + "admin/users", $scope.form, session_get.utoken())
+            .then(function (response) {
+                console.log(response);
+                if (response.status == 200) {
+                    $scope.getAdmin($scope.index);
+                    $('#formAdd').modal('hide');
+                } else {
+                    notification.error("Email atau password salah");
+                }
+            });
+    }
+    $scope.openAdd = function(){
+        $('#formAdd').modal('show');
+    }
+
+    $scope.editData = function () {
+        $scope.edit = {};
+        $scope.edit.name = $scope.dataUser.name;
+        $scope.edit.email = $scope.dataUser.email;
+        httpRequest
+            .put(api_url + "admin/users/" + $scope.dataUser.id, $scope.edit, session_get.utoken())
+            .then(function (response) {
+                if (response.status == 200) {
+                    notification.success("Sukses Edit data");
+                    $scope.getAdmin($scope.index);
+                    $('#formEdit').modal('hide');
+                } else {
+                    notification.error("Email atau password salah");
+                }
+            });
     }
 });
 
