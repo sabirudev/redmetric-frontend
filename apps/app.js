@@ -5,12 +5,12 @@ let __env = {};
 if (window) {
     Object.assign(__env, window.__env);
 }
-
+const _NODE_ENV = __env.enableDebug ? 'DEV' : 'PROD'
 app = angular.module("home", ["ngRoute", "ngSanitize"]);
-app.constant('ENVIRONMENT', 'DEV')
+app.constant('ENVIRONMENT', _NODE_ENV)
     .service('urls', function (ENVIRONMENT) {
         this.apiUrl = (ENVIRONMENT == 'DEV') ? __env.dev_apiUrl : __env.apiUrl;
-        this.baseUrl = (ENVIRONMENT == 'DEV') ? __env.dev_baseUrl : __env.dev.baseUrl;
+        this.baseUrl = (ENVIRONMENT == 'DEV') ? __env.dev_baseUrl : __env.baseUrl;
     });
 app.config(function ($routeProvider, $locationProvider) {
     $routeProvider
