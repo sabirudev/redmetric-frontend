@@ -54,11 +54,15 @@ app.config(function ($routeProvider, $locationProvider) {
         //juri
         .when("/panel/juri/", {
             templateUrl: "panel/pages/juri/home.html",
-            controller: "juri/home",
+            controller: "juri/list-juri",
         })
         .when("/panel/juri/list-juri", {
             templateUrl: "panel/pages/juri/home.html",
             controller: "juri/list-juri",
+        })
+        .when("/panel/juri/detail-submission", {
+            templateUrl: "panel/pages/juri/home.html",
+            controller: "juri/detail_submission",
         })
 
         //superadmin
@@ -81,6 +85,10 @@ app.config(function ($routeProvider, $locationProvider) {
         .when("/panel/superadmin/submission", {
             templateUrl: "panel/pages/superadmin/home.html",
             controller: "superadmin/submission",
+        })
+        .when("/panel/superadmin/period", {
+            templateUrl: "panel/pages/superadmin/home.html",
+            controller: "superadmin/periode",
         })
 
     // .otherwise({
