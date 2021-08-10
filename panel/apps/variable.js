@@ -61,6 +61,11 @@ app.factory("session_break", function (httpRequest, session_get, api_url) {
                     sessionStorage.removeItem("roles");
                     sessionStorage.removeItem("userdata");
                     return location.replace("/panel");
+                }else{
+                    sessionStorage.removeItem("token");
+                    sessionStorage.removeItem("roles");
+                    sessionStorage.removeItem("userdata");
+                    return location.replace("/panel");
                 }
             })
         }

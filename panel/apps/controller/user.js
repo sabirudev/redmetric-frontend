@@ -21,7 +21,7 @@ app.controller("user/navbar", function ($scope, $rootScope, $routeParams, httpRe
         if (name == "/panel/user") {
             $scope.sidebarContentUrl = "panel/pages/user/dashboard.html?v=2";
         } else if (name == "/panel/user/submission") {
-            $scope.sidebarContentUrl = "panel/pages/user/submission.html?v=6";
+            $scope.sidebarContentUrl = "panel/pages/user/submission.html?v=7";
         } else if (name == "/panel/user/profile") {
             $scope.sidebarContentUrl = "panel/pages/user/profile.html?v=10";
         }
@@ -67,11 +67,21 @@ app.controller("user/home", function ($scope, $rootScope, $routeParams, httpRequ
 
 });
 
-app.controller("user/submission", function ($scope, $rootScope, $routeParams, httpRequest, notification, session_break, $window) {
+app.controller("user/submission", function ($scope, $rootScope, $routeParams, httpRequest, notification, session_break, $window, api_url, session_get) {
     $scope.logoutSession = function () {
         session_break.reset();
     }
-
+    $scope.getData = function () {
+        httpRequest
+            .get(api_url + "user/submissions/my/index", {}, session_get.utoken())
+            .then(function (response) {
+                if (response.status == 200) {
+                    $scope.dataSubmission = response.data.data;
+                    console.log($scope.dataSubmission);
+                }
+            });
+    };
+    $scope.getData();
 });
 
 app.controller("user/profile", function ($scope, $rootScope, $routeParams, httpRequest, notification, api_url, session_get, $filter, session_break, $http) {
