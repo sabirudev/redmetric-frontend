@@ -6,14 +6,13 @@ if (window) {
     Object.assign(__env, window.__env);
 }
 const _NODE_ENV = __env.enableDebug ? 'DEV' : 'PROD'
+
 app = angular.module("panel", ["ngRoute", "ngSanitize"]);
 app.constant('ENVIRONMENT', _NODE_ENV)
     .service('urls', function (ENVIRONMENT) {
         this.apiUrl = (ENVIRONMENT == 'DEV') ? __env.dev_apiUrl : __env.apiUrl;
         this.baseUrl = (ENVIRONMENT == 'DEV') ? __env.dev_baseUrl : __env.baseUrl;
     });
-
-app = angular.module("panel", ["ngRoute", "ngSanitize"]);
 app.config(function ($routeProvider, $locationProvider) {
     $routeProvider
         .when("/panel", {

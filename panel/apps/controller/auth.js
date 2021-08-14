@@ -6,7 +6,7 @@ app.controller("login", function ($scope, $rootScope, $routeParams, httpRequest,
             $window.location.href = session_check;
         }
     }
-    $scope.checkLSession();
+    // $scope.checkLSession();
 
     $scope.login = function () {
         httpRequest

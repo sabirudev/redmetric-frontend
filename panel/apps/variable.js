@@ -72,7 +72,7 @@ app.factory("session_break", function (httpRequest, session_get, api_url) {
     }
 })
 
-app.factory("session_check", function () {
+app.service("session_check", function () {
     if (sessionStorage.getItem("roles") != null) {
         if (sessionStorage.getItem("roles") == 1) {
             return "https://redmetric.i-kuy.com/panel/superadmin";
