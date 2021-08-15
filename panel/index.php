@@ -4,6 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>Redmetric Panel</title>
     <link rel="icon" href="/public/assets/favicon.ico" type="image/x-icon" />
 
@@ -55,10 +58,10 @@
 
     <script src="/panel/apps/app.js" id="versionapp"></script>
     <script src="/panel/apps/controller.js" id="versioncontroller"></script>
-    <script src="/panel/apps/variable.js?v=1" id="versioncontroller"></script>
-    <script src="/panel/apps/controller/auth.js?v=4" id="versioncontroller"></script>
+    <script src="/panel/apps/variable.js" id="versioncontroller"></script>
+    <script src="/panel/apps/controller/auth.js" id="versioncontroller"></script>
     <script src="/panel/apps/controller/juri.js" id="versioncontroller"></script>
-    <script src="/panel/apps/controller/user.js?v=0" id="versioncontroller"></script>
+    <script src="/panel/apps/controller/user.js" id="versioncontroller"></script>
     <script src="/panel/apps/controller/superadmin.js" id="versioncontroller"></script>
     <script src="env.js"></script>
     <!-- <link rel="stylesheet" href="/public/assets/css/custom.css?v=123" /> -->
