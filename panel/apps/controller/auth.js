@@ -1,12 +1,10 @@
 app.controller("login", function ($scope, $rootScope, $routeParams, httpRequest, notification, session_set, api_url, $window, session_check, session_get) {
     $scope.checkLSession = function () {
-        if ($window.location.href != session_check){
-            console.log($window.location.href);
-            console.log(session_check);
-            $window.location.href = session_check;
+        if (session_get.uroles() !=null){
+            $window.location = session_check.roles(session_get.uroles());
         }
     }
-    // $scope.checkLSession();
+    $scope.checkLSession();
 
     $scope.login = function () {
         httpRequest
@@ -41,9 +39,12 @@ app.controller("login", function ($scope, $rootScope, $routeParams, httpRequest,
 });
 
 app.controller("register", function ($scope, $rootScope, $routeParams, httpRequest, notification, base_url, api_url, $window, session_set) {
-    if (sessionStorage.getItem("login") != null) {
-        location.replace('/dashboard');
+    $scope.checkLSession = function () {
+        if (session_get.uroles() !=null){
+            $window.location = session_check.roles(session_get.uroles());
+        }
     }
+    $scope.checkLSession();
     $scope.data = {};
 
     $scope.register = function () {
@@ -70,6 +71,12 @@ app.controller("register", function ($scope, $rootScope, $routeParams, httpReque
 });
 
 app.controller("forgotpassword", function ($scope, $rootScope, $routeParams, httpRequest, notification, $window, api_url) {
+    $scope.checkLSession = function () {
+        if (session_get.uroles() !=null){
+            $window.location = session_check.roles(session_get.uroles());
+        }
+    }
+    $scope.checkLSession();
     $scope.forgetPassword = function () {
         httpRequest
             .post(api_url + "membership/reset", $scope.form)

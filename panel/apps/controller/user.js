@@ -1,13 +1,10 @@
 app.controller("user/navbar", function ($scope, urls, $routeParams, httpRequest, notification, roles, $location, session_check, $window, session_get, session_break) {
     $scope.checkLSession = function () {
-        if ($window.location.href != session_check) {
-            console.log($window.location.href);
-            console.log(session_get.uroles());
-
-            $window.location.href = session_check;
+        if (session_get.uroles() != 2){
+            $window.location = session_check.roles(session_get.uroles());
         }
     }
-    console.log(urls);
+    $scope.checkLSession();
     // $scope.checkLSession();
 
     $scope.logoutSession = function () {

@@ -1,5 +1,10 @@
-app.controller("juri/sidebar", function ($scope, $rootScope, $routeParams, httpRequest, notification, roles, $location, ) {
-
+app.controller("juri/sidebar", function ($scope, $rootScope, $routeParams, httpRequest, notification, $window, $location, session_get, session_check) {
+    $scope.checkLSession = function () {
+        if (session_get.uroles() != 3){
+            $window.location = session_check.roles(session_get.uroles());
+        }
+    }
+    $scope.checkLSession();
     $scope.getClass = function (path) {
         return ($location.path() == path) ? 'active' : ''
     }

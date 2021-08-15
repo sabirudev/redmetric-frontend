@@ -1,5 +1,5 @@
 // Default environment variables
-let __env = {};
+var __env = {};
 
 // Import variables if present
 if (window) {

@@ -1,4 +1,11 @@
-app.controller("superadmin/sidebar", function ($scope, $rootScope, $routeParams, httpRequest, notification, roles, $location, session_break) {
+app.controller("superadmin/sidebar", function ($scope, $rootScope, $routeParams, httpRequest, notification, $window, $location, session_break, session_get, session_check) {
+    $scope.checkLSession = function () {
+        if (session_get.uroles() != 1){
+            $window.location = session_check.roles(session_get.uroles());
+        }
+    }
+    $scope.checkLSession();
+
     $scope.logoutSession = function () {
         session_break.reset();
     }
