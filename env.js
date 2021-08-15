@@ -23,11 +23,11 @@
   // For demo purposes we fetch from local file in this plunk
   // In your application this can be a url like https://api.github.com
   window.__env.apiUrl = 'https://apiredmetric.i-kuy.com/api/';
-  window.__env.baseUrl = 'https://redmetric.i-kuy.com';
+  window.__env.baseUrl = 'https://redmetric.i-kuy.com/panel/';
   window.__env.dev_apiUrl = 'https://apiredmetric.i-kuy.com/api/';
-  window.__env.dev_baseUrl = 'http://localhost:3000';
+  window.__env.dev_baseUrl = 'https://redmetric.i-kuy.com/panel/';
 
   // Whether or not to enable debug mode
   // Setting this to false will disable console output
-  window.__env.enableDebug = true;
+  window.__env.enableDebug = false;
 }(this));

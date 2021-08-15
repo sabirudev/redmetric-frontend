@@ -15,7 +15,7 @@
                         <div class="form-group">
                             <label for="tanggalberdiri">Tanggal Berdiri</label>
                             <input type="date" id="kepaladesa" class="form-control" placeholder=""
-                                ng-model="village.since" date-field>
+                                ng-model="village.since" date-field format-date>
                         </div>
                     </div>
                     <div class="col-12">
@@ -131,7 +131,11 @@
                             <label for="ktp">Unggah Identitas Penduduk (KTP)</label>
                             <input required accept=".jpg, .png, .jpeg, .pdf" class="form-control" type="file" id="ktp">
                         </div>
-                        <button class="btn btn-primary" type="submit">Unggah</button>
+                        <div class="d-flex">
+                            <button class="btn btn-primary" type="submit">Unggah</button>
+                            <a class="btn btn-primary ms-2" ng-click="documentKTP()">Lihat Dokumen</a>
+                        </div>
+
                     </form>
                 </div>
                 <div class="col-12">
@@ -140,7 +144,10 @@
                             <label for="suratdesa">Unggah Surat Tugas Desa</label>
                             <input required accept=".jpg, .png, .jpeg, .pdf" class="form-control" type="file" id="st">
                         </div>
-                        <button class="btn btn-primary" type="submit">Unggah</button>
+                        <div class="d-flex">
+                            <button class="btn btn-primary" type="submit">Unggah</button>
+                            <a class="btn btn-primary ms-2" href="" target="_blank">Lihat Dokumen</a>
+                        </div>
                     </form>
                 </div>
             </div>

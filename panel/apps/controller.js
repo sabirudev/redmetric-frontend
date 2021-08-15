@@ -10,8 +10,6 @@ app.controller("profile", function ($scope, $rootScope, $routeParams, httpReques
 
 });
 
-
-
 app.controller("questionnaire", function ($scope, $rootScope, $routeParams, httpRequest, notification, base_url) {
     $scope.questionData = {};
 
@@ -117,5 +115,3 @@ app.controller("NavbarUser", function ($scope, $location) {
         return viewLocation === $location.path();
     };
 });
-
-app.controller("list-kuisioner", function () {});

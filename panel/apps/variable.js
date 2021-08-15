@@ -61,25 +61,29 @@ app.factory("session_break", function (httpRequest, session_get, api_url) {
                     sessionStorage.removeItem("roles");
                     sessionStorage.removeItem("userdata");
                     return location.replace("/panel");
+                } else {
+                    sessionStorage.removeItem("token");
+                    sessionStorage.removeItem("roles");
+                    sessionStorage.removeItem("userdata");
+                    return location.replace("/panel");
                 }
             })
         }
     }
-})
+});
 
-app.factory("session_check", function (urls) {
-    if (sessionStorage.getItem("roles") != null) {
-        if (sessionStorage.getItem("roles") == 1) {
-            return `${urls.baseUrl}/panel/superadmin`;
-
-        } else if (sessionStorage.getItem("roles") == 2) {
-            return `${urls.baseUrl}/panel/user`;
-
-        } else if (sessionStorage.getItem("roles") == 3) {
-            return `${urls.baseUrl}/panel/juri`;
-
+app.service("session_check", function (urls, session_break) {
+    return {
+        roles: function (index) {
+                if (index == 1) {
+                    return urls.baseUrl + "superadmin";
+                } else if (index == 2) {
+                    return urls.baseUrl + "user";
+                } else if (index == 3) {
+                    return urls.baseUrl + "juri";
+                }else{
+                   return urls.baseUrl;
+                }
+            }
         }
-    } else {
-        return `${urls.baseUrl}/panel`;
-    }
-})
+});

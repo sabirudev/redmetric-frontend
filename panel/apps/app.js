@@ -1,11 +1,12 @@
 // Default environment variables
-let __env = {};
+var __env = {};
 
 // Import variables if present
 if (window) {
     Object.assign(__env, window.__env);
 }
 const _NODE_ENV = __env.enableDebug ? 'DEV' : 'PROD'
+
 app = angular.module("panel", ["ngRoute", "ngSanitize"]);
 app.constant('ENVIRONMENT', _NODE_ENV)
     .service('urls', function (ENVIRONMENT) {
@@ -50,9 +51,17 @@ app.config(function ($routeProvider, $locationProvider) {
         })
 
         //juri
-        .when("/panel/juri/list-questionnaire", {
-            templateUrl: "panel/pages/juri/list-kuisioner.html",
-            controller: "list-kuisioner",
+        .when("/panel/juri/", {
+            templateUrl: "panel/pages/juri/home.html",
+            controller: "juri/list-juri",
+        })
+        .when("/panel/juri/list-juri", {
+            templateUrl: "panel/pages/juri/home.html",
+            controller: "juri/list-juri",
+        })
+        .when("/panel/juri/detail-submission", {
+            templateUrl: "panel/pages/juri/home.html",
+            controller: "juri/detail_submission",
         })
 
         //superadmin
@@ -68,9 +77,17 @@ app.config(function ($routeProvider, $locationProvider) {
             templateUrl: "panel/pages/superadmin/home.html",
             controller: "superadmin/juri",
         })
+        .when("/panel/superadmin/admin", {
+            templateUrl: "panel/pages/superadmin/home.html",
+            controller: "superadmin/admin",
+        })
         .when("/panel/superadmin/submission", {
             templateUrl: "panel/pages/superadmin/home.html",
             controller: "superadmin/submission",
+        })
+        .when("/panel/superadmin/period", {
+            templateUrl: "panel/pages/superadmin/home.html",
+            controller: "superadmin/periode",
         })
 
     // .otherwise({

@@ -1,12 +1,10 @@
-app.controller("user/navbar", function ($scope, $rootScope, $routeParams, httpRequest, notification, roles, $location, session_check, $window, session_get, session_break) {
+app.controller("user/navbar", function ($scope, urls, $routeParams, httpRequest, notification, roles, $location, session_check, $window, session_get, session_break) {
     $scope.checkLSession = function () {
-        if ($window.location.href != session_check) {
-            console.log($window.location.href);
-            console.log(session_get.uroles());
-
-            $window.location.href = session_check;
+        if (session_get.uroles() != 2){
+            $window.location = session_check.roles(session_get.uroles());
         }
     }
+    $scope.checkLSession();
     // $scope.checkLSession();
 
     $scope.logoutSession = function () {
@@ -19,11 +17,11 @@ app.controller("user/navbar", function ($scope, $rootScope, $routeParams, httpRe
 
     $scope.showSidebar = function (name) {
         if (name == "/panel/user") {
-            $scope.sidebarContentUrl = "panel/pages/user/dashboard.html?v=1";
+            $scope.sidebarContentUrl = "panel/pages/user/dashboard.html?v=2";
         } else if (name == "/panel/user/submission") {
-            $scope.sidebarContentUrl = "panel/pages/user/submission.html?v=6";
+            $scope.sidebarContentUrl = "panel/pages/user/submission.html?v=7";
         } else if (name == "/panel/user/profile") {
-            $scope.sidebarContentUrl = "panel/pages/user/profile.html?v=3";
+            $scope.sidebarContentUrl = "panel/pages/user/profile.html?v=10";
         }
     };
     $scope.showSidebar($location.path());
@@ -43,8 +41,19 @@ app.controller("user/home", function ($scope, $rootScope, $routeParams, httpRequ
                     $scope.villageData = response.data.data;
                     if ($scope.villageData.village == null)
                         $('#modalProfile').modal('show');
-                    else
-                        $window.location.href = '/panel/user/questionnaire';
+                    else{
+                            httpRequest.get(api_url + "user/submissions", {}, session_get.utoken()).then(function (response) {
+                                if (response.status == 200) {
+                                    if(response.data.status == 'success'){
+                                        $window.location.href = '/panel/user/questionnaire'
+                                    }else{
+                                        $('#modalPeriod').modal('show');
+                                    }
+                                } else {
+                                }
+                            });
+
+                    }
 
                 }
             });
@@ -56,14 +65,24 @@ app.controller("user/home", function ($scope, $rootScope, $routeParams, httpRequ
 
 });
 
-app.controller("user/submission", function ($scope, $rootScope, $routeParams, httpRequest, notification, session_break) {
+app.controller("user/submission", function ($scope, $rootScope, $routeParams, httpRequest, notification, session_break, $window, api_url, session_get) {
     $scope.logoutSession = function () {
         session_break.reset();
     }
-
+    $scope.getData = function () {
+        httpRequest
+            .get(api_url + "user/submissions/my/index", {}, session_get.utoken())
+            .then(function (response) {
+                if (response.status == 200) {
+                    $scope.dataSubmission = response.data.data;
+                    console.log($scope.dataSubmission);
+                }
+            });
+    };
+    $scope.getData();
 });
 
-app.controller("user/profile", function ($scope, $rootScope, $routeParams, httpRequest, notification, api_url, session_get, $filter, session_break) {
+app.controller("user/profile", function ($scope, $rootScope, $routeParams, httpRequest, notification, api_url, session_get, $filter, session_break, $http) {
     $scope.logoutSession = function () {
         location.replace(session_break.reset());
     }
@@ -89,11 +108,78 @@ app.controller("user/profile", function ($scope, $rootScope, $routeParams, httpR
                     if ($scope.dataDesa.village != null) {
                         $scope.village = $scope.dataDesa.village;
                     }
-                    // console.log($scope.dataDesa);
+                    console.log($scope.dataDesa);
                 }
             });
     }
     $scope.dataDesaGet();
+    $scope.getKTP ={};
+    $scope.getProfileUser = function () {
+        httpRequest
+            .get(api_url + "membership", {}, session_get.utoken())
+            .then(function (response) {
+                if (response.status == 200) {
+                    $scope.getKTP = response.data.data.membership.identities[0];
+                    console.log($scope.getKTP);
+                }
+            });
+    }
+    $scope.getProfileUser();
+    $scope.documentKTP = function () {
+        $http({
+            headers: {
+                Authorization: "Bearer " + session_get.utoken(),
+                Accept: "application/json",
+            },
+            method: 'GET',
+            url: api_url + "membership/preview-identity/"+$scope.getKTP.id,
+            responseType: 'arraybuffer'
+          }).then(function(response) {
+            console.log(response);
+            var str = _arrayBufferToBase64(response.data);
+            console.log(str);
+            var image = new Image();
+            image.src = "data:image/jpg;base64," + str;
+            var w = window.open("");
+            w.document.write(image.outerHTML);
+            // str is base64 encoded.
+          }, function(response) {
+            console.error('error in getting static img.');
+          });
+    }
+
+    $scope.documentST = function () {
+        $http({
+            headers: {
+                Authorization: "Bearer " + session_get.utoken(),
+                Accept: "application/json",
+            },
+            method: 'GET',
+            url: api_url + "membership/preview-identity/"+$scope.profileData.id,
+            responseType: 'arraybuffer'
+          }).then(function(response) {
+            console.log(response);
+            var str = _arrayBufferToBase64(response.data);
+            console.log(str);
+            var image = new Image();
+            image.src = "data:image/jpg;base64," + str;
+            var w = window.open("");
+            w.document.write(image.outerHTML);
+            // str is base64 encoded.
+          }, function(response) {
+            console.error('error in getting static img.');
+          });
+    }
+
+    function _arrayBufferToBase64(buffer) {
+        var binary = '';
+        var bytes = new Uint8Array(buffer);
+        var len = bytes.byteLength;
+        for (var i = 0; i < len; i++) {
+          binary += String.fromCharCode(bytes[i]);
+        }
+        return window.btoa(binary);
+      }
 
     $scope.uploadKTP = function () {
         console.log('jalan');
@@ -259,27 +345,28 @@ app.controller("user/questionnaire", function ($scope, $rootScope, $routeParams,
         //... and adds the "active" class on the current step:
         x[n].className += " step-active";
     }
+    $scope.fixStepIndicator(0);
 
     $scope.showTab = function (n) {
         // This function will display the specified tab of the form...
-        var x = document.getElementsByClassName("tab");
-        x[n].style.display = "block";
+        if(n==0){
+            var x = document.getElementsByClassName("tab");
+            x[n].style.display = "block";
+        }
         //... and fix the Previous/Next buttons:
-        if (n == 0) {
+        if (n == 0 || n == 1) {
             document.getElementById("prevBtn").style.display = "none";
         } else {
             document.getElementById("prevBtn").style.display = "inline";
         }
-        if (n == x.length - 1) {
-            document.getElementById("nextBtn").innerHTML = "Submit";
-
+        if (n <= 5) {
+            document.getElementById("nextBtn").innerHTML = "Lanjut";
+            document.getElementById("prevBtn").innerHTML = "Kembali";
         } else {
-            document.getElementById("nextBtn").innerHTML = "Next";
+            document.getElementById("nextBtn").innerHTML = "Selesai";
         }
         //... and run a function that will display the correct step indicator:
-        $scope.fixStepIndicator(n);
     }
-
     $scope.showTab($scope.currentTab); // Display the current tab
 
     $scope.nextPrev = function (n) {
@@ -290,8 +377,10 @@ app.controller("user/questionnaire", function ($scope, $rootScope, $routeParams,
         // Increase or decrease the current tab by 1:
         $scope.currentTab = $scope.currentTab + n;
         const nextPage = $scope.currentTab === 1 ? $scope.currentTab + 1 : $scope.currentTab
-        $scope.currentTab = nextPage
+        // $scope.currentTab = nextPage
         $scope.getQuisioner(nextPage);
+        console.log($scope.currentTab);
+        $scope.showTab(nextPage);
     };
 
     function validateForm() {
@@ -301,7 +390,7 @@ app.controller("user/questionnaire", function ($scope, $rootScope, $routeParams,
             if ($scope.currentTab === 0) {
                 document.getElementsByClassName("step")[$scope.currentTab].className +=
                     " step-success";
-                document.getElementsByClassName("step")[1].className +=
+                document.getElementsByClassName("step")[$scope.currentTab+1].className +=
                     " step-active";
             } else {
                 document.getElementsByClassName("step")[$scope.currentTab - 1].className +=
@@ -326,13 +415,28 @@ app.controller("user/questionnaire", function ($scope, $rootScope, $routeParams,
                     // if you have reached the end of the form...
                     if ($scope.currentTab > 6) {
                         // ... the form gets submitted:
-                        window.location.href = '/panel/user/questionnaire/thank-you'
+                        $scope.updateToPublish($scope.data.id);
                     }
                 } else {
                     notification.error(response.data.message);
                 }
             });
     };
+
+    $scope.updateToPublish = function(id){
+        httpRequest
+        .put(api_url + "user/submissions/"+id,{}, session_get.utoken())
+        .then(function (response) {
+            // console.log(response);
+            if (response.status == 200) {
+                $scope.data = response.data.data;
+                    // ... the form gets submitted:
+                    window.location.href = '/panel/user/questionnaire/thank-you'
+            } else {
+                notification.error(response.data.message);
+            }
+        });
+    }
 
     $scope.finish = function () {
         $('#modalFinish').modal('show');
@@ -352,3 +456,13 @@ app.directive('stringToNumber', function () {
         }
     };
 });
+app.directive("formatDate", function(){
+  return {
+   require: 'ngModel',
+    link: function(scope, elem, attr, modelCtrl) {
+      modelCtrl.$formatters.push(function(modelValue){
+        return new Date(modelValue);
+      })
+    }
+  }
+})

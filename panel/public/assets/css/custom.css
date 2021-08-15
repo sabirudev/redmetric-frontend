@@ -67,18 +67,23 @@ input {
   display: flex;
   overflow-x: auto;
 }
+
 .steps .step:first-child {
   margin-left: auto;
 }
+
 .steps .step:last-child {
   margin-right: auto;
 }
+
 .step:first-of-type .step-circle::before {
   display: none;
 }
+
 .step:last-of-type .step-content {
   padding-right: 0;
 }
+
 .step-content {
   box-sizing: content-box;
   display: flex;
@@ -90,6 +95,7 @@ input {
   padding-top: 0.5rem;
   padding-right: 2rem;
 }
+
 .step-circle {
   position: relative;
   display: flex;
@@ -102,6 +108,7 @@ input {
   border-radius: 100%;
   background-color: #fff;
 }
+
 .step-circle::before {
   content: "";
   display: block;
@@ -114,42 +121,97 @@ input {
   color: #adb5bd;
   background-color: currentColor;
 }
+
 .step-text {
   color: #adb5bd;
   word-break: break-all;
   margin-top: 0.25em;
 }
+
 .step-active .step-circle {
   color: #fff;
   background-color: #db292f;
   border-color: #db292f;
 }
+
 .step-active .step-circle::before {
   color: #db292f;
 }
+
 .step-active .step-text {
   color: #db292f;
 }
+
 .step-error .step-circle {
   color: #fff;
   background-color: #dc3545;
   border-color: #dc3545;
 }
+
 .step-error .step-circle::before {
   color: #dc3545;
 }
+
 .step-error .step-text {
   color: #dc3545;
 }
+
 .step-success .step-circle {
   color: #28a745;
   background-color: #fff;
   border-color: #28a745;
 }
+
 .step-success .step-circle::before {
   color: #28a745;
 }
+
 .step-success .step-text {
   color: #28a745;
 }
+
+form .likert {
+  list-style: none;
+  width: 100%;
+  margin: 0;
+  padding: 0 0 35px;
+  display: block;
+  border-bottom: 2px solid #efefef;
+}
+
+form .likert:last-of-type {
+  border-bottom: 0;
+}
+
+form .likert:before {
+  content: '';
+  position: relative;
+  top: 11px;
+  left: 9.5%;
+  display: block;
+  background-color: #efefef;
+  height: 4px;
+  width: 78%;
+}
+
+form .likert li {
+  display: inline-block;
+  width: 19%;
+  text-align: center;
+  vertical-align: top;
+}
+
+form .likert li input[type=radio] {
+  display: block;
+  position: relative;
+  top: 0;
+  left: 50%;
+  margin-left: -6px;
+
+}
+
+form .likert li label {
+  width: 100%;
+}
+
 /*# sourceMappingURL=bootstrap-steps.min.css.map */

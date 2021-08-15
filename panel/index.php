@@ -49,17 +49,18 @@
     <base href="/panel ">
 
 
-    <script src="../env.js"></script>
+
     <!-- <script src="/public/assets/js/select2.js"></script> -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
 
     <script src="/panel/apps/app.js" id="versionapp"></script>
     <script src="/panel/apps/controller.js" id="versioncontroller"></script>
-    <script src="/panel/apps/variable.js" id="versioncontroller"></script>
-    <script src="/panel/apps/controller/auth.js" id="versioncontroller"></script>
+    <script src="/panel/apps/variable.js?v=1" id="versioncontroller"></script>
+    <script src="/panel/apps/controller/auth.js?v=4" id="versioncontroller"></script>
     <script src="/panel/apps/controller/juri.js" id="versioncontroller"></script>
     <script src="/panel/apps/controller/user.js?v=0" id="versioncontroller"></script>
     <script src="/panel/apps/controller/superadmin.js" id="versioncontroller"></script>
+    <script src="env.js"></script>
     <!-- <link rel="stylesheet" href="/public/assets/css/custom.css?v=123" /> -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.css" rel="stylesheet">
 
@@ -80,6 +81,8 @@
     <script src="/panel/public/assets/vendors/fontawesome/all.min.js"></script>
     <script src="/panel/public/assets/vendors/simple-datatables/simple-datatables.js"></script>
     <script src="/panel/public/assets/vendors/apexcharts/apexcharts.js"></script>
+    <script src="https://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
 
 
 </head>
