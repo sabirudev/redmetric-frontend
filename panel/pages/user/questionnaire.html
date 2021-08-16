@@ -1,75 +1,79 @@
 <div class="container">
-    <div class="card mt-5">
-        <div class="card-body">
-            <form id="regForm" ng-submit="finish()">
-                <ul class="steps">
-                    <li class="step">
-                        <div class="step-content">
-                            <span class="step-circle">1</span>
-                            <span class="step-text">People</span>
-                        </div>
-                    </li>
-                    <li class="step">
-                        <div class="step-content">
-                            <span class="step-circle">2</span>
-                            <span class="step-text">Environment</span>
-                        </div>
-                    </li>
-                    <li class="step">
-                        <div class="step-content">
-                            <span class="step-circle">3</span>
-                            <span class="step-text">Economy</span>
-                        </div>
-                    </li>
-                    <li class="step">
-                        <div class="step-content">
-                            <span class="step-circle">4</span>
-                            <span class="step-text">Governance</span>
-                        </div>
-                    </li>
-                    <li class="step">
-                        <div class="step-content">
-                            <span class="step-circle">5</span>
-                            <span class="step-text">Infrastructure</span>
-                        </div>
-                    </li>
-                    <li class="step">
-                        <div class="step-content">
-                            <span class="step-circle">6</span>
-                            <span class="step-text">Living</span>
-                        </div>
-                    </li>
-                </ul>
-                <div class="mt-5">
-                    <div class="tab">
-                        <div class="row justify-content-between">
-                            <div class="col-6" ng-repeat="input in questionData">
-                                <label for="input{{input.id}}">{{input.label}}</label>
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="input-group mb-3">
-                                            <input type="number" id="input{{input.id}}" class="form-control"
-                                                ng-model="submitData.submissions[$index].value"
-                                                ng-on-keyup="onlyNumber($event)" />
-                                            <span class="input-group-text">{{input.unit}}</span>
-                                        </div>
+      <div class="card mt-5">
+            <div class="card-body">
+                  <form id="regForm" ng-submit="finish()">
+                        <ul class="steps">
+                              <li class="step">
+                                    <div class="step-content">
+                                          <span class="step-circle">1</span>
+                                          <span class="step-text">People</span>
                                     </div>
-                                </div>
-                            </div>
+                              </li>
+                              <li class="step">
+                                    <div class="step-content">
+                                          <span class="step-circle">2</span>
+                                          <span class="step-text">Environment</span>
+                                    </div>
+                              </li>
+                              <li class="step">
+                                    <div class="step-content">
+                                          <span class="step-circle">3</span>
+                                          <span class="step-text">Economy</span>
+                                    </div>
+                              </li>
+                              <li class="step">
+                                    <div class="step-content">
+                                          <span class="step-circle">4</span>
+                                          <span class="step-text">Governance</span>
+                                    </div>
+                              </li>
+                              <li class="step">
+                                    <div class="step-content">
+                                          <span class="step-circle">5</span>
+                                          <span class="step-text">Infrastructure</span>
+                                    </div>
+                              </li>
+                              <li class="step">
+                                    <div class="step-content">
+                                          <span class="step-circle">6</span>
+                                          <span class="step-text">Living</span>
+                                    </div>
+                              </li>
+                        </ul>
+                        <div class="mt-5">
+                              <div class="tab">
+                                    <div class="row justify-content-between">
+                                          <div class="col-12" ng-repeat="input in questionData">
+                                                <h5>{{input.indicator.code}}</h5>
+                                                <label for="input{{input.id}}">{{$index+1}}. {{input.label}}</label>
+                                                <div class="row">
+                                                      <div class="col-12">
+                                                            <div class="input-group mb-3">
+                                                                  <input type="number" id="input{{input.id}}"
+                                                                        class="form-control"
+                                                                        ng-model="submitData.submissions[$index].value"
+                                                                        ng-on-keyup="onlyNumber($event)" />
+                                                                  <span class="input-group-text">{{input.unit}}</span>
+                                                            </div>
+                                                      </div>
+                                                </div>
+                                          </div>
+                                    </div>
+                              </div>
+                              <div>
+                                    <div style="float: right">
+                                          <button type="button" id="prevBtn" class="btn btn-primary"
+                                                ng-click="nextPrev(-1)">
+                                                Previous
+                                          </button>
+                                          <button type="button" id="nextBtn" class="btn btn-primary"
+                                                ng-click="nextPrev(1)">
+                                                Next
+                                          </button>
+                                    </div>
+                              </div>
                         </div>
-                    </div>
-                    <div>
-                        <div style="float: right">
-                            <button type="button" id="prevBtn" class="btn btn-primary" ng-click="nextPrev(-1)">
-                                Previous
-                            </button>
-                            <button type="button" id="nextBtn" class="btn btn-primary" ng-click="nextPrev(1)">
-                                Next
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
+                  </form>
+            </div>
+      </div>
 </div>

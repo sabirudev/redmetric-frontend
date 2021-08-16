@@ -21,7 +21,7 @@ app.controller("user/navbar", function ($scope, urls, $routeParams, httpRequest,
         } else if (name == "/panel/user/submission") {
             $scope.sidebarContentUrl = "panel/pages/user/submission.html?v=7";
         } else if (name == "/panel/user/profile") {
-            $scope.sidebarContentUrl = "panel/pages/user/profile.html?v=10";
+            $scope.sidebarContentUrl = "panel/pages/user/profile.html?v=2";
         }
     };
     $scope.showSidebar($location.path());
@@ -181,13 +181,15 @@ app.controller("user/profile", function ($scope, $rootScope, $routeParams, httpR
         return window.btoa(binary);
       }
 
-    $scope.uploadKTP = function () {
+    $scope.uploadDoc = function () {
         console.log('jalan');
         $("#uploadKTP").on("submit", function () {
             console.log('jalan');
             form = new FormData(this);
             form.append("identity[0][type]", "ktp");
             form.append('identity[0][document]', $('input[type=file]')[0].files[0]);
+            form.append("identity[1][type]", "surat_tugas");
+            form.append('identity[1][document]', $('input[type=file]')[1].files[1]);
             jqXHR = $.ajax({
                 url: api_url + "membership/update",
                 method: "POST",
@@ -205,7 +207,7 @@ app.controller("user/profile", function ($scope, $rootScope, $routeParams, httpR
 
             if (jqXHR.status == 200) {
                 //   $scope.getInvoice();
-                notification.success("Berhasil upload KTP");
+                notification.success("Berhasil upload Dokumen");
             } else {
                 notification.error("Silahkan coba kembali upload");
             }

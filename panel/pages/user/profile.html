@@ -124,33 +124,26 @@
     <div class="card-content">
         <div class="card-body">
             <h4 class="card-title">Update Document</h4>
-            <div class="row">
-                <div class="col-12">
-                    <form ng-submit="uploadKTP()" id="uploadKTP">
+            <form ng-submit="uploadDoc()" id="uploadKTP">
+                <div class="row">
+                    <div class="col-12">
                         <div class="form-group">
                             <label for="ktp">Unggah Identitas Penduduk (KTP)</label>
                             <input required accept=".jpg, .png, .jpeg, .pdf" class="form-control" type="file" id="ktp">
                         </div>
-                        <div class="d-flex">
-                            <button class="btn btn-primary" type="submit">Unggah</button>
-                            <a class="btn btn-primary ms-2" ng-click="documentKTP()">Lihat Dokumen</a>
-                        </div>
-
-                    </form>
-                </div>
-                <div class="col-12">
-                    <form ng-submit="uploadST()" id="uploadST">
+                    </div>
+                    <div class="col-12">
                         <div class="form-group">
                             <label for="suratdesa">Unggah Surat Tugas Desa</label>
-                            <input required accept=".jpg, .png, .jpeg, .pdf" class="form-control" type="file" id="st">
+                            <input required accept=".jpg, .png, .jpeg, .pdf" class="form-control" type="file" id="surat_tugas">
                         </div>
                         <div class="d-flex">
                             <button class="btn btn-primary" type="submit">Unggah</button>
                             <a class="btn btn-primary ms-2" href="" target="_blank">Lihat Dokumen</a>
                         </div>
-                    </form>
+                    </div>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>
