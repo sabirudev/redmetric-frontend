@@ -159,7 +159,7 @@ app.controller("user/profile", function ($scope, $rootScope, $routeParams, httpR
                 a.download = this.response.name || "detailPDF";
                 document.body.appendChild(a);
                 a.click();
-                // remove `a` following `Save As` dialog, 
+                // remove `a` following `Save As` dialog,
                 // `window` regains `focus`
                 window.onfocus = function () {
                     document.body.removeChild(a)

@@ -1,11 +1,12 @@
 // Default environment variables
-let __env = {};
+var __env = {};
 
 // Import variables if present
 if (window) {
     Object.assign(__env, window.__env);
 }
 const _NODE_ENV = __env.enableDebug ? 'DEV' : 'PROD'
+
 app = angular.module("home", ["ngRoute", "ngSanitize"]);
 app.constant('ENVIRONMENT', _NODE_ENV)
     .service('urls', function (ENVIRONMENT) {
@@ -15,7 +16,7 @@ app.constant('ENVIRONMENT', _NODE_ENV)
 app.config(function ($routeProvider, $locationProvider) {
     $routeProvider
         .when("/", {
-            templateUrl: "pages/landingpage.html?v5",
+            templateUrl: "pages/landingpage.html",
             controller: "landingpage",
         })
         .when("/peringkat", {
