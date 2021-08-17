@@ -1,6 +1,6 @@
 app.controller("user/navbar", function ($scope, urls, $routeParams, httpRequest, notification, roles, $location, session_check, $window, session_get, session_break) {
     $scope.checkLSession = function () {
-        if (session_get.uroles() != 2){
+        if (session_get.uroles() != 2) {
             $window.location = session_check.roles(session_get.uroles());
         }
     }
@@ -41,17 +41,17 @@ app.controller("user/home", function ($scope, $rootScope, $routeParams, httpRequ
                     $scope.villageData = response.data.data;
                     if ($scope.villageData.village == null)
                         $('#modalProfile').modal('show');
-                    else{
-                            httpRequest.get(api_url + "user/submissions", {}, session_get.utoken()).then(function (response) {
-                                if (response.status == 200) {
-                                    if(response.data.status == 'success'){
-                                        $window.location.href = '/panel/user/questionnaire'
-                                    }else{
-                                        $('#modalPeriod').modal('show');
-                                    }
+                    else {
+                        httpRequest.get(api_url + "user/submissions", {}, session_get.utoken()).then(function (response) {
+                            if (response.status == 200) {
+                                if (response.data.status == 'success') {
+                                    $window.location.href = '/panel/user/questionnaire'
                                 } else {
+                                    $('#modalPeriod').modal('show');
                                 }
-                            });
+                            } else {
+                            }
+                        });
 
                     }
 
@@ -91,8 +91,10 @@ app.controller("user/profile", function ($scope, $rootScope, $routeParams, httpR
             .get(api_url + "membership", {}, session_get.utoken())
             .then(function (response) {
                 if (response.status == 200) {
-                    $scope.dataMember = response.data.data;
-                    // console.log($scope.dataMember);
+                    const { data: profile } = response.data;
+                    const { membership } = profile || {}
+                    $scope.identities = membership.identities || {}
+                    $scope.dataMember = profile;
                 }
             });
     };
@@ -108,67 +110,63 @@ app.controller("user/profile", function ($scope, $rootScope, $routeParams, httpR
                     if ($scope.dataDesa.village != null) {
                         $scope.village = $scope.dataDesa.village;
                     }
-                    console.log($scope.dataDesa);
                 }
             });
     }
     $scope.dataDesaGet();
-    $scope.getKTP ={};
-    $scope.getProfileUser = function () {
-        httpRequest
-            .get(api_url + "membership", {}, session_get.utoken())
-            .then(function (response) {
-                if (response.status == 200) {
-                    $scope.getKTP = response.data.data.membership.identities[0];
-                    console.log($scope.getKTP);
+    $scope.previewDocument = function (identity) {
+        $http({
+            headers: {
+                Authorization: "Bearer " + session_get.utoken(),
+                Accept: "application/json",
+            },
+            method: 'GET',
+            url: `${api_url}membership/preview-identity/${identity.id}`,
+            responseType: 'arraybuffer'
+        })
+            .then(function ({ data }) {
+                const pieces = identity.document.split('.')
+                const fileType = pieces[pieces.length - 1]
+                if (['jpg', 'png', 'jpeg'].includes(fileType)) {
+                    let str = _arrayBufferToBase64(data);
+                    let image = new Image();
+                    image.src = `data:image/${fileType};base64,${str}`;
+                    var w = window.open("");
+                    w.document.write(image.outerHTML);
+                } else {
+                    var file = new Blob([(data)], { type: 'application/pdf' });
+                    var fileURL = URL.createObjectURL(file);
+                    window.open(fileURL);
                 }
+            })
+            .catch((e) => {
+                console.log('error', e)
             });
     }
-    $scope.getProfileUser();
-    $scope.documentKTP = function () {
-        $http({
-            headers: {
-                Authorization: "Bearer " + session_get.utoken(),
-                Accept: "application/json",
-            },
-            method: 'GET',
-            url: api_url + "membership/preview-identity/"+$scope.getKTP.id,
-            responseType: 'arraybuffer'
-          }).then(function(response) {
-            console.log(response);
-            var str = _arrayBufferToBase64(response.data);
-            console.log(str);
-            var image = new Image();
-            image.src = "data:image/jpg;base64," + str;
-            var w = window.open("");
-            w.document.write(image.outerHTML);
-            // str is base64 encoded.
-          }, function(response) {
-            console.error('error in getting static img.');
-          });
-    }
 
-    $scope.documentST = function () {
-        $http({
-            headers: {
-                Authorization: "Bearer " + session_get.utoken(),
-                Accept: "application/json",
-            },
-            method: 'GET',
-            url: api_url + "membership/preview-identity/"+$scope.profileData.id,
-            responseType: 'arraybuffer'
-          }).then(function(response) {
-            console.log(response);
-            var str = _arrayBufferToBase64(response.data);
-            console.log(str);
-            var image = new Image();
-            image.src = "data:image/jpg;base64," + str;
-            var w = window.open("");
-            w.document.write(image.outerHTML);
-            // str is base64 encoded.
-          }, function(response) {
-            console.error('error in getting static img.');
-          });
+    function _arrayBufferPdf(reqUrl) {
+        var request = new XMLHttpRequest();
+        request.open("GET", reqUrl, true);
+        request.responseType = "blob";
+        request.onload = function (e) {
+            if (this.status === 200) {
+                // `blob` response
+                console.log(this.response);
+                // create `objectURL` of `this.response` : `.pdf` as `Blob`
+                var file = window.URL.createObjectURL(this.response);
+                var a = document.createElement("a");
+                a.href = file;
+                a.download = this.response.name || "detailPDF";
+                document.body.appendChild(a);
+                a.click();
+                // remove `a` following `Save As` dialog, 
+                // `window` regains `focus`
+                window.onfocus = function () {
+                    document.body.removeChild(a)
+                }
+            };
+        };
+        request.send()
     }
 
     function _arrayBufferToBase64(buffer) {
@@ -176,20 +174,18 @@ app.controller("user/profile", function ($scope, $rootScope, $routeParams, httpR
         var bytes = new Uint8Array(buffer);
         var len = bytes.byteLength;
         for (var i = 0; i < len; i++) {
-          binary += String.fromCharCode(bytes[i]);
+            binary += String.fromCharCode(bytes[i]);
         }
         return window.btoa(binary);
-      }
+    }
 
     $scope.uploadDoc = function () {
-        console.log('jalan');
         $("#uploadKTP").on("submit", function () {
-            console.log('jalan');
             form = new FormData(this);
             form.append("identity[0][type]", "ktp");
-            form.append('identity[0][document]', $('input[type=file]')[0].files[0]);
+            form.append('identity[0][document]', $('input[id="ktp"]')[0].files[0]);
             form.append("identity[1][type]", "surat_tugas");
-            form.append('identity[1][document]', $('input[type=file]')[1].files[1]);
+            form.append('identity[1][document]', $('input[id="surat_tugas"]')[0].files[0]);
             jqXHR = $.ajax({
                 url: api_url + "membership/update",
                 method: "POST",
@@ -206,7 +202,6 @@ app.controller("user/profile", function ($scope, $rootScope, $routeParams, httpR
             console.log(jqXHR.status);
 
             if (jqXHR.status == 200) {
-                //   $scope.getInvoice();
                 notification.success("Berhasil upload Dokumen");
             } else {
                 notification.error("Silahkan coba kembali upload");
@@ -246,14 +241,14 @@ app.controller("user/profile", function ($scope, $rootScope, $routeParams, httpR
 
 
     $scope.updateDesa = function () {
-        // console.log($scope.dataDesa);
         $scope.village.since = $filter('date')($scope.village.since, "yyyy-MM-dd")
         if ($scope.dataDesa.village != null) {
             httpRequest.put(api_url + "user/villages/" + $scope.village.id, $scope.village, session_get.utoken()).then(function (response) {
-                // console.log(response);
-                // console.log($scope.village);
                 if (response.status == 200) {
-                    $scope.dataDesaGet();
+                    $scope.dataDesa = response.data.data;
+                    if ($scope.dataDesa.village != null) {
+                        $scope.village = $scope.dataDesa.village;
+                    }
                     notification.success("sukses updating data");
                 } else {
 
@@ -262,10 +257,11 @@ app.controller("user/profile", function ($scope, $rootScope, $routeParams, httpR
             });
         } else {
             httpRequest.post(api_url + "user/villages", $scope.village, session_get.utoken()).then(function (response) {
-                // console.log(response);
-                // console.log($scope.village);
                 if (response.status == 200) {
-                    $scope.dataDesaGet();
+                    $scope.dataDesa = response.data.data;
+                    if ($scope.dataDesa.village != null) {
+                        $scope.village = $scope.dataDesa.village;
+                    }
                     notification.success("sukses updating data");
                 } else {
 
@@ -351,7 +347,7 @@ app.controller("user/questionnaire", function ($scope, $rootScope, $routeParams,
 
     $scope.showTab = function (n) {
         // This function will display the specified tab of the form...
-        if(n==0){
+        if (n == 0) {
             var x = document.getElementsByClassName("tab");
             x[n].style.display = "block";
         }
@@ -392,7 +388,7 @@ app.controller("user/questionnaire", function ($scope, $rootScope, $routeParams,
             if ($scope.currentTab === 0) {
                 document.getElementsByClassName("step")[$scope.currentTab].className +=
                     " step-success";
-                document.getElementsByClassName("step")[$scope.currentTab+1].className +=
+                document.getElementsByClassName("step")[$scope.currentTab + 1].className +=
                     " step-active";
             } else {
                 document.getElementsByClassName("step")[$scope.currentTab - 1].className +=
@@ -425,19 +421,19 @@ app.controller("user/questionnaire", function ($scope, $rootScope, $routeParams,
             });
     };
 
-    $scope.updateToPublish = function(id){
+    $scope.updateToPublish = function (id) {
         httpRequest
-        .put(api_url + "user/submissions/"+id,{}, session_get.utoken())
-        .then(function (response) {
-            // console.log(response);
-            if (response.status == 200) {
-                $scope.data = response.data.data;
+            .put(api_url + "user/submissions/" + id, {}, session_get.utoken())
+            .then(function (response) {
+                // console.log(response);
+                if (response.status == 200) {
+                    $scope.data = response.data.data;
                     // ... the form gets submitted:
                     window.location.href = '/panel/user/questionnaire/thank-you'
-            } else {
-                notification.error(response.data.message);
-            }
-        });
+                } else {
+                    notification.error(response.data.message);
+                }
+            });
     }
 
     $scope.finish = function () {
@@ -458,13 +454,13 @@ app.directive('stringToNumber', function () {
         }
     };
 });
-app.directive("formatDate", function(){
-  return {
-   require: 'ngModel',
-    link: function(scope, elem, attr, modelCtrl) {
-      modelCtrl.$formatters.push(function(modelValue){
-        return new Date(modelValue);
-      })
+app.directive("formatDate", function () {
+    return {
+        require: 'ngModel',
+        link: function (scope, elem, attr, modelCtrl) {
+            modelCtrl.$formatters.push(function (modelValue) {
+                return new Date(modelValue);
+            })
+        }
     }
-  }
 })
