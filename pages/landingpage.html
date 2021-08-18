@@ -89,6 +89,43 @@
       </div>
 </section>
 
+<section>
+      <div class="container mt-5 mb-5">
+            <div class="row pb-5">
+                  <div class="col text-center">
+                        <h4>Grafik Pemeringkatan Desa Cerdas</h4>
+                  </div>
+            </div>
+            <div class="row">
+                  <div class="col">
+                        <div class="row">
+                              <div class="col-md-6 col-sm-12 pb-2">
+                                    <select class="form-select" aria-label="Default select example">
+                                          <option selected>Open this select menu</option>
+                                          <option value="1">One</option>
+                                          <option value="2">Two</option>
+                                          <option value="3">Three</option>
+                                    </select>
+                              </div>
+                              <div class="col-md-6 col-sm-12">
+                                    <select class="form-select" aria-label="Default select example">
+                                          <option selected>Open this select menu</option>
+                                          <option value="1">One</option>
+                                          <option value="2">Two</option>
+                                          <option value="3">Three</option>
+                                    </select>
+                              </div>
+                        </div>
+                  </div>
+            </div>
+            <div class="row">
+                  <div class="col">
+                        <canvas id="myChart"></canvas>
+                  </div>
+            </div>
+      </div>
+</section>
+
 <section id="rangking">
       <div class="container pb-5 pt-5">
             <div class="row">
@@ -135,3 +172,60 @@
             <a class="btn btn-outline-danger " href="/panel" target="_blank">Mulai</a>
       </div>
 </section>
+
+<script>
+      var config = {
+            type: 'horizontalBar',
+            data: {
+                  labels: ["Desa 1", "Desa 2", "Desa 3", "Desa 4", ],
+                  datasets: [{
+                        label: "20-30",
+                        backgroundColor: "rgba(235, 29, 29, 0.7)",
+                        data: [0, 0, 50, 0, 0, 0, 100, 30],
+                  }, {
+                        label: "31-40",
+                        backgroundColor: "rgba(79, 143, 15, 0.7)",
+                        data: [0, 0, 50, 0, 0, 0, 0, 30]
+                  }, {
+                        label: "41-50",
+                        backgroundColor: "rgba(16, 94, 172, 0.7)",
+                        data: [0, 100, 0, 0, 0, 0, 0, 20]
+                  }, {
+                        label: "50 Up",
+                        backgroundColor: "rgba(247, 127, 7, 0.7)",
+                        data: [100, 0, 0, 0, 0, 100, 0, 20]
+                  }]
+            },
+            options: {
+                  // responsive: true,
+                  scales: {
+                        xAxes: [{
+                              stacked: true,
+                              ticks: {
+                                    min: 0,
+                                    max: 100,
+                                    callback: function (value) {
+                                          return value + "%"
+                                    }
+                              }
+                        }],
+                        yAxes: [{
+                              stacked: true
+                        }]
+                  },
+                  tooltips: {
+                        enabled: true,
+                        mode: 'single',
+                        callbacks: {
+                              label: function (tooltipItems, data) {
+                                    return data.datasets[tooltipItems.datasetIndex].label + ': ' +
+                                          tooltipItems.xLabel + ' %';
+                              }
+                        }
+                  },
+            }
+      };
+      var ctx = document.getElementById("myChart").getContext("2d");
+      new Chart(ctx, config);
+
+</script>
