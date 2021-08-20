@@ -1,6 +1,6 @@
 app.controller("superadmin/sidebar", function ($scope, $rootScope, $routeParams, httpRequest, notification, $window, $location, session_break, session_get, session_check) {
     $scope.checkLSession = function () {
-        if (session_get.uroles() != 1){
+        if (session_get.uroles() != 1) {
             $window.location = session_check.roles(session_get.uroles());
         }
     }
@@ -18,16 +18,15 @@ app.controller("superadmin/sidebar", function ($scope, $rootScope, $routeParams,
     }
 
     $scope.showSidebar = function (name) {
-        console.log(name);
         if (name == "/panel/superadmin/") {
             $scope.sidebarContentUrl = "panel/pages/superadmin/dashboard.html";
         } else if (name == "/panel/superadmin/juri") {
             $scope.sidebarContentUrl = "panel/pages/superadmin/juri.html?v=2";
         } else if (name == "/panel/superadmin/vilagers") {
             $scope.sidebarContentUrl = "panel/pages/superadmin/user.html?v=4";
-        }else if (name == "/panel/superadmin/admin") {
+        } else if (name == "/panel/superadmin/admin") {
             $scope.sidebarContentUrl = "panel/pages/superadmin/admin.html?v=1";
-        }else if (name == "/panel/superadmin/period") {
+        } else if (name == "/panel/superadmin/period") {
             $scope.sidebarContentUrl = "panel/pages/superadmin/periode.html?v=3";
         }
     };
@@ -41,7 +40,7 @@ app.controller("superadmin/home", function ($scope, $rootScope, $routeParams, ht
 app.controller("superadmin/vilagers", function ($scope, $rootScope, $routeParams, httpRequest, notification, api_url, session_get) {
     $scope.index = 1;
     $scope.data = {};
-    $scope.form={};
+    $scope.form = {};
     $scope.getVillagers = function (index) {
         httpRequest
             .get(api_url + "admin/users", {
@@ -50,9 +49,7 @@ app.controller("superadmin/vilagers", function ($scope, $rootScope, $routeParams
             }, session_get.utoken())
             .then(function (response) {
                 if (response.status == 200) {
-                    console.log(response);
                     $scope.data = response.data.data;
-                    console.log($scope.data);
                 } else {
                     notification.error("Email atau password salah");
                 }
@@ -86,9 +83,7 @@ app.controller("superadmin/vilagers", function ($scope, $rootScope, $routeParams
             .get(api_url + "admin/users/" + index, {}, session_get.utoken())
             .then(function (response) {
                 if (response.status == 200) {
-                    console.log(response);
                     $scope.dataUser = response.data.data;
-                    console.log($scope.data);
                     $('#formEdit').modal('show');
                 } else {
                     notification.error("Email atau password salah");
@@ -101,9 +96,7 @@ app.controller("superadmin/vilagers", function ($scope, $rootScope, $routeParams
             .get(api_url + "admin/users/" + index, {}, session_get.utoken())
             .then(function (response) {
                 if (response.status == 200) {
-                    console.log(response);
                     $scope.dataUser = response.data.data;
-                    console.log($scope.data);
                     $('#formDetail').modal('show');
                 } else {
                     notification.error("Email atau password salah");
@@ -115,7 +108,6 @@ app.controller("superadmin/vilagers", function ($scope, $rootScope, $routeParams
         httpRequest
             .post(api_url + "admin/users", $scope.form, session_get.utoken())
             .then(function (response) {
-                console.log(response);
                 if (response.status == 200) {
                     $scope.getVillagers($scope.index);
                     $('#formAdd').modal('hide');
@@ -124,7 +116,7 @@ app.controller("superadmin/vilagers", function ($scope, $rootScope, $routeParams
                 }
             });
     }
-    $scope.openAdd = function(){
+    $scope.openAdd = function () {
         $('#formAdd').modal('show');
     }
     $scope.editData = function () {
@@ -148,7 +140,7 @@ app.controller("superadmin/vilagers", function ($scope, $rootScope, $routeParams
 app.controller("superadmin/juri", function ($scope, $rootScope, $routeParams, httpRequest, notification, api_url, session_get) {
     $scope.index = 1;
     $scope.data = {};
-    $scope.form={};
+    $scope.form = {};
     $scope.getJuri = function (index) {
         httpRequest
             .get(api_url + "admin/users", {
@@ -157,9 +149,7 @@ app.controller("superadmin/juri", function ($scope, $rootScope, $routeParams, ht
             }, session_get.utoken())
             .then(function (response) {
                 if (response.status == 200) {
-                    console.log(response);
                     $scope.data = response.data.data;
-                    console.log($scope.data);
                 } else {
                     notification.error("Email atau password salah");
                 }
@@ -193,9 +183,7 @@ app.controller("superadmin/juri", function ($scope, $rootScope, $routeParams, ht
             .get(api_url + "admin/users/" + index, {}, session_get.utoken())
             .then(function (response) {
                 if (response.status == 200) {
-                    console.log(response);
                     $scope.dataUser = response.data.data;
-                    console.log($scope.data);
                     $('#formEdit').modal('show');
                 } else {
                     notification.error("Email atau password salah");
@@ -223,7 +211,6 @@ app.controller("superadmin/juri", function ($scope, $rootScope, $routeParams, ht
         httpRequest
             .post(api_url + "admin/users", $scope.form, session_get.utoken())
             .then(function (response) {
-                console.log(response);
                 if (response.status == 200) {
                     $scope.getJuri($scope.index);
                     $('#formAdd').modal('hide');
@@ -232,7 +219,7 @@ app.controller("superadmin/juri", function ($scope, $rootScope, $routeParams, ht
                 }
             });
     }
-    $scope.openAdd = function(){
+    $scope.openAdd = function () {
         $('#formAdd').modal('show');
     }
 });
@@ -240,7 +227,7 @@ app.controller("superadmin/juri", function ($scope, $rootScope, $routeParams, ht
 app.controller("superadmin/admin", function ($scope, $rootScope, $routeParams, httpRequest, notification, api_url, session_get) {
     $scope.index = 1;
     $scope.data = {};
-    $scope.form={};
+    $scope.form = {};
     $scope.getAdmin = function (index) {
         httpRequest
             .get(api_url + "admin/users", {
@@ -249,9 +236,7 @@ app.controller("superadmin/admin", function ($scope, $rootScope, $routeParams, h
             }, session_get.utoken())
             .then(function (response) {
                 if (response.status == 200) {
-                    console.log(response);
                     $scope.data = response.data.data;
-                    console.log($scope.data);
                 } else {
                     notification.error("Email atau password salah");
                 }
@@ -285,9 +270,7 @@ app.controller("superadmin/admin", function ($scope, $rootScope, $routeParams, h
             .get(api_url + "admin/users/" + index, {}, session_get.utoken())
             .then(function (response) {
                 if (response.status == 200) {
-                    console.log(response);
                     $scope.dataUser = response.data.data;
-                    console.log($scope.data);
                     $('#formEdit').modal('show');
                 } else {
                     notification.error("Email atau password salah");
@@ -299,7 +282,6 @@ app.controller("superadmin/admin", function ($scope, $rootScope, $routeParams, h
         httpRequest
             .post(api_url + "admin/users", $scope.form, session_get.utoken())
             .then(function (response) {
-                console.log(response);
                 if (response.status == 200) {
                     $scope.getAdmin($scope.index);
                     $('#formAdd').modal('hide');
@@ -308,7 +290,7 @@ app.controller("superadmin/admin", function ($scope, $rootScope, $routeParams, h
                 }
             });
     }
-    $scope.openAdd = function(){
+    $scope.openAdd = function () {
         $('#formAdd').modal('show');
     }
 
@@ -337,7 +319,7 @@ app.controller("superadmin/submission", function ($scope, $rootScope, $routePara
 app.controller("superadmin/periode", function ($scope, $rootScope, $routeParams, httpRequest, notification, api_url, session_get) {
     $scope.index = 1;
     $scope.data = {};
-    $scope.form={};
+    $scope.form = {};
     $scope.getPeriode = function (index) {
         httpRequest
             .get(api_url + "admin/periods", {
@@ -345,9 +327,7 @@ app.controller("superadmin/periode", function ($scope, $rootScope, $routeParams,
             }, session_get.utoken())
             .then(function (response) {
                 if (response.status == 200) {
-                    console.log(response);
                     $scope.data = response.data.data;
-                    console.log($scope.data);
                 } else {
                     notification.error("Email atau password salah");
                 }
@@ -381,9 +361,7 @@ app.controller("superadmin/periode", function ($scope, $rootScope, $routeParams,
             .get(api_url + "admin/periods/" + index, {}, session_get.utoken())
             .then(function (response) {
                 if (response.status == 200) {
-                    console.log(response);
                     $scope.dataUser = response.data.data;
-                    console.log($scope.data);
                     $('#formEdit').modal('show');
                 } else {
                     notification.error("Email atau password salah");
@@ -394,7 +372,6 @@ app.controller("superadmin/periode", function ($scope, $rootScope, $routeParams,
         httpRequest
             .post(api_url + "admin/periods", $scope.form, session_get.utoken())
             .then(function (response) {
-                console.log(response);
                 if (response.status == 200) {
                     $scope.getPeriode($scope.index);
                     $('#formAdd').modal('hide');
@@ -403,7 +380,7 @@ app.controller("superadmin/periode", function ($scope, $rootScope, $routeParams,
                 }
             });
     }
-    $scope.openAdd = function(){
+    $scope.openAdd = function () {
         $('#formAdd').modal('show');
     }
 
@@ -426,13 +403,13 @@ app.controller("superadmin/periode", function ($scope, $rootScope, $routeParams,
 });
 
 
-app.directive("formatDate", function(){
+app.directive("formatDate", function () {
     return {
-     require: 'ngModel',
-      link: function(scope, elem, attr, modelCtrl) {
-        modelCtrl.$formatters.push(function(modelValue){
-          return new Date(modelValue);
-        })
-      }
+        require: 'ngModel',
+        link: function (scope, elem, attr, modelCtrl) {
+            modelCtrl.$formatters.push(function (modelValue) {
+                return new Date(modelValue);
+            })
+        }
     }
-  })
+})

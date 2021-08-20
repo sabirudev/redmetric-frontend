@@ -22,7 +22,6 @@ app.controller("questionnaire", function ($scope, $rootScope, $routeParams, http
             .then(function (response) {
                 if (response.data.status == 'success') {
                     $scope.questionData = response.data.data[0];
-                    console.log($scope.questionData);
                 }
             })
     };

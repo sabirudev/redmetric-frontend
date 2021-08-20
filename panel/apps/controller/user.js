@@ -36,7 +36,6 @@ app.controller("user/home", function ($scope, $rootScope, $routeParams, httpRequ
         httpRequest
             .get(api_url + "user/villages", {}, session_get.utoken())
             .then(function (response) {
-                // console.log(response.data.data);
                 if (response.status == 200) {
                     $scope.villageData = response.data.data;
                     if ($scope.villageData.village == null)
@@ -75,7 +74,6 @@ app.controller("user/submission", function ($scope, $rootScope, $routeParams, ht
             .then(function (response) {
                 if (response.status == 200) {
                     $scope.dataSubmission = response.data.data;
-                    console.log($scope.dataSubmission);
                 }
             });
     };
@@ -150,8 +148,6 @@ app.controller("user/profile", function ($scope, $rootScope, $routeParams, httpR
         request.responseType = "blob";
         request.onload = function (e) {
             if (this.status === 200) {
-                // `blob` response
-                console.log(this.response);
                 // create `objectURL` of `this.response` : `.pdf` as `Blob`
                 var file = window.URL.createObjectURL(this.response);
                 var a = document.createElement("a");
@@ -159,7 +155,7 @@ app.controller("user/profile", function ($scope, $rootScope, $routeParams, httpR
                 a.download = this.response.name || "detailPDF";
                 document.body.appendChild(a);
                 a.click();
-                // remove `a` following `Save As` dialog, 
+                // remove `a` following `Save As` dialog,
                 // `window` regains `focus`
                 window.onfocus = function () {
                     document.body.removeChild(a)
@@ -199,7 +195,6 @@ app.controller("user/profile", function ($scope, $rootScope, $routeParams, httpR
                 dataType: "application/json",
             });
             data = JSON.parse(jqXHR.responseText);
-            console.log(jqXHR.status);
 
             if (jqXHR.status == 200) {
                 notification.success("Berhasil upload Dokumen");
@@ -227,7 +222,6 @@ app.controller("user/profile", function ($scope, $rootScope, $routeParams, httpR
                 dataType: "application/json",
             });
             data = JSON.parse(jqXHR.responseText);
-            console.log(jqXHR.status);
 
             if (jqXHR.status == 200) {
                 //   $scope.getInvoice();
@@ -274,8 +268,6 @@ app.controller("user/profile", function ($scope, $rootScope, $routeParams, httpR
 
     $scope.updateProfile = function () {
         httpRequest.post(api_url + "membership/update", $scope.dataMember.membership, session_get.utoken()).then(function (response) {
-            console.log(response);
-            console.log($scope.village);
             if (response.status == 200) {
                 $scope.dataDesaGet();
                 notification.success("sukses updating data");
@@ -377,7 +369,6 @@ app.controller("user/questionnaire", function ($scope, $rootScope, $routeParams,
         const nextPage = $scope.currentTab === 1 ? $scope.currentTab + 1 : $scope.currentTab
         // $scope.currentTab = nextPage
         $scope.getQuisioner(nextPage);
-        console.log($scope.currentTab);
         $scope.showTab(nextPage);
     };
 
@@ -407,7 +398,6 @@ app.controller("user/questionnaire", function ($scope, $rootScope, $routeParams,
         httpRequest
             .post(api_url + "user/submissions", $scope.submitData, session_get.utoken())
             .then(function (response) {
-                // console.log(response);
                 if (response.status == 200) {
                     $scope.data = response.data.data;
                     // if you have reached the end of the form...
@@ -425,7 +415,6 @@ app.controller("user/questionnaire", function ($scope, $rootScope, $routeParams,
         httpRequest
             .put(api_url + "user/submissions/" + id, {}, session_get.utoken())
             .then(function (response) {
-                // console.log(response);
                 if (response.status == 200) {
                     $scope.data = response.data.data;
                     // ... the form gets submitted:

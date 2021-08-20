@@ -9,27 +9,6 @@
     <meta http-equiv="Expires" content="0">
     <title>Redmetric Panel</title>
     <link rel="icon" href="/public/assets/favicon.ico" type="image/x-icon" />
-
-    <script>
-        // // api url
-        // const api_url =
-        //     "https://apiredmetric.i-kuy.com/api/v1/version";
-
-        // // Defining async function
-        // async function getapi(url) {
-
-        //     // Storing response
-        //     const response = await fetch(url);
-
-        //     // Storing data in form of JSON
-        //     var data = await response.json();
-        //     console.log(data);
-        //     $("#versionapp").attr("src", "/panel/apps/app.js" + "?v=" + data.version);
-        //     $("#versioncontroller").attr("src", "/panel/apps/controller.js" + "?v=" + data.version);
-        // }
-        // // Calling that async function
-        // getapi(api_url);
-    </script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular.min.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.7.8/angular-route.js"></script>

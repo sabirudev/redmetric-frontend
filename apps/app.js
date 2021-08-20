@@ -1,11 +1,12 @@
 // Default environment variables
-let __env = {};
+var __env = {};
 
 // Import variables if present
 if (window) {
     Object.assign(__env, window.__env);
 }
 const _NODE_ENV = __env.enableDebug ? 'DEV' : 'PROD'
+
 app = angular.module("home", ["ngRoute", "ngSanitize"]);
 app.constant('ENVIRONMENT', _NODE_ENV)
     .service('urls', function (ENVIRONMENT) {
@@ -15,7 +16,7 @@ app.constant('ENVIRONMENT', _NODE_ENV)
 app.config(function ($routeProvider, $locationProvider) {
     $routeProvider
         .when("/", {
-            templateUrl: "pages/landingpage.html?v5",
+            templateUrl: "pages/landingpage.html",
             controller: "landingpage",
         })
         .when("/peringkat", {
@@ -25,6 +26,14 @@ app.config(function ($routeProvider, $locationProvider) {
         .when("/profile", {
             templateUrl: "pages/profile.html",
             controller: "profile",
+        })
+        .when("/berita", {
+            templateUrl: "pages/berita.html",
+            controller: "berita",
+        })
+        .when("/detail-berita/:id", {
+            templateUrl: "pages/detail-berita.html",
+            controller: "detail-berita",
         })
 
         .otherwise({
@@ -149,11 +158,10 @@ app.run(function ($rootScope, httpRequest, $route) {
             });
             var json = JSON.stringify(output, null, 4);
             json = JSON.parse(json);
-            console.log(json);
+
             if (json.version) {
                 if (json.version != response.data.data.version) {
-                    console.log(json.version);
-                    console.log(response.data.data.version);
+
                     date = new Date();
                     date = new Date(date.setMonth(date.getMonth() + 1));
                     document.cookie =
@@ -162,21 +170,13 @@ app.run(function ($rootScope, httpRequest, $route) {
                         "; expires=" +
                         date;
                     location.reload(true);
-                    // $route.reload();
-
-                } else {
-                    console.log(json.version);
-                    console.log(response.data.data.version);
                 }
             } else {
-                console.log(json.version);
                 date = new Date();
                 date = new Date(date.setMonth(date.getMonth() + 1));
                 document.cookie =
                     "version=" + response.data.data.version + "; expires=" + date;
                 location.reload(true);
-                // $route.reload();
-
             }
         });
 });
