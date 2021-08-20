@@ -1,6 +1,6 @@
 app.controller("login", function ($scope, $rootScope, $routeParams, httpRequest, notification, session_set, api_url, $window, session_check, session_get) {
     $scope.checkLSession = function () {
-        if (session_get.uroles() !=null){
+        if (session_get.uroles() != null) {
             $window.location = session_check.roles(session_get.uroles());
         }
     }
@@ -10,17 +10,11 @@ app.controller("login", function ($scope, $rootScope, $routeParams, httpRequest,
         httpRequest
             .post(api_url + "membership/login", $scope.form)
             .then(function (response) {
-                console.log(response);
                 if (response.status == 200) {
-                    console.log(response);
                     $scope.data = response.data.data;
                     session_set.utoken($scope.data.token);
                     session_set.udata($scope.data.user);
                     session_set.uroles($scope.data.user.role_id);
-
-                    console.log(session_get.utoken())
-                    console.log(session_get.udata())
-                    console.log(session_get.uroles())
 
                     if ($scope.data.user.role_id == 1) {
                         $window.location.href = '/panel/superadmin';
@@ -40,7 +34,7 @@ app.controller("login", function ($scope, $rootScope, $routeParams, httpRequest,
 
 app.controller("register", function ($scope, $rootScope, $routeParams, httpRequest, notification, base_url, api_url, $window, session_set, session_get) {
     $scope.checkLSession = function () {
-        if (session_get.uroles() !=null){
+        if (session_get.uroles() != null) {
             $window.location = session_check.roles(session_get.uroles());
         }
     }
@@ -51,9 +45,7 @@ app.controller("register", function ($scope, $rootScope, $routeParams, httpReque
         httpRequest
             .post(api_url + "membership/register", $scope.form)
             .then(function (response) {
-                console.log(response);
                 if (response.status == 200) {
-                    console.log(response);
                     $scope.data = response.data.data
                     session_set.utoken($scope.data.token);
                     $('#modalRegister').modal('show');
@@ -62,27 +54,26 @@ app.controller("register", function ($scope, $rootScope, $routeParams, httpReque
                 }
             });
     };
-    $scope.url = function (url) {httpRequest
-        .get(api_url + "membership",{}, session_get.utoken())
-        .then(function (response) {
-            console.log(response);
-            if (response.status == 200) {
-                console.log(response);
-                $scope.data = response.data.data
-                session_set.udata($scope.data);
-                session_set.uroles($scope.data.role_id);
-                $window.location.href = url;
-            } else {
-                notification.error(response.data.message);
-            }
-        });
+    $scope.url = function (url) {
+        httpRequest
+            .get(api_url + "membership", {}, session_get.utoken())
+            .then(function (response) {
+                if (response.status == 200) {
+                    $scope.data = response.data.data
+                    session_set.udata($scope.data);
+                    session_set.uroles($scope.data.role_id);
+                    $window.location.href = url;
+                } else {
+                    notification.error(response.data.message);
+                }
+            });
     };
 
 });
 
 app.controller("forgotpassword", function ($scope, $rootScope, $routeParams, httpRequest, notification, $window, api_url) {
     $scope.checkLSession = function () {
-        if (session_get.uroles() !=null){
+        if (session_get.uroles() != null) {
             $window.location = session_check.roles(session_get.uroles());
         }
     }
@@ -91,12 +82,8 @@ app.controller("forgotpassword", function ($scope, $rootScope, $routeParams, htt
         httpRequest
             .post(api_url + "membership/reset", $scope.form)
             .then(function (response) {
-                console.log(response);
                 if (response.status == 200) {
-                    console.log(response);
                     $('#modalForgot').modal('show');
-                    // sessionStorage.setItem("login", 1);
-                    // location.replace('/dashboard');
                 } else {
                     notification.error(response.data.message);
                 }

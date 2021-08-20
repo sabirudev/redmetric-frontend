@@ -1,8 +1,14 @@
-app.controller("landingpage", function ($scope, $http, httpRequest, $log, urls, $window) {
+
+app.controller("landingpage", function ($scope, $location, $anchorScroll, $http, httpRequest, $log, urls, $window) {
     $scope.login = function () {
         $window.location = "/panel";
     };
     $log.debug(urls);
+
+    $scope.scrollTo = function (id) {
+        $location.hash(id);
+        $anchorScroll();
+    }
 
 
     var myCarousel = document.querySelector('#home')
@@ -11,6 +17,6 @@ app.controller("landingpage", function ($scope, $http, httpRequest, $log, urls, 
         wrap: false
     })
 });
-app.controller("profile", function () {});
+app.controller("profile", function () { });
 
-app.controller("peringkat", function () {});
+app.controller("peringkat", function () { });
