@@ -27,6 +27,14 @@ app.config(function ($routeProvider, $locationProvider) {
             templateUrl: "pages/profile.html",
             controller: "profile",
         })
+        .when("/berita", {
+            templateUrl: "pages/berita.html",
+            controller: "berita",
+        })
+        .when("/detail-berita/:id", {
+            templateUrl: "pages/detail-berita.html",
+            controller: "detail-berita",
+        })
 
         .otherwise({
             redirectTo: "/"
