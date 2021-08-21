@@ -1,4 +1,16 @@
 <div class="container">
+      <div ng-if="loading" class="modal fade show" id="loadingModalLive" tabindex="-1"
+            aria-labelledby="loadingModalLiveLabel" aria-modal="true" role="dialog"
+            style="display: block;margin: 0px auto;top: 25%;">
+            <div class="modal-dialog text-center">
+                  <div class="lds-ring">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                  </div>
+            </div>
+      </div>
       <div class="card mt-5">
             <div class="card-body">
                   <form id="regForm" ng-submit="finish()">
@@ -44,16 +56,25 @@
                               <div class="tab">
                                     <div class="row justify-content-between">
                                           <div class="col-12" ng-repeat="input in questionData">
-                                                <h5>{{input.indicator.code}}</h5>
-                                                <label for="input{{input.id}}">{{$index+1}}. {{input.label}}</label>
                                                 <div class="row">
-                                                      <div class="col-12">
+                                                      <div class="col-md-4">
+                                                            <h5>{{input.indicator.code}}</h5>
+                                                            <label for="input{{input.id}}">{{$index+1}}.
+                                                                  {{input.label}}</label>
                                                             <div class="input-group mb-3">
                                                                   <input type="number" id="input{{input.id}}"
                                                                         class="form-control"
                                                                         ng-model="submitData.submissions[$index].value"
                                                                         ng-on-keyup="onlyNumber($event)" />
                                                                   <span class="input-group-text">{{input.unit}}</span>
+                                                            </div>
+                                                      </div>
+                                                      <div ng-if="input.indicator.evidence" class="col-md-8">
+                                                            <div class="input-group mb-3">
+                                                                  <label
+                                                                        for="file-upload{{input.id}}">{{input.indicator.evidence}}</label>
+                                                                  <input type="file" name="file"
+                                                                        id="file-upload{{input.id}}" />
                                                             </div>
                                                       </div>
                                                 </div>

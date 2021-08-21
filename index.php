@@ -28,6 +28,7 @@
     <script src="/apps/variable.js"></script>
     <script src="/env.js"></script>
     <link rel="stylesheet" href="/public/assets/css/style.css?v=1" />
+    <link rel="stylesheet" href="/public/assets/css/spinner.css?v=1" />
     <link rel="stylesheet" href="/panel/public/assets/vendors/chartjs/Chart.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 

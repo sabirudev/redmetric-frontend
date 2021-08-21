@@ -300,17 +300,20 @@ app.controller("user/questionnaire", function ($scope, $rootScope, $routeParams,
     $scope.questionData = {};
     $scope.currentTab = 0; // Current tab is set to be the first tab (0)
     $scope.questionIndicator = [];
+    $scope.loading = true;
 
     $scope.submitData = {};
     $scope.submitData.submissions = [];
     // $scope.indicator = {};
 
     $scope.getQuisioner = function (index) {
+        $scope.loading = true;
         httpRequest
             .get(api_url + "user/submissions", {
                 page: index
             }, session_get.utoken())
             .then(function (response) {
+                $scope.loading = false;
                 if (response.data.status == 'success') {
                     const { data: items } = response.data
                     $scope.questionData = items;
