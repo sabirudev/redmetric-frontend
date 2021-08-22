@@ -1,100 +1,134 @@
 <div class="container">
-      <div ng-if="loading" class="modal fade show" id="loadingModalLive" tabindex="-1"
-            aria-labelledby="loadingModalLiveLabel" aria-modal="true" role="dialog"
-            style="display: block;margin: 0px auto;top: 25%;">
-            <div class="modal-dialog text-center">
-                  <div class="lds-ring">
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                        <div></div>
-                  </div>
+    <div ng-if="loading" class="modal fade show" id="loadingModalLive" tabindex="-1"
+        aria-labelledby="loadingModalLiveLabel" aria-modal="true" role="dialog"
+        style="display: block;margin: 0px auto;top: 25%;">
+        <div class="modal-dialog text-center">
+            <div class="lds-ring">
+                <div></div>
+                <div></div>
+                <div></div>
+                <div></div>
             </div>
-      </div>
-      <div class="card mt-5">
-            <div class="card-body">
-                  <form id="regForm" ng-submit="finish()">
-                        <ul class="steps">
-                              <li class="step">
-                                    <div class="step-content">
-                                          <span class="step-circle">1</span>
-                                          <span class="step-text">People</span>
-                                    </div>
-                              </li>
-                              <li class="step">
-                                    <div class="step-content">
-                                          <span class="step-circle">2</span>
-                                          <span class="step-text">Environment</span>
-                                    </div>
-                              </li>
-                              <li class="step">
-                                    <div class="step-content">
-                                          <span class="step-circle">3</span>
-                                          <span class="step-text">Economy</span>
-                                    </div>
-                              </li>
-                              <li class="step">
-                                    <div class="step-content">
-                                          <span class="step-circle">4</span>
-                                          <span class="step-text">Governance</span>
-                                    </div>
-                              </li>
-                              <li class="step">
-                                    <div class="step-content">
-                                          <span class="step-circle">5</span>
-                                          <span class="step-text">Infrastructure</span>
-                                    </div>
-                              </li>
-                              <li class="step">
-                                    <div class="step-content">
-                                          <span class="step-circle">6</span>
-                                          <span class="step-text">Living</span>
-                                    </div>
-                              </li>
-                        </ul>
-                        <div class="mt-5">
-                              <div class="tab">
-                                    <div class="row justify-content-between">
-                                          <div class="col-12" ng-repeat="input in questionData">
-                                                <div class="row">
-                                                      <div class="col-md-4">
-                                                            <h5>{{input.indicator.code}}</h5>
-                                                            <label for="input{{input.id}}">{{$index+1}}.
-                                                                  {{input.label}}</label>
-                                                            <div class="input-group mb-3">
-                                                                  <input type="number" id="input{{input.id}}"
-                                                                        class="form-control"
-                                                                        ng-model="submitData.submissions[$index].value"
-                                                                        ng-on-keyup="onlyNumber($event)" />
-                                                                  <span class="input-group-text">{{input.unit}}</span>
-                                                            </div>
-                                                      </div>
-                                                      <div ng-if="input.indicator.evidence" class="col-md-8">
-                                                            <div class="input-group mb-3">
-                                                                  <label
-                                                                        for="file-upload{{input.id}}">{{input.indicator.evidence}}</label>
-                                                                  <input type="file" name="file"
-                                                                        id="file-upload{{input.id}}" />
-                                                            </div>
-                                                      </div>
-                                                </div>
-                                          </div>
-                                    </div>
-                              </div>
-                              <div>
-                                    <div style="float: right">
-                                          <button type="button" id="prevBtn" class="btn btn-primary"
-                                                ng-click="nextPrev(-1)">
-                                                Previous
-                                          </button>
-                                          <button type="button" id="nextBtn" class="btn btn-primary"
-                                                ng-click="nextPrev(1)">
-                                                Next
-                                          </button>
-                                    </div>
-                              </div>
+        </div>
+    </div>
+    <div class="card mt-5">
+        <div class="card-body">
+            <form id="regForm" ng-submit="finish()">
+                <ul class="steps">
+                    <li class="step step-active">
+                        <div class="step-content">
+                            <span class="step-circle">1</span>
+                            <span class="step-text">People</span>
                         </div>
-                  </form>
-            </div>
-      </div>
+                    </li>
+                    <li class="step">
+                        <div class="step-content">
+                            <span class="step-circle">2</span>
+                            <span class="step-text">Environment</span>
+                        </div>
+                    </li>
+                    <li class="step">
+                        <div class="step-content">
+                            <span class="step-circle">3</span>
+                            <span class="step-text">Economy</span>
+                        </div>
+                    </li>
+                    <li class="step">
+                        <div class="step-content">
+                            <span class="step-circle">4</span>
+                            <span class="step-text">Governance</span>
+                        </div>
+                    </li>
+                    <li class="step">
+                        <div class="step-content">
+                            <span class="step-circle">5</span>
+                            <span class="step-text">Infrastructure</span>
+                        </div>
+                    </li>
+                    <li class="step">
+                        <div class="step-content">
+                            <span class="step-circle">6</span>
+                            <span class="step-text">Living</span>
+                        </div>
+                    </li>
+                </ul>
+                <div class="mt-5">
+                    <div class="tab">
+                        <div class="row justify-content-between">
+                            <div class="col-12" ng-repeat="question in questionData">
+                                <div class="row">
+                                    <div class="col-md-1">
+                                        <h3>{{question[0].indicator.code}}</h3>
+                                    </div>
+                                    <div class="col-md-11">
+                                        <div class="row" ng-repeat="input in question">
+                                            <div class="col-md-9">
+                                                <label for="input{{input.id}}">
+                                                    {{input.index+1}}. {{input.label}}
+                                                </label>
+                                                <div ng-if="input.indicator.evidence">
+                                                    <i>Upload Bukti {{input.indicator.evidence}}</i>
+                                                    <div class="input-group mb-3">
+                                                        <input type="file" name="file" id="evidence{{input.index}}"
+                                                            class="form-control" />
+                                                        <button class="btn btn-info"
+                                                            ng-click="uploadEvidence(input.index, question[0].indicator.code, input.pivot.id, currentTab + 1)">Upload</button>
+                                                    </div>
+                                                    <small><code>* Format didukung : pdf, jpg, jpeg, png</code></small>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="input-group mb-3">
+                                                    <input type="number" id="input{{input.id}}" class="form-control"
+                                                        ng-model="submitData.submissions[input.index].value"
+                                                        ng-on-keyup="onlyNumber($event)" />
+                                                    <span class="input-group-text">
+                                                        {{input.unit}}
+                                                    </span>
+                                                </div>
+                                                <div ng-if="input.pivot.evidence">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
+                                                        fill="currentColor" class="bi bi-paperclip" viewBox="0 0 16 16">
+                                                        <path
+                                                            d="M4.5 3a2.5 2.5 0 0 1 5 0v9a1.5 1.5 0 0 1-3 0V5a.5.5 0 0 1 1 0v7a.5.5 0 0 0 1 0V3a1.5 1.5 0 1 0-3 0v9a2.5 2.5 0 0 0 5 0V5a.5.5 0 0 1 1 0v7a3.5 3.5 0 1 1-7 0V3z" />
+                                                    </svg>&nbsp;
+                                                    <a href="{{apiUrl}}preview/{{input.pivot.evidence.id}}"
+                                                        target="_blank">Lihat Berkas</a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <hr />
+                            </div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="float-start">
+                            <button type="button" id="prevBtn" class="btn btn-secondary mr-3"
+                                ng-click="nextPrev(currentTab-1,'-')">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-chevron-left" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
+                                </svg>&nbsp;
+                                Sebelumnya
+                            </button>
+                        </div>
+                        <div class="float-end">
+                            <button type="button" id="nextBtn" class="btn btn-primary"
+                                ng-click="nextPrev(currentTab+1)">
+                                Berikutnya&nbsp;
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                    class="bi bi-chevron-right" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd"
+                                        d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
