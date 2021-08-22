@@ -137,8 +137,15 @@ app.controller("user/profile", function ($scope, $rootScope, $routeParams, httpR
                     window.open(fileURL);
                 }
             })
-            .catch((e) => {
-                console.log('error', e)
+            .catch(({ status }) => {
+                switch (status) {
+                    case 404:
+                        notification.error("Oops, File tidak ditemukan");
+                        break;
+                    default:
+                        notification.error("Oops, Sistem mengalami masalah");
+                        break;
+                }
             });
     }
 
@@ -296,24 +303,108 @@ app.controller("user/questionnaire/thank-you", function ($scope, $rootScope, $ro
 
 
 
-app.controller("user/questionnaire", function ($scope, $rootScope, $routeParams, httpRequest, notification, api_url, session_get) {
+app.controller("user/questionnaire", function ($scope, $location, $rootScope, $routeParams, httpRequest, notification, api_url, session_get) {
+    const { page } = $routeParams;
+    if (page) {
+        for (let p = 0; p < page; p++) {
+            document.getElementsByClassName("step")[p].className = "step step-active";
+        }
+    }
+    const indexPage = parseInt(page || 1) - 1;
     $scope.questionData = {};
-    $scope.currentTab = 0; // Current tab is set to be the first tab (0)
+    $scope.currentTab = indexPage || 0; // Current tab is set to be the first tab (0)
     $scope.questionIndicator = [];
+    $scope.loading = true;
+    $scope.currentPage = parseInt(page || 1);
+    $scope.nextPage = $scope.currentPage + 1;
+    $scope.prevPage = $scope.currentPage - 1;
 
     $scope.submitData = {};
     $scope.submitData.submissions = [];
-    // $scope.indicator = {};
+    $scope.apiUrl = api_url;
+
+    $scope.submitUploadEvidence = function (submitID, formData, page) {
+        jqXHR = $.ajax({
+            url: `${api_url}user/submissions/upload/evidence/${submitID}`,
+            method: "POST",
+            headers: {
+                Authorization: "Bearer " + session_get.utoken(),
+            },
+            data: formData,
+            async: false,
+            processData: false,
+            contentType: false,
+            dataType: "application/json",
+        });
+        const response = JSON.parse(jqXHR.responseText);
+        if (jqXHR.status == 200) {
+            $scope.loading = false;
+            notification.success("Sukses! Bukti telah terupload");
+            $location.url(`/panel/user/questionnaire?page=${page}`);
+        } else {
+            notification.error("Format file tidak didukung");
+        }
+    }
+
+    $scope.uploadEvidence = function (dx, code, submitID = null, page = 1) {
+        $scope.loading = true;
+        const form = new FormData();
+        const fileUpload = $(`input[id="evidence${dx}"]`)[0].files[0];
+        if (fileUpload === undefined) {
+            $scope.loading = false;
+            notification.error("Pilih file terlebih dahulu");
+        } else {
+            $scope.loading = false;
+            form.append("file", fileUpload);
+            if (submitID) {
+                $scope.submitUploadEvidence(submitID, form, page)
+            } else {
+                httpRequest
+                    .post(`${api_url}user/submissions?code=${code}&page=${page}`, $scope.submitData, session_get.utoken())
+                    .then(function (response) {
+                        const { status, data: result } = response
+                        const { data } = result
+                        const { indicators } = data
+                        if (indicators) {
+                            const { pivot } = indicators.find(it => it.code == code)
+                            if (pivot.id) {
+                                $scope.submitUploadEvidence(pivot.id, form, page);
+                            }
+                        } else {
+                            notification.error("Oops, Bukti gagal terupload");
+                        }
+                    })
+                    .catch(() => {
+                        notification.error("Oops, Sistem mengalami masalah");
+                    });
+            }
+        }
+    }
+
+    $scope.groupBy = function (items, key) {
+        return items.reduce(
+            (result, item) => ({
+                ...result,
+                [item[key]]: [
+                    ...(result[item[key]] || []),
+                    item,
+                ],
+            }),
+            {},
+        );
+    };
 
     $scope.getQuisioner = function (index) {
+        $scope.loading = true;
         httpRequest
             .get(api_url + "user/submissions", {
                 page: index
             }, session_get.utoken())
             .then(function (response) {
+                $scope.loading = false;
                 if (response.data.status == 'success') {
                     const { data: items } = response.data
-                    $scope.questionData = items;
+                    $scope.questionData = $scope.groupBy(items, 'indicator_id');
                     $scope.submitData.submissions = items.map(item => ({
                         indicator_id: item.indicator_id,
                         indicator_input_id: item.id,
@@ -324,19 +415,6 @@ app.controller("user/questionnaire", function ($scope, $rootScope, $routeParams,
     };
     $scope.getQuisioner($scope.currentTab + 1);
 
-
-    $scope.fixStepIndicator = function (n) {
-        // This function removes the "active" class of all steps...
-        var i,
-            x = document.getElementsByClassName("step");
-        for (i = 0; i < x.length; i++) {
-            x[i].className = x[i].className.replace(" step-active", "");
-        }
-        //... and adds the "active" class on the current step:
-        x[n].className += " step-active";
-    }
-    $scope.fixStepIndicator(0);
-
     $scope.showTab = function (n) {
         // This function will display the specified tab of the form...
         if (n == 0) {
@@ -344,64 +422,53 @@ app.controller("user/questionnaire", function ($scope, $rootScope, $routeParams,
             x[n].style.display = "block";
         }
         //... and fix the Previous/Next buttons:
-        if (n == 0 || n == 1) {
+        if (n == 0) {
             document.getElementById("prevBtn").style.display = "none";
         } else {
             document.getElementById("prevBtn").style.display = "inline";
         }
-        if (n <= 5) {
-            document.getElementById("nextBtn").innerHTML = "Lanjut";
-            document.getElementById("prevBtn").innerHTML = "Kembali";
+        if (n > 6 || n == 5) {
+            document.getElementById("nextBtn").innerHTML = "Submit";
         } else {
-            document.getElementById("nextBtn").innerHTML = "Selesai";
+            document.getElementById("nextBtn").innerHTML = "Berikutnya";
         }
         //... and run a function that will display the correct step indicator:
     }
     $scope.showTab($scope.currentTab); // Display the current tab
 
-    $scope.nextPrev = function (n) {
-        // This function will figure out which tab to display
-        var x = document.getElementsByClassName("tab");
-        // Exit the function if any field in the current tab is invalid:
-        if (n == 1 && !validateForm()) return false;
-        // Increase or decrease the current tab by 1:
-        $scope.currentTab = $scope.currentTab + n;
-        const nextPage = $scope.currentTab === 1 ? $scope.currentTab + 1 : $scope.currentTab
-        // $scope.currentTab = nextPage
-        $scope.getQuisioner(nextPage);
-        $scope.showTab(nextPage);
-    };
-
-    function validateForm() {
-        const valid = true
-        if ($scope.currentTab <= 5) {
-
-            if ($scope.currentTab === 0) {
-                document.getElementsByClassName("step")[$scope.currentTab].className +=
-                    " step-success";
-                document.getElementsByClassName("step")[$scope.currentTab + 1].className +=
-                    " step-active";
-            } else {
-                document.getElementsByClassName("step")[$scope.currentTab - 1].className +=
-                    " step-success";
-                document.getElementsByClassName("step")[$scope.currentTab].className +=
-                    " step-active";
-            }
+    $scope.nextPrev = function (n, action = "+") {
+        const page = (action == '-') ? $scope.prevPage : $scope.nextPage;
+        $scope.getQuisioner(page);
+        if (action == '-') {
+            $scope.currentPage = page;
+            $scope.currentTab = $scope.currentPage - 1;
+            $scope.nextPage = page + 1;
+            $scope.prevPage = page - 1;
+            $scope.showTab($scope.currentTab);
+            document.getElementsByClassName("step")[$scope.currentTab + 1].className = "step";
+        } else {
+            $scope.submitData.period_id = 1;
+            $scope.submitSubmission();
         }
-        $scope.submitData.period_id = 1;
-        $scope.submitSubmission();
-        return valid; // return the valid status
-    }
+    };
 
     $scope.submitSubmission = function () {
         $scope.submitData.period_id = 1;
+        $scope.submitData.page = $scope.nextPage;
         httpRequest
             .post(api_url + "user/submissions", $scope.submitData, session_get.utoken())
             .then(function (response) {
                 if (response.status == 200) {
-                    $scope.data = response.data.data;
+                    const { data: result } = response.data;
+                    const { next, prev, current } = result || {}
+                    $scope.nextPage = parseInt(next);
+                    $scope.prevPage = parseInt(prev);
+                    $scope.currentPage = parseInt(current);
+                    $scope.currentTab = $scope.currentPage - 1;
+                    $scope.showTab($scope.currentTab);
+                    document.getElementsByClassName("step")[$scope.currentTab].className += " step-active";
                     // if you have reached the end of the form...
-                    if ($scope.currentTab > 6) {
+                    if ($scope.currentTab > 5) {
                         // ... the form gets submitted:
                         $scope.updateToPublish($scope.data.id);
                     }

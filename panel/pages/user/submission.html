@@ -14,10 +14,17 @@
                         <td class="text-bold-500">{{x.period.opened}} - {{x.period.opened}}</td>
                         <td>{{(x.rangking) ? x.rangking : "-"}}</td>
                         <!-- <td class="text-bold-500">5 Juni 2020</td> -->
-                        <th> <span class="badge bg-light-success"
-                                    ng-class="x.publish === 1 ? 'bg-light-success' : 'bg-light-info'">{{x.publish === 1 ? 'Sudah disubmit' : 'Draf'}}</span>
+                        <th>
+                              <span class="badge bg-light-success"
+                                    ng-class="x.publish === 1 ? 'bg-light-success' : 'bg-light-info'">
+                                    {{x.publish === 1 ? 'Terkirim' : 'Draft'}}
+                              </span>
                         </th>
-                        <th><a href="" class="btn btn-sm btn-primary"> Edit </a></th>
+                        <th>
+                              <a href="/panel/user/questionnaire" class="btn btn-sm btn-primary">
+                                    {{x.publish === 1 ? 'Lihat' : 'Lanjutkan'}}
+                              </a>
+                        </th>
                   </tr>
 
 

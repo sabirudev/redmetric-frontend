@@ -26,7 +26,7 @@
     <link rel="stylesheet" href="/panel/public/assets/css/custom.css">
     <link rel="stylesheet" href="/panel/public/assets/vendors/bootstrap-icons/bootstrap-icons.css">
     <link rel="stylesheet" href="/panel/public/assets/css/pages/auth.css">
-
+    <link rel="stylesheet" href="/public/assets/css/spinner.css?v=1" />
 
     <base href="/panel ">
 
