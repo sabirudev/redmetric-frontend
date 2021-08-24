@@ -321,7 +321,7 @@ app.controller("user/questionnaire", function ($scope, $location, $rootScope, $r
 
     $scope.submitData = {};
     $scope.submitData.submissions = [];
-    $scope.apiUrl = api_url;
+    $scope.baseUrl = api_url.replace("/api/", "/");
 
     $scope.submitUploadEvidence = function (submitID, formData, page) {
         jqXHR = $.ajax({
