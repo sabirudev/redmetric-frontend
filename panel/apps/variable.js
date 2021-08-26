@@ -32,7 +32,7 @@ app.factory("session_set", function () {
 
         },
         udata: function (data) {
-            sessionStorage.setItem("userdata", data);
+            sessionStorage.setItem("userdata", JSON.stringify(data));
         }
     }
 })
@@ -47,7 +47,7 @@ app.factory("session_get", function () {
 
         },
         udata: function () {
-            return sessionStorage.getItem("userdata");
+            return JSON.parse(sessionStorage.getItem("userdata"));
         }
     }
 })
