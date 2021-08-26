@@ -59,7 +59,6 @@ app.controller("juri/detail_submission", function ($scope, $rootScope, $routePar
     $scope.logoutSession = function () {
         session_break.reset();
     }
-    $log.debug(session_get.udata());
 
     $scope.index = 1;
     $scope.questionData = {};
@@ -84,7 +83,6 @@ app.controller("juri/detail_submission", function ($scope, $rootScope, $routePar
                         }
                         $scope.submitData.submissions.push(data)
                     });
-                    $log.debug($scope.questionData);
                 }
             });
     }
@@ -111,8 +109,6 @@ app.controller("juri/detail_submission", function ($scope, $rootScope, $routePar
                                 });
                         } else {
                             $scope.arrayLength  += $scope.questionData.length;
-                            $log.debug($scope.submitData);
-                            $log.debug($scope.arrayLength);
                             $scope.index++;
                             $scope.getDetailSubsmission(
                                 $scope.index);
