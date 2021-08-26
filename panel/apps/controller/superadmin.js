@@ -371,7 +371,6 @@ app.controller("superadmin/periode", function ($scope, $rootScope, $routeParams,
     $scope.tambahData = function () {
         $scope.form.opened = $scope.getFormatedDate($scope.form.opened);
         $scope.form.closed = $scope.getFormatedDate($scope.form.closed);
-        $log.debug($scope.form);
         httpRequest
             .post(api_url + "admin/periods", $scope.form, session_get.utoken())
             .then(function (response) {
