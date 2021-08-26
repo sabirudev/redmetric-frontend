@@ -316,7 +316,7 @@ app.controller("superadmin/submission", function ($scope, $rootScope, $routePara
 
 });
 
-app.controller("superadmin/periode", function ($scope, $rootScope, $routeParams, httpRequest, notification, api_url, session_get) {
+app.controller("superadmin/periode", function ($scope, $rootScope, $routeParams, httpRequest, notification, api_url, session_get, $log) {
     $scope.index = 1;
     $scope.data = {};
     $scope.form = {};
@@ -369,14 +369,18 @@ app.controller("superadmin/periode", function ($scope, $rootScope, $routeParams,
             });
     }
     $scope.tambahData = function () {
+        $scope.form.opened = $scope.getFormatedDate($scope.form.opened);
+        $scope.form.closed = $scope.getFormatedDate($scope.form.closed);
+        $log.debug($scope.form);
         httpRequest
             .post(api_url + "admin/periods", $scope.form, session_get.utoken())
             .then(function (response) {
                 if (response.status == 200) {
                     $scope.getPeriode($scope.index);
+                    notification.success("Sukses Tambah Data");
                     $('#formAdd').modal('hide');
                 } else {
-                    notification.error("Email atau password salah");
+                    notification.error("Terjadi kesalahan saat ini, mohon coba kembali");
                 }
             });
     }
@@ -385,20 +389,34 @@ app.controller("superadmin/periode", function ($scope, $rootScope, $routeParams,
     }
 
     $scope.editData = function () {
-        $scope.edit = {};
-        $scope.edit.name = $scope.dataUser.name;
-        $scope.edit.email = $scope.dataUser.email;
+        $scope.edit = $scope.dataUser;
+        $scope.edit.opened = $scope.getFormatedDate($scope.dataUser.opened);
+        $scope.edit.closed = $scope.getFormatedDate($scope.dataUser.closed);
         httpRequest
             .put(api_url + "admin/periods/" + $scope.dataUser.id, $scope.edit, session_get.utoken())
             .then(function (response) {
                 if (response.status == 200) {
-                    notification.success("Sukses Edit data");
+                    notification.success("Sukses Edit Data");
                     $scope.getPeriode($scope.index);
                     $('#formEdit').modal('hide');
                 } else {
                     notification.error("Email atau password salah");
                 }
             });
+    }
+
+    $scope.getFormatedDate = function (date) {
+        var d = new Date(date),
+            month = '' + (d.getMonth() + 1),
+            day = '' + d.getDate(),
+            year = d.getFullYear();
+
+        if (month.length < 2)
+            month = '0' + month;
+        if (day.length < 2)
+            day = '0' + day;
+
+        return [year, month, day].join('-');
     }
 });
 
