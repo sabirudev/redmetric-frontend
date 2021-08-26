@@ -15,17 +15,17 @@
                   <div class="sidebar-menu">
                         <ul class="menu">
                               <li class="sidebar-title">Menu</li>
-                              <!-- <li class="sidebar-item " ng-class="getClass('/panel/juri/')">
-                                    <a href="panel/juri" class='sidebar-link'>
-                                          <i class="bi bi-grid-fill"></i>
-                                          <span>Dashboard</span>
-                                    </a>
-                              </li> -->
-
-                              <li class="sidebar-item  " ng-class="getClass('/panel/juri/')">
-                                    <a href="panel/juri/" class='sidebar-link'>
-                                          <i class="bi bi-gift-fill"></i>
+                              <li class="sidebar-item  " ng-class="getClass('todos')">
+                                    <a href="panel/juri?page=todos" class='sidebar-link'
+                                          ng-click="showSidebar('todos')">
+                                          <i class="bi bi-list-task"></i>
                                           <span>Penilaian</span>
+                                    </a>
+                              </li>
+                              <li class="sidebar-item  " ng-class="getClass('history')">
+                                    <a href="panel/juri?page=history" class='sidebar-link'>
+                                          <i class="bi bi-clock-history"></i>
+                                          <span>Riwayat Penilaian</span>
                                     </a>
                               </li>
 

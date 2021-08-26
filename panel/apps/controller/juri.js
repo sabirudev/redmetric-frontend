@@ -5,22 +5,30 @@ app.controller("juri/sidebar", function ($scope, $rootScope, $routeParams, httpR
         }
     }
     $scope.checkLSession();
-    $scope.getClass = function (path) {
-        return ($location.path() == path) ? 'active' : ''
+    $scope.getClass = function (name = 'history') {
+        const { page } = $routeParams || '';
+        return ((!page && name === 'history') || page === name) ? 'active' : '';
     }
 
     $scope.isActive = function (routes) {
         return ($location.path() == routes) ? 'active' : ''
     }
 
-    $scope.showSidebar = function (name) {
-        if (name == "/panel/juri/") {
-            $scope.sidebarContentUrl = "panel/pages/juri/list-submission.html?v=1";
-        } else if (name == "/panel/juri/detail-submission") {
-            $scope.sidebarContentUrl = "panel/pages/juri/submission-detail.html";
+    $scope.showSidebar = function () {
+        const { page } = $routeParams || { page: 'history' };
+        switch (page) {
+            case 'history':
+                $scope.sidebarContentUrl = "panel/pages/juri/list-submission.html";
+                break;
+            case 'todos':
+                $scope.sidebarContentUrl = "panel/pages/juri/todos.html";
+                break;
+            default:
+                $scope.sidebarContentUrl = "panel/pages/juri/submission-detail.html";
+                break;
         }
     };
-    $scope.showSidebar($location.path());
+    $scope.showSidebar();
 });
 
 app.controller("juri/home", function ($scope, $rootScope, $routeParams, httpRequest, notification, session_break) {

@@ -33,3 +33,11 @@
     transform: rotate(360deg);
   }
 }
+
+.v-divider{
+  margin-left:5px;
+  margin-right:5px;
+  width:1px;
+  height:100vh;
+  border-left:1px solid gray;
+ }
