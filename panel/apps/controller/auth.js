@@ -71,7 +71,7 @@ app.controller("register", function ($scope, $rootScope, $routeParams, httpReque
 
 });
 
-app.controller("forgotpassword", function ($scope, $rootScope, $routeParams, httpRequest, notification, $window, api_url) {
+app.controller("forgotpassword", function ($scope, $rootScope, $routeParams, httpRequest, notification, $window, api_url, session_get) {
     $scope.checkLSession = function () {
         if (session_get.uroles() != null) {
             $window.location = session_check.roles(session_get.uroles());

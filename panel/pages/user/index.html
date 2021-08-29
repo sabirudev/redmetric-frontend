@@ -1,0 +1,61 @@
+<div class="container overflow-hidden mt-5">
+  <div ng-if="loading" class="modal fade show" id="loadingModalLive" tabindex="-1"
+    aria-labelledby="loadingModalLiveLabel" aria-modal="true" role="dialog"
+    style="display: block;margin: 0px auto;top: 25%;">
+    <div class="modal-dialog text-center">
+      <div class="lds-ring">
+        <div></div>
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+  </div>
+  <div class="row gy-5">
+    <div class="col-8">
+      <div ng-include="userContent"></div>
+    </div>
+    <div class="col-4">
+      <div class="card">
+        <img src="/panel/public/assets/images/banner.svg" class="card-img-top" alt="banner" />
+        <div class="card-body">
+          <small>Hallo </small>
+          <h5 class="card-title">{{dataMember.name}}</h5>
+          <hr />
+          <div class="form-group">
+            <label>E-mail</label>
+            <p>{{dataMember.email}}</p>
+          </div>
+          <div class="form-group">
+            <label>No. Handphone</label>
+            <p>{{dataMember.membership.phone || '-'}}</p>
+          </div>
+        </div>
+        <div class="card-footer">
+          <div class="clearfix">
+            <div class="float-start">
+              <div ng-if="['profile','history'].includes(page)">
+                <a href="/panel/user" class="btn btn-outline-primary">
+                  <i class="bi bi-house"></i>&nbsp;
+                  Beranda
+                </a>
+              </div>
+              <div ng-if="!['profile','history'].includes(page)">
+                <a href="/panel/user/?page=profile" class="btn btn-outline-primary">
+                  <i class="bi bi-person"></i>&nbsp;
+                  Profil
+                </a>
+              </div>
+            </div>
+            <div class="float-end">
+              <button type="button" class="btn btn-outline-danger" ng-click="logoutSession()">
+                <i class="bi bi-box-arrow-right"></i>&nbsp;
+                Keluar
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

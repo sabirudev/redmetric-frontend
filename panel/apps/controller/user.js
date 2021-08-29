@@ -1,117 +1,210 @@
-app.controller("user/navbar", function ($scope, urls, $routeParams, httpRequest, notification, roles, $location, session_check, $window, session_get, session_break) {
-    $scope.checkLSession = function () {
-        if (session_get.uroles() != 2) {
-            $window.location = session_check.roles(session_get.uroles());
+function _arrayBufferPdf(reqUrl) {
+    var request = new XMLHttpRequest();
+    request.open("GET", reqUrl, true);
+    request.responseType = "blob";
+    request.onload = function (e) {
+        if (this.status === 200) {
+            // create `objectURL` of `this.response` : `.pdf` as `Blob`
+            var file = window.URL.createObjectURL(this.response);
+            var a = document.createElement("a");
+            a.href = file;
+            a.download = this.response.name || "detailPDF";
+            document.body.appendChild(a);
+            a.click();
+            // remove `a` following `Save As` dialog,
+            // `window` regains `focus`
+            window.onfocus = function () {
+                document.body.removeChild(a)
+            }
+        };
+    };
+    request.send()
+}
+
+function _arrayBufferToBase64(buffer) {
+    var binary = '';
+    var bytes = new Uint8Array(buffer);
+    var len = bytes.byteLength;
+    for (var i = 0; i < len; i++) {
+        binary += String.fromCharCode(bytes[i]);
+    }
+    return window.btoa(binary);
+}
+
+function groupBy(items, key) {
+    return items.reduce(
+        (result, item) => ({
+            ...result,
+            [item[key]]: [
+                ...(result[item[key]] || []),
+                item,
+            ],
+        }),
+        {},
+    );
+};
+
+app.controller("user/home", function (
+    $scope,
+    $rootScope,
+    $routeParams,
+    $filter,
+    $location,
+    $window,
+    $http,
+    httpRequest,
+    notification,
+    api_url,
+    session_get,
+    session_break
+) {
+    /**
+     * initial variables
+     */
+    $scope.village = {
+        id: null,
+        name: '',
+        since: '',
+        head: '',
+        secretary: ''
+    };
+    $scope.dataMember = {
+        id: null,
+        name: 'Loading...',
+        email: 'Loading...',
+        membership: {
+            phone: 'Loading...'
         }
     }
-    $scope.checkLSession();
-    // $scope.checkLSession();
+    $scope.period = {
+        id: null,
+        opened: '',
+        closed: '',
+        is_ended: 0
+    }
+    $scope.submissions = [];
+    $scope.loading = true;
+
+    const { page } = $routeParams;
+    $scope.page = page;
 
     $scope.logoutSession = function () {
-        session_break.reset();
-    }
-
-    $scope.getClass = function (path) {
-        return ($location.path() == path) ? 'active' : ''
-    }
-
-    $scope.showSidebar = function (name) {
-        if (name == "/panel/user") {
-            $scope.sidebarContentUrl = "panel/pages/user/dashboard.html?v=2";
-        } else if (name == "/panel/user/submission") {
-            $scope.sidebarContentUrl = "panel/pages/user/submission.html?v=7";
-        } else if (name == "/panel/user/profile") {
-            $scope.sidebarContentUrl = "panel/pages/user/profile.html?v=2";
+        if (confirm('Apakah anda yakin? ingin keluar')) {
+            session_break.reset();
         }
     };
-    $scope.showSidebar($location.path());
-});
-
-app.controller("user/home", function ($scope, $rootScope, $routeParams, httpRequest, notification, $window, api_url, session_get, session_break) {
-    $scope.logoutSession = function () {
-        session_break.reset();
-    }
-
-    $scope.checkData = function () {
-        httpRequest
-            .get(api_url + "user/villages", {}, session_get.utoken())
-            .then(function (response) {
-                if (response.status == 200) {
-                    $scope.villageData = response.data.data;
-                    if ($scope.villageData.village == null)
-                        $('#modalProfile').modal('show');
-                    else {
-                        httpRequest.get(api_url + "user/submissions", {}, session_get.utoken()).then(function (response) {
-                            if (response.status == 200) {
-                                if (response.data.status == 'success') {
-                                    $window.location.href = '/panel/user/questionnaire'
-                                } else {
-                                    $('#modalPeriod').modal('show');
-                                }
-                            } else {
-                            }
-                        });
-
-                    }
-
-                }
-            });
-    };
-
-    $scope.url = function (urlData) {
-        $window.location.href = urlData;
-    }
-
-});
-
-app.controller("user/submission", function ($scope, $rootScope, $routeParams, httpRequest, notification, session_break, $window, api_url, session_get) {
-    $scope.logoutSession = function () {
-        session_break.reset();
-    }
-    $scope.getData = function () {
-        httpRequest
-            .get(api_url + "user/submissions/my/index", {}, session_get.utoken())
-            .then(function (response) {
-                if (response.status == 200) {
-                    $scope.dataSubmission = response.data.data;
-                }
-            });
-    };
-    $scope.getData();
-});
-
-app.controller("user/profile", function ($scope, $rootScope, $routeParams, httpRequest, notification, api_url, session_get, $filter, session_break, $http) {
-    $scope.logoutSession = function () {
-        location.replace(session_break.reset());
-    }
-    $scope.profileMember = function () {
+    $scope.getProfile = function () {
         httpRequest
             .get(api_url + "membership", {}, session_get.utoken())
             .then(function (response) {
+                $scope.loading = false;
                 if (response.status == 200) {
                     const { data: profile } = response.data;
-                    const { membership } = profile || {}
+                    const { membership, village } = profile || {}
                     $scope.identities = membership.identities || {}
                     $scope.dataMember = profile;
+                    $scope.village = village;
                 }
             });
     };
-    $scope.profileMember();
-    $scope.dataDesa = {};
-    $scope.village = {};
-    $scope.dataDesaGet = function () {
+    $scope.getValidPeriods = function () {
+        $scope.loading = true;
         httpRequest
-            .get(api_url + "user/villages", {}, session_get.utoken())
+            .get(`${api_url}user/submissions/valid/period`, {}, session_get.utoken())
             .then(function (response) {
+                $scope.loading = false;
                 if (response.status == 200) {
-                    $scope.dataDesa = response.data.data;
-                    if ($scope.dataDesa.village != null) {
-                        $scope.village = $scope.dataDesa.village;
-                    }
+                    const { data: period } = response.data;
+                    $scope.period = period;
                 }
             });
-    }
-    $scope.dataDesaGet();
+    };
+    $scope.getMySubmissions = function () {
+        $scope.loading = true;
+        httpRequest
+            .get(api_url + "user/submissions/my/index", {}, session_get.utoken())
+            .then(function ({ status, data: res }) {
+                $scope.loading = false;
+                if (status == 200) {
+                    $scope.submissions = res?.data?.submissions;
+                }
+            });
+    };
+    $scope.setPage = function (page) {
+        switch (page) {
+            case 'upload-document':
+                $scope.userContent = "panel/pages/user/2-upload-document.html";
+                break;
+            case 'submit':
+                $scope.getValidPeriods();
+                $scope.userContent = "panel/pages/user/3-submit.html";
+                break;
+            case 'profile':
+                $scope.userContent = "panel/pages/user/profile.html";
+                break;
+            case 'history':
+                $scope.getMySubmissions();
+                $scope.userContent = "panel/pages/user/submission.html";
+                break;
+            default:
+                $scope.userContent = "panel/pages/user/1-data-kelurahan.html";
+                break;
+        }
+    };
+    $scope.updateProfile = function () {
+        httpRequest
+            .post(`${api_url}membership/update`, $scope.dataMember.membership, session_get.utoken())
+            .then(function ({ data: res, status }) {
+                if (status == 200) {
+                    $scope.dataMember = res?.data;
+                    notification.success("sukses updating data");
+                } else {
+                    notification.error("Ada masalah dalam jaringan coba lagi nanti");
+                }
+            });
+    };
+    $scope.updateVillage = function () {
+        if($scope.village?.since) $scope.village.since = $filter('date')($scope.village.since, "yyyy-MM-dd");
+        const req = $scope.village?.id
+            ? httpRequest.put(`${api_url}user/villages/${$scope.village.id}`, $scope.village, session_get.utoken())
+            : httpRequest.post(api_url + "user/villages", $scope.village, session_get.utoken());
+        req.then(function ({ data: res, status }) {
+            if (status == 200) {
+                $scope.village = res?.data?.village;
+                notification.success("Sukses! Data Kelurahan tersimpan");
+            } else {
+                notification.error("Error! Data Kelurahan gagal tersimpan");
+            }
+        });
+    };
+    $scope.uploadDoc = function () {
+        $("#uploadKTP").on("submit", function () {
+            form = new FormData(this);
+            form.append("identity[0][type]", "ktp");
+            form.append('identity[0][document]', $('input[id="ktp"]')[0].files[0]);
+            form.append("identity[1][type]", "surat_tugas");
+            form.append('identity[1][document]', $('input[id="surat_tugas"]')[0].files[0]);
+            jqXHR = $.ajax({
+                url: api_url + "membership/update",
+                method: "POST",
+                headers: {
+                    Authorization: "Bearer " + session_get.utoken(),
+                },
+                data: form,
+                async: false,
+                processData: false,
+                contentType: false,
+                dataType: "application/json",
+            });
+            data = JSON.parse(jqXHR.responseText);
+
+            if (jqXHR.status == 200) {
+                notification.success("Berhasil upload Dokumen");
+            } else {
+                notification.error("Silahkan coba kembali upload");
+            }
+        });
+    };
     $scope.previewDocument = function (identity) {
         $http({
             headers: {
@@ -147,147 +240,12 @@ app.controller("user/profile", function ($scope, $rootScope, $routeParams, httpR
                         break;
                 }
             });
-    }
-
-    function _arrayBufferPdf(reqUrl) {
-        var request = new XMLHttpRequest();
-        request.open("GET", reqUrl, true);
-        request.responseType = "blob";
-        request.onload = function (e) {
-            if (this.status === 200) {
-                // create `objectURL` of `this.response` : `.pdf` as `Blob`
-                var file = window.URL.createObjectURL(this.response);
-                var a = document.createElement("a");
-                a.href = file;
-                a.download = this.response.name || "detailPDF";
-                document.body.appendChild(a);
-                a.click();
-                // remove `a` following `Save As` dialog,
-                // `window` regains `focus`
-                window.onfocus = function () {
-                    document.body.removeChild(a)
-                }
-            };
-        };
-        request.send()
-    }
-
-    function _arrayBufferToBase64(buffer) {
-        var binary = '';
-        var bytes = new Uint8Array(buffer);
-        var len = bytes.byteLength;
-        for (var i = 0; i < len; i++) {
-            binary += String.fromCharCode(bytes[i]);
-        }
-        return window.btoa(binary);
-    }
-
-    $scope.uploadDoc = function () {
-        $("#uploadKTP").on("submit", function () {
-            form = new FormData(this);
-            form.append("identity[0][type]", "ktp");
-            form.append('identity[0][document]', $('input[id="ktp"]')[0].files[0]);
-            form.append("identity[1][type]", "surat_tugas");
-            form.append('identity[1][document]', $('input[id="surat_tugas"]')[0].files[0]);
-            jqXHR = $.ajax({
-                url: api_url + "membership/update",
-                method: "POST",
-                headers: {
-                    Authorization: "Bearer " + session_get.utoken(),
-                },
-                data: form,
-                async: false,
-                processData: false,
-                contentType: false,
-                dataType: "application/json",
-            });
-            data = JSON.parse(jqXHR.responseText);
-
-            if (jqXHR.status == 200) {
-                notification.success("Berhasil upload Dokumen");
-            } else {
-                notification.error("Silahkan coba kembali upload");
-            }
-        });
-    }
-
-    $scope.uploadST = function () {
-        $("#uploadST").on("submit", function () {
-            form = new FormData(this);
-            form.append("identity[0][type]", "surat_tugas");
-            form.append('identity[0][document]', $('input[type=file]')[0].files[0]);
-            jqXHR = $.ajax({
-                url: api_url + "membership/update",
-                method: "POST",
-                headers: {
-                    Authorization: "Bearer " + session_get.utoken(),
-                },
-                data: form,
-                async: false,
-                processData: false,
-                contentType: false,
-                dataType: "application/json",
-            });
-            data = JSON.parse(jqXHR.responseText);
-
-            if (jqXHR.status == 200) {
-                //   $scope.getInvoice();
-                notification.success("Berhasil upload surat tugas");
-            } else {
-                notification.error("Silahkan coba kembali upload");
-            }
-        });
-    }
-
-
-
-    $scope.updateDesa = function () {
-        $scope.village.since = $filter('date')($scope.village.since, "yyyy-MM-dd")
-        if ($scope.dataDesa.village != null) {
-            httpRequest.put(api_url + "user/villages/" + $scope.village.id, $scope.village, session_get.utoken()).then(function (response) {
-                if (response.status == 200) {
-                    $scope.dataDesa = response.data.data;
-                    if ($scope.dataDesa.village != null) {
-                        $scope.village = $scope.dataDesa.village;
-                    }
-                    notification.success("sukses updating data");
-                } else {
-
-                    notification.error("Ada masalah dalam jaringan coba lagi nanti");
-                }
-            });
-        } else {
-            httpRequest.post(api_url + "user/villages", $scope.village, session_get.utoken()).then(function (response) {
-                if (response.status == 200) {
-                    $scope.dataDesa = response.data.data;
-                    if ($scope.dataDesa.village != null) {
-                        $scope.village = $scope.dataDesa.village;
-                    }
-                    notification.success("sukses updating data");
-                } else {
-
-                    notification.error("Ada masalah dalam jaringan coba lagi nanti");
-                }
-            });
-
-        }
-    }
-
-    $scope.updateProfile = function () {
-        httpRequest.post(api_url + "membership/update", $scope.dataMember.membership, session_get.utoken()).then(function (response) {
-            if (response.status == 200) {
-                $scope.dataDesaGet();
-                notification.success("sukses updating data");
-            } else {
-
-                notification.error("Ada masalah dalam jaringan coba lagi nanti");
-            }
-        });
-    }
+    };
+    $scope.getProfile();
+    $scope.setPage(page);
 });
 
 app.controller("user/questionnaire/thank-you", function ($scope, $rootScope, $routeParams, httpRequest, notification) {
-    // TODO
     const today = new Date()
     const nextDay = new Date()
     const dueDate = new Date(nextDay.setDate(today.getDate() + 15))
@@ -301,9 +259,16 @@ app.controller("user/questionnaire/thank-you", function ($scope, $rootScope, $ro
     }
 });
 
-
-
-app.controller("user/questionnaire", function ($scope, $location, $rootScope, $routeParams, httpRequest, notification, api_url, session_get) {
+app.controller("user/questionnaire", function (
+    $scope,
+    $location,
+    $rootScope,
+    $routeParams,
+    httpRequest,
+    notification,
+    api_url,
+    session_get
+) {
     const { page } = $routeParams;
     if (page) {
         for (let p = 0; p < page; p++) {
@@ -381,19 +346,6 @@ app.controller("user/questionnaire", function ($scope, $location, $rootScope, $r
         }
     }
 
-    $scope.groupBy = function (items, key) {
-        return items.reduce(
-            (result, item) => ({
-                ...result,
-                [item[key]]: [
-                    ...(result[item[key]] || []),
-                    item,
-                ],
-            }),
-            {},
-        );
-    };
-
     $scope.getQuisioner = function (index) {
         $scope.loading = true;
         httpRequest
@@ -404,15 +356,16 @@ app.controller("user/questionnaire", function ($scope, $location, $rootScope, $r
                 $scope.loading = false;
                 if (response.data.status == 'success') {
                     const { data: items } = response.data
-                    $scope.questionData = $scope.groupBy(items, 'indicator_id');
+                    $scope.questionData = groupBy(items, 'indicator_id');
                     $scope.submitData.submissions = items.map(item => ({
                         indicator_id: item.indicator_id,
                         indicator_input_id: item.id,
                         value: parseInt(item.value)
                     }));
                 }
-            })
+            });
     };
+
     $scope.getQuisioner($scope.currentTab + 1);
 
     $scope.showTab = function (n) {
@@ -510,13 +463,14 @@ app.directive('stringToNumber', function () {
         }
     };
 });
+
 app.directive("formatDate", function () {
     return {
         require: 'ngModel',
         link: function (scope, elem, attr, modelCtrl) {
             modelCtrl.$formatters.push(function (modelValue) {
                 return new Date(modelValue);
-            })
+            });
         }
     }
-})
+});

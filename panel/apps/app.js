@@ -1,10 +1,4 @@
-// Default environment variables
-var __env = {};
 
-// Import variables if present
-if (window) {
-    Object.assign(__env, window.__env);
-}
 const _NODE_ENV = __env.enableDebug ? 'DEV' : 'PROD'
 
 app = angular.module("panel", ["ngRoute", "ngSanitize"]);
@@ -30,7 +24,7 @@ app.config(function ($routeProvider, $locationProvider) {
 
         //user
         .when("/panel/user", {
-            templateUrl: "panel/pages/user/navbar.html",
+            templateUrl: "panel/pages/user/index.html",
             controller: "user/home",
         })
         .when("/panel/user/submission", {

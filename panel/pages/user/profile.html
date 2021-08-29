@@ -1,282 +1,63 @@
 <div class="card">
-    <div class="card-content">
-        <div class="card-body">
-            <h4 class="card-title">Profil Desa Anda</h4>
-            <small>Kelengkapan Data Desa berperan sangat penting sebagai syarat pemeringkatan Desa Cerdas, mengingat ada
-                parameter yang dibutuhkan pada saat proses Pemeringkatan.</small>
-            <form ng-submit="updateDesa()">
-                <div class="row">
-                    <div class="col-md-6 col-12">
-                        <div class="form-group">
-                            <label for="namadesa">Nama Desa / Kelurahan</label>
-                            <input type="text" id="namadesa" class="form-control" placeholder="Nama Desa / Kelurahan"
-                                ng-model="village.name">
-                        </div>
+    <div class="card-body">
+        <h4 class="card-title">Profil Pribadi Anda</h4>
+        <form ng-submit="updateProfile()">
+            <div class="row">
+                <div class="col-md-6 col-12">
+                    <div class="form-group">
+                        <label for="email">Email Address</label>
+                        <input disabled type="email" id="email" class="form-control" placeholder="Email Address"
+                            ng-model="dataMember.email">
                     </div>
-                    <div class="col-md-6 col-12">
-                        <div class="form-group">
-                            <label for="tanggalberdiri">Tanggal Berdiri</label>
-                            <input type="date" id="tanggalberdiri" class="form-control" placeholder=""
-                                ng-model="village.since" date-field format-date>
-                        </div>
+                </div>
+                <div class="col-md-6 col-12">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input disabled type="text" id="username" class="form-control" placeholder="Username"
+                            ng-model="dataMember.name">
                     </div>
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label>Alamat</label>
-                        </div>
+                </div>
+                <div class="col-md-6 col-12">
+                    <div class="form-group">
+                        <label for="firstName">Nama Depan</label>
+                        <input type="text" id="firstName" class="form-control" placeholder="Nama Depan"
+                            ng-model="dataMember.membership.first_name">
                     </div>
-                    <div class="col-md-6 col-12">
-                        <div class="form-group">
-                            <label for="provinsi">Provinsi</label>
-                            <input type="text" id="provinsi" class="form-control" placeholder="Provinsi"
-                                ng-model="village.province">
-                        </div>
+                </div>
+                <div class="col-md-6 col-12">
+                    <div class="form-group">
+                        <label for="lastName">Nama Belakang</label>
+                        <input type="text" id="lastName" class="form-control" placeholder="Nama Belakang"
+                            ng-model="dataMember.membership.last_name">
                     </div>
-                    <div class="col-md-6 col-12">
-                        <div class="form-group">
-                            <label for="address">Alamat Desa</label>
-                            <textarea type="text" id="address" class="form-control" placeholder="Alamat Desa"
-                                ng-model="village.address"></textarea>
-                        </div>
+                </div>
+                <div class="col-md-6 col-12">
+                    <div class="form-group">
+                        <label for="phone">No Telepon</label>
+                        <input type="text" id="phone" class="form-control" placeholder="No Telpon"
+                            ng-model="dataMember.membership.phone">
                     </div>
-                    <div class="col-md-6 col-12">
-                        <div class="form-group">
-                            <label for="longitude">Longitude</label>
-                            <input type="text" id="longitude" class="form-control" placeholder="longitude"
-                                ng-model="village.address_longitude">
-                        </div>
+                </div>
+                <div class="col-md-6 col-12">
+                    <div class="form-group">
+                        <label for="gender">Jenis Kelamin</label>
+                        <select class="form-select" id="gender" ng-model="dataMember.membership.gender">
+                            <option disabled value="">Pilih Jenis Kelamin</option>
+                            <option value="male">Laki-laki</option>
+                            <option value="female">Wanita</option>
+                        </select>
                     </div>
-                    <div class="col-md-6 col-12">
-                        <div class="form-group">
-                            <label for="latitude">Latitude</label>
-                            <input type="text" id="latitude" class="form-control" placeholder="Latitude"
-                                ng-model="village.address_latitude">
-                        </div>
+                </div>
+                <div class="col-md-6 col-12">
+                    <div class="form-group">
+                        <label for="addressPerson">Alamat</label>
+                        <textarea type="text" id="addressPerson" class="form-control" placeholder="Alamat"
+                            ng-model="dataMember.membership.address"></textarea>
                     </div>
-                    <div class=" col-12">
-                        <div class="form-group">
-                            <label for="webdesa">Alamat Website Desa</label>
-                            <input type="text" id="webdesa" class="form-control" placeholder="URL Situs resmi Desa"
-                                ng-model="village.website">
-                        </div>
-                    </div>
+                </div>
 
-                    <div class=" col-12">
-                        <div class="form-group">
-                            <label for="kepaladesa">Nama Kepala Desa / Lurah</label>
-                            <input type="text" id="kepaladesa" class="form-control"
-                                placeholder="Nama Kepala Desa / Lurah" ng-model="village.head" />
-                        </div>
-                    </div>
-                    <div class=" col-12">
-                        <div class="form-group">
-                            <label for="sekretarisdesa">Nama Sekretaris Desa / Lurah</label>
-                            <input type="text" id="sekretarisdesa" class="form-control"
-                                placeholder="Nama Sekretaris Desa / Lurah" ng-model="village.secretary">
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label>Jumlah Penduduk</label>
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-12">
-                        <div class="form-group">
-                            <label for="pria" class="d-none d-md-block d-lg-block"><small><b>Pria</b></small> </label>
-                            <label for="pria" class=" d-xl-none d-block"> Pria</label>
-                            <input type="number" id="pria" class="form-control" placeholder="Jumlah Penduduk Pria"
-                                ng-model="village.amount_male">
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-12">
-                        <div class="form-group">
-                            <label for="wanita" class="d-none d-md-block d-lg-block">
-                                <small><b>Wanita</b></small></label>
-                            <label for="wanita" class=" d-xl-none d-block">Wanita</label>
-
-                            <input type="number" id="wanita" class="form-control" placeholder="Jumlah Penduduk Wanita"
-                                ng-model="village.amount_female">
-                        </div>
-                    </div>
-                    <div class="col-md-4 col-12">
-                        <div class="form-group">
-                            <label for="wanita" class="d-none d-md-block d-lg-block"><small> <b> Usia Produktif (15 - 60
-                                        th)</b></small></label>
-                            <label for="wanita" class=" d-xl-none d-block"> Usia Produktif (15 - 60 th)</label>
-                            <input type="number" id="wanita" class="form-control" placeholder="Jumlah Penduduk Wanita"
-                                ng-model="village.amount_productive_age">
-                        </div>
-                    </div>
-                    <div class="col-12">
-                        <div class="form-group">
-                            <label for="luasdesa">Luas Wilayah Desa</label>
-                            <input type="text" id="luasdesa" class="form-control" placeholder="Luas Wilayah Desa"
-                                ng-model="village.area">
-                        </div>
-                    </div>
-
-                    <button class="btn btn-primary" type="submit">Simpan</button>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<div class="card">
-    <div class="card-content">
-        <div class="card-body">
-            <h4 class="card-title">Kelengkapan Dokumen</h4>
-            <small ng-if="identities.length > 0">
-                Dokumen terenkripsi oleh sistem karena alasan keamanan, untuk melihat dokumen silakan klik
-                <b>tombol Lihat</b> pada masing-masing dokumen
-            </small>
-            <form ng-submit="uploadDoc()" id="uploadKTP">
-                <div class="row" ng-if="identities.length > 0">
-                    <div class="col-md-6">
-                        <div class="card card-primary">
-                            <div class="card-body text-center">
-                                <h4>KTP</h4>
-                                <button type="button" class="btn btn-secondary"
-                                    ng-click="previewDocument(identities[0])">
-                                    Lihat KTP
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="card">
-                            <div class="card-body text-center">
-                                <h4>Surat Tugas</h4>
-                                <button type="button" class="btn btn-secondary"
-                                    ng-click="previewDocument(identities[1])">
-                                    Lihat Surat Tugas
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div ng-if="identities.length > 0">
-                    <h4 class="card-title">Perbaikan Dokumen</h4>
-                    <small>Anda dapat memperbaiki Dokumen yang sudah terupload melalui <code>Form Unggah</code> dibawah
-                        ini</small>
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="ktp">Unggah Identitas Kependudukan (KTP)</label>
-                            <input required accept=".jpg, .png, .jpeg, .pdf" class="form-control" type="file"
-                                id="ktp" />
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="suratdesa">Unggah Surat Tugas Desa</label>
-                            <input required accept=".jpg, .png, .jpeg, .pdf" class="form-control" type="file"
-                                id="surat_tugas" />
-                        </div>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="col-12 text-right">
-                        <div class="d-flex">
-                            <button class="btn btn-primary" type="submit">Submit</button>
-                        </div>
-                    </div>
-                </div>
-            </form>
-        </div>
-    </div>
-</div>
-
-<div class="card">
-    <div class="card-content">
-        <div class="card-body">
-            <h4 class="card-title">Profil Pribadi Anda</h4>
-            <form ng-submit="updateProfile()">
-                <div class="row">
-                    <div class="col-md-6 col-12">
-                        <div class="form-group">
-                            <label for="email">Email Address</label>
-                            <input disabled type="email" id="email" class="form-control" placeholder="Email Address"
-                                ng-model="dataMember.email">
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-12">
-                        <div class="form-group">
-                            <label for="username">Username</label>
-                            <input disabled type="text" id="username" class="form-control" placeholder="Username"
-                                ng-model="dataMember.name">
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-12">
-                        <div class="form-group">
-                            <label for="firstName">Nama Depan</label>
-                            <input type="text" id="firstName" class="form-control" placeholder="Nama Depan"
-                                ng-model="dataMember.membership.first_name">
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-12">
-                        <div class="form-group">
-                            <label for="lastName">Nama Belakang</label>
-                            <input type="text" id="lastName" class="form-control" placeholder="Nama Belakang"
-                                ng-model="dataMember.membership.last_name">
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-12">
-                        <div class="form-group">
-                            <label for="phone">No Telpon</label>
-                            <input type="text" id="phone" class="form-control" placeholder="No Telpon"
-                                ng-model="dataMember.membership.phone">
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-12">
-                        <div class="form-group">
-                            <label for="gender">Jenis Kelamin</label>
-                            <select class="form-select" id="gender" ng-model="dataMember.membership.gender">
-                                <option disabled value="">Pilih Jenis Kelamin</option>
-                                <option value="male">Laki-laki</option>
-                                <option value="female">Wanita</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-12">
-                        <div class="form-group">
-                            <label for="addressPerson">Alamat</label>
-                            <textarea type="text" id="addressPerson" class="form-control" placeholder="Alamat"
-                                ng-model="dataMember.membership.address"></textarea>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-12">
-                        <div class="form-group">
-                            <label for="personState">Negara</label>
-                            <input type="text" id="personState" class="form-control" placeholder="Negara"
-                                ng-model="dataMember.membership.state">
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-12">
-                        <div class="form-group">
-                            <label for="personProv">Provinsi</label>
-                            <input type="text" id="personProv" class="form-control" placeholder="Provinsi"
-                                ng-model="dataMember.membership.province">
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-12">
-                        <div class="form-group">
-                            <label for="personCity">Kota</label>
-                            <input type="text" id="personCity" class="form-control" placeholder="Kota"
-                                ng-model="dataMember.membership.city">
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-12">
-                        <div class="form-group">
-                            <label for="personDistric">Kecamatan</label>
-                            <input type="text" id="personDistric" class="form-control" placeholder="Kecamatan"
-                                ng-model="dataMember.membership.subdistrict">
-                        </div>
-                    </div>
-                    <button class="btn btn-primary" type="submit">Simpan</button>
-                </div>
-            </form>
-        </div>
+                <button class="btn btn-primary" type="submit">Simpan</button>
+            </div>
+        </form>
     </div>
 </div>

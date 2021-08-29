@@ -1,0 +1,74 @@
+<ul class="steps">
+  <li class="step step-active">
+    <div class="step-content">
+      <span class="step-circle">1</span>
+      <span class="step-text">Data Kelurahan</span>
+    </div>
+  </li>
+  <li class="step step-active">
+    <div class="step-content">
+      <span class="step-circle">2</span>
+      <span class="step-text">Upload Dokumen</span>
+    </div>
+  </li>
+  <li class="step step-active">
+    <div class="step-content">
+      <span class="step-circle">3</span>
+      <span class="step-text">Join</span>
+    </div>
+  </li>
+</ul>
+<br />
+<div class="card">
+  <div class="card-header text-center">
+    <h4>Selamat Datang di RedMetric Smart Village Rank</h4>
+    <span ng-if="period.id > 0"><small>Pada tahap ini anda sudah bisa melakukan submit periode RedMetric.</small></span>
+    <span ng-if="period.id == null"><small>Mohon maaf, untuk saat ini periode Redmetric ditutup.</small></span>
+  </div>
+  <div class="card-body">
+    <span ng-if="period.id > 0" class="text-center">
+      <p>Periode submit RedMetric dapat dilakukan mulai dari <strong>{{period.opened}}</strong> s/d
+        <strong>{{period.closed}}</strong>
+      </p>
+    </span>
+    <div class="row mt-5 mb-5" ng-if="period.id > 0">
+      <div class="col-md-4 offset-md-4">
+        <img style="width: 100%;" src="/panel/public/assets/images/home.svg" alt="active period" />
+        <div class="mt-3 d-grid">
+          <a href="/panel/user/questionnaire" class="btn btn-primary">
+            Submit Sekarang&nbsp;
+            <i class="bi bi-box-arrow-up-right"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-5 mb-5" ng-if="period.id == null">
+      <div class="col-md-4 offset-md-4">
+        <img style="width: 100%;" src="/panel/public/assets/images/locked.svg" alt="in-active period">
+        <div class="mt-3 d-grid">
+          <a href="/panel/user?page=history" class="btn btn-warning">
+            Lihat Riwayat Submit&nbsp;
+            <i class="bi bi-box-arrow-up-right"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="card-footer">
+    <div class="clearfix">
+      <div class="float-start">
+        <a href="/panel/user/?page=upload-document" class="btn btn-secondary mr-3">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
+          </svg>&nbsp;
+          Sebelumnya
+        </a>
+      </div>
+      <div class="float-end">
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -20,29 +20,26 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css" />
 
 
-    <link rel="stylesheet" href="/panel/public/assets/css/bootstrap.css">
-    <link rel="stylesheet" href="/panel/public/assets/vendors/perfect-scrollbar/perfect-scrollbar.css">
-    <link rel="stylesheet" href="/panel/public/assets/css/app.css">
-    <link rel="stylesheet" href="/panel/public/assets/css/custom.css">
-    <link rel="stylesheet" href="/panel/public/assets/vendors/bootstrap-icons/bootstrap-icons.css">
-    <link rel="stylesheet" href="/panel/public/assets/css/pages/auth.css">
+    <link rel="stylesheet" href="/panel/public/assets/css/bootstrap.css" />
+    <link rel="stylesheet" href="/panel/public/assets/vendors/perfect-scrollbar/perfect-scrollbar.css" />
+    <link rel="stylesheet" href="/panel/public/assets/css/app.css" />
+    <link rel="stylesheet" href="/panel/public/assets/css/steps.css" />
+    <link rel="stylesheet" href="/panel/public/assets/vendors/bootstrap-icons/bootstrap-icons.css" />
+    <link rel="stylesheet" href="/panel/public/assets/css/pages/auth.css" />
     <link rel="stylesheet" href="/public/assets/css/spinner.css?v=1" />
 
     <base href="/panel ">
 
 
+    <script src="../env.js"></script>
 
-    <!-- <script src="/public/assets/js/select2.js"></script> -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.min.js"></script>
-
-    <script src="/panel/apps/app.js" id="versionapp"></script>
-    <script src="/panel/apps/controller.js" id="versioncontroller"></script>
-    <script src="/panel/apps/variable.js" id="versioncontroller"></script>
-    <script src="/panel/apps/controller/auth.js" id="versioncontroller"></script>
-    <script src="/panel/apps/controller/juri.js" id="versioncontroller"></script>
-    <script src="/panel/apps/controller/user.js" id="versioncontroller"></script>
-    <script src="/panel/apps/controller/superadmin.js" id="versioncontroller"></script>
-    <script src="env.js"></script>
+    <script src="/panel/apps/app.js"></script>
+    <script src="/panel/apps/controller.js"></script>
+    <script src="/panel/apps/variable.js"></script>
+    <script src="/panel/apps/controller/auth.js"></script>
+    <script src="/panel/apps/controller/juri.js"></script>
+    <script src="/panel/apps/controller/user.js"></script>
+    <script src="/panel/apps/controller/superadmin.js"></script>
     <!-- <link rel="stylesheet" href="/public/assets/css/custom.css?v=123" /> -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/jquery-toast-plugin/1.3.2/jquery.toast.min.css" rel="stylesheet">
 

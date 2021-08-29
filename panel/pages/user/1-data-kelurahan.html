@@ -1,0 +1,161 @@
+<ul class="steps">
+  <li class="step step-active">
+    <div class="step-content">
+      <span class="step-circle">1</span>
+      <span class="step-text">Data Kelurahan</span>
+    </div>
+  </li>
+  <li class="step">
+    <div class="step-content">
+      <span class="step-circle">2</span>
+      <span class="step-text">Upload Dokumen</span>
+    </div>
+  </li>
+  <li class="step">
+    <div class="step-content">
+      <span class="step-circle">3</span>
+      <span class="step-text">Join</span>
+    </div>
+  </li>
+</ul>
+<br />
+<div class="card">
+  <div class="card-header">
+    <h4 class="card-title">Data Kelurahan</h4>
+    <small>Lengkapi data kelurahan berikut ini sesuai dengan bidang data yang dibutuhkan.</small>
+  </div>
+  <div class="card-body">
+    <form ng-submit="updateVillage()">
+      <div class="row">
+        <div class="col-md-6 col-12">
+          <div class="form-group">
+            <label for="namadesa">Nama Desa / Kelurahan</label>
+            <input type="text" id="namadesa" class="form-control" placeholder="Nama Desa / Kelurahan"
+              ng-model="village.name">
+          </div>
+        </div>
+        <div class="col-md-6 col-12">
+          <div class="form-group">
+            <label for="tanggalberdiri">Tanggal Berdiri</label>
+            <input type="date" id="tanggalberdiri" class="form-control" placeholder="" ng-model="village.since"
+              date-field format-date>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+            <label for="kepaladesa">Kepala Desa (Lurah)</label>
+            <input type="text" id="kepaladesa" class="form-control" placeholder="Nama Kepala Desa / Lurah"
+              ng-model="village.head" />
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+            <label for="sekretarisdesa">Sekretaris Desa</label>
+            <input type="text" id="sekretarisdesa" class="form-control" placeholder="Nama Sekretaris Desa / Lurah"
+              ng-model="village.secretary">
+          </div>
+        </div>
+        <div class="col-12">
+          <div class="form-group">
+            <label>Alamat</label>
+          </div>
+        </div>
+        <div class="col-md-6 col-12">
+          <div class="form-group">
+            <label for="provinsi">Provinsi</label>
+            <input type="text" id="provinsi" class="form-control" placeholder="Provinsi" ng-model="village.province">
+          </div>
+        </div>
+        <div class="col-md-6 col-12">
+          <div class="form-group">
+            <label for="address">Alamat Desa</label>
+            <textarea type="text" id="address" class="form-control" placeholder="Alamat Desa"
+              ng-model="village.address"></textarea>
+          </div>
+        </div>
+
+        <hr />
+        <div class="col-12">
+          <div class="form-group">
+            <label>Jumlah Penduduk</label>
+          </div>
+        </div>
+
+        <div class="col-md-4 col-12">
+          <div class="form-group">
+            <label for="pria" class="d-none d-md-block d-lg-block"><small><b>Pria</b></small> </label>
+            <label for="pria" class=" d-xl-none d-block"> Pria</label>
+            <input type="number" id="pria" class="form-control" placeholder="Jumlah Penduduk Pria"
+              ng-model="village.amount_male">
+          </div>
+        </div>
+        <div class="col-md-4 col-12">
+          <div class="form-group">
+            <label for="wanita" class="d-none d-md-block d-lg-block">
+              <small><b>Wanita</b></small></label>
+            <label for="wanita" class=" d-xl-none d-block">Wanita</label>
+
+            <input type="number" id="wanita" class="form-control" placeholder="Jumlah Penduduk Wanita"
+              ng-model="village.amount_female">
+          </div>
+        </div>
+        <div class="col-md-4 col-12">
+          <div class="form-group">
+            <label for="wanita" class="d-none d-md-block d-lg-block"><small> <b> Usia Produktif (15 - 60
+                  th)</b></small></label>
+            <label for="wanita" class=" d-xl-none d-block"> Usia Produktif (15 - 60 th)</label>
+            <input type="number" id="wanita" class="form-control" placeholder="Jumlah Penduduk Wanita"
+              ng-model="village.amount_productive_age">
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+            <label for="luasdesa">Luas Wilayah Desa</label>
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="Luas Wilayah Desa" aria-label="Luas Wilayah Desa"
+                aria-describedby="input-area" ng-model="village.area" />
+              <span class="input-group-text" id="input-area">
+                M<sup>2</sup>
+              </span>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="form-group">
+            <label for="webdesa">Situs Website Desa</label>
+            <input type="text" id="webdesa" class="form-control" placeholder="https://website.desa.id"
+              ng-model="village.website">
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col">
+          <div class="float-end">
+            <button type="submit" class="btn btn-outline-primary">
+              <span ng-if="village.id">
+                <i class="bi bi-arrow-clockwise"></i>&nbsp;
+                Update
+              </span>
+              <span ng-if="village.id == null">
+                <i class="bi bi-check"></i>&nbsp;
+                Simpan
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="card-footer">
+    <div class="float-end" ng-if="village.id">
+      <a href="/panel/user/?page=upload-document" class="btn btn-primary">
+        Selanjutnya&nbsp;
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right"
+          viewBox="0 0 16 16">
+          <path fill-rule="evenodd"
+            d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</div>

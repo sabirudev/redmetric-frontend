@@ -1,0 +1,108 @@
+<ul class="steps">
+  <li class="step step-active">
+    <div class="step-content">
+      <span class="step-circle">1</span>
+      <span class="step-text">Data Kelurahan</span>
+    </div>
+  </li>
+  <li class="step step-active">
+    <div class="step-content">
+      <span class="step-circle">2</span>
+      <span class="step-text">Upload Dokumen</span>
+    </div>
+  </li>
+  <li class="step">
+    <div class="step-content">
+      <span class="step-circle">3</span>
+      <span class="step-text">Join</span>
+    </div>
+  </li>
+</ul>
+<br />
+<div class="card">
+  <div class="card-header">
+    <h4 class="card-title">Upload Dokumen</h4>
+    <small ng-if="identities.length == 0">Lampirkan semua dokumen sesuai dengan bidang data yang dibutuhkan, kemudian
+      tekan tombol
+      <code><strong>UPLOAD</strong></code>.
+    </small>
+  </div>
+  <div class="card-body">
+    <small ng-if="identities.length > 0">
+      Dokumen terenkripsi oleh sistem karena alasan keamanan, untuk melihat dokumen silakan klik
+      <b>tombol Lihat</b> pada masing-masing dokumen
+    </small>
+    <form ng-submit="uploadDoc()" id="uploadKTP">
+      <div class="row" ng-if="identities.length > 0">
+        <div class="col-md-6">
+          <div class="card card-primary">
+            <div class="card-body text-center">
+              <h4>KTP</h4>
+              <button type="button" class="btn btn-outline-success" ng-click="previewDocument(identities[0])">
+                Lihat KTP
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6">
+          <div class="card">
+            <div class="card-body text-center">
+              <h4>Surat Tugas</h4>
+              <button type="button" class="btn btn-outline-info" ng-click="previewDocument(identities[1])">
+                Lihat Surat Tugas
+              </button>
+            </div>
+          </div>
+        </div>
+        <div></div>
+      </div>
+      <div ng-if="identities.length > 0">
+        <h4 class="card-title">Perbaikan Dokumen</h4>
+        <small>Anda dapat memperbaiki Dokumen yang sudah terupload melalui <code>Form Unggah</code> dibawah
+          ini</small>
+      </div>
+      <div class="row">
+        <div class="col-md-5">
+          <div class="form-group">
+            <label for="ktp">Unggah Identitas Kependudukan (KTP)</label>
+            <input required accept=".jpg, .png, .jpeg, .pdf" class="form-control" type="file" id="ktp" />
+          </div>
+        </div>
+        <div class="col-md-5">
+          <div class="form-group">
+            <label for="suratdesa">Unggah Surat Tugas Desa</label>
+            <input required accept=".jpg, .png, .jpeg, .pdf" class="form-control" type="file" id="surat_tugas" />
+          </div>
+        </div>
+        <div class="col-md-2 pt-4">
+          <button class="btn btn-outline-primary" type="submit">UPLOAD</button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+  <div class="card-footer">
+    <div class="clearfix">
+      <div class="float-start">
+        <a href="/panel/user/?page=data-kelurahan" class="btn btn-secondary mr-3">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-left"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M11.354 1.646a.5.5 0 0 1 0 .708L5.707 8l5.647 5.646a.5.5 0 0 1-.708.708l-6-6a.5.5 0 0 1 0-.708l6-6a.5.5 0 0 1 .708 0z" />
+          </svg>&nbsp;
+          Sebelumnya
+        </a>
+      </div>
+      <div class="float-end">
+        <a href="/panel/user/?page=submit" class="btn btn-primary">
+          Selanjutnya&nbsp;
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-right"
+            viewBox="0 0 16 16">
+            <path fill-rule="evenodd"
+              d="M4.646 1.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 0 .708l-6 6a.5.5 0 0 1-.708-.708L10.293 8 4.646 2.354a.5.5 0 0 1 0-.708z" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

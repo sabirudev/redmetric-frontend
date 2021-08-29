@@ -1,33 +1,42 @@
-<div class="table-responsive">
-      <table class="table table-lg">
-            <thead>
-                  <tr>
-                        <th>Period RedMetric</th>
-                        <th>Peringkat</th>
-                        <!-- <th>Tanggal Submit</th> -->
-                        <th>Status</th>
-                        <th>Action</th>
-                  </tr>
-            </thead>
-            <tbody>
-                  <tr ng-repeat="x in dataSubmission.submissions">
-                        <td class="text-bold-500">{{x.period.opened}} - {{x.period.opened}}</td>
-                        <td>{{(x.rangking) ? x.rangking : "-"}}</td>
-                        <!-- <td class="text-bold-500">5 Juni 2020</td> -->
-                        <th>
-                              <span class="badge bg-light-success"
-                                    ng-class="x.publish === 1 ? 'bg-light-success' : 'bg-light-info'">
-                                    {{x.publish === 1 ? 'Terkirim' : 'Draft'}}
-                              </span>
-                        </th>
-                        <th>
-                              <a href="/panel/user/questionnaire" class="btn btn-sm btn-primary">
-                                    {{x.publish === 1 ? 'Lihat' : 'Lanjutkan'}}
-                              </a>
-                        </th>
-                  </tr>
-
-
-            </tbody>
+<div class="card">
+  <div class="card-header">
+    <h4>Riwayat Periode Submit RedMetric</h4>
+  </div>
+  <div class="card-body">
+    <div class="table-responsive">
+      <table class="table table-lg table-bordered">
+        <thead>
+          <tr>
+            <th>Tanggal Submit</th>
+            <th>Period</th>
+            <th>Peringkat</th>
+            <th>Status</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="x in submissions">
+            <td class="text-bold-500">{{x.updated_at}}</td>
+            <td class="text-bold-500">{{x.period.opened}} - {{x.period.opened}}</td>
+            <td>{{(x.rangking) ? x.rangking : "-"}}</td>
+            <th>
+              <span class="badge bg-light-success" ng-class="x.publish === 1 ? 'bg-light-success' : 'bg-light-info'">
+                {{x.publish === 1 ? 'Terkirim' : 'Draft'}}
+              </span>
+            </th>
+            <th>
+              <a href="/panel/user/questionnaire" class="btn btn-sm btn-primary">
+                {{x.publish === 1 ? 'Lihat' : 'Lanjutkan'}}
+              </a>
+            </th>
+          </tr>
+          <tr ng-if="submissions.length === 0">
+            <td colspan="5" class="text-center">
+              <i>Belum ada periode RedMetric yang di submit (Kosong)</i>
+            </td>
+          </tr>
+        </tbody>
       </table>
+    </div>
+  </div>
 </div>
